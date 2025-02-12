@@ -30,9 +30,6 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Disable Jekyll
-        run: touch docs/.nojekyll  # Prevents GitHub from running Jekyll
-
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v2
         with:
