@@ -1,32 +1,46 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy Vite to GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main  # Runs when changes are pushed to main
+
+permissions:
+  contents: read  # Required to fetch repository contents
+  pages: write  # Needed to deploy to GitHub Pages
+  id-token: write  # Needed for GitHub Pages authentication
 
 jobs:
-  build-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build Project
         run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Disable Jekyll
+        run: touch docs/.nojekyll  # Prevents GitHub from running Jekyll
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          branch: gh-pages
-          folder: dist
+          path: docs  # Deploy only the built files
+
+  deploy:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy GitHub Pages
+        uses: actions/deploy-pages@v4
