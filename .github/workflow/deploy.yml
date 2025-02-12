@@ -1,14 +1,14 @@
-name: Build and Deploy Vite to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Runs when changes are pushed to main
+      - main
 
 permissions:
-  contents: read  # Required to fetch repository contents
-  pages: write  # Needed to deploy to GitHub Pages
-  id-token: write  # Needed for GitHub Pages authentication
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build-and-deploy:
@@ -18,11 +18,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set Up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
@@ -30,14 +29,8 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: docs  # Deploy only the built files
-
-  deploy:
-    needs: build-and-deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy GitHub Pages
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
