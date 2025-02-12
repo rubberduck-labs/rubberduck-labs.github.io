@@ -1,0 +1,13 @@
+.municipality-path {
+  transition: fill 0.5s ease-in-out, 
+              fill-opacity 0.5s ease-in-out,
+              stroke-width 0.5s ease-in-out;
+}
+
+.leaflet-container {
+  background: transparent !important;
+}
+
+.leaflet-control-container {
+  display: none;
+}
