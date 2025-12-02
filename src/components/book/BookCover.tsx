@@ -15,9 +15,9 @@ export function BookCover() {
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-white">
         <img 
-          src="https://static.wixstatic.com/media/d42034_3d3c4e0765454b03aa9ce39a3e51b63a~mv2.png"
+          src="/duck.svg" 
           alt="Rubberduck Logo"
-          className="w-64 h-64 object-contain mb-8 transform transition-transform group-hover:scale-110"
+          className="w-48 h-48 object-contain mb-8 transform transition-transform group-hover:scale-110"
         />
         <h2 className="text-4xl font-bold text-center mb-4 relative">
           <span className="relative">

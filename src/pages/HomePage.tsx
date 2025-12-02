@@ -1,10 +1,14 @@
 import React from 'react';
 import { HeroSection } from '../components/HeroSection';
 
-export function HomePage() {
+interface HomePageProps {
+  setBackgroundColor: (color: string | null) => void;
+}
+
+export function HomePage({ setBackgroundColor }: HomePageProps) {
   return (
     <div>
-      <HeroSection />
+      <HeroSection setBackgroundColor={setBackgroundColor} />
     </div>
   );
 }

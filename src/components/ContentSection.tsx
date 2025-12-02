@@ -14,7 +14,7 @@ export function ContentSection({ id, title, content, icon, type }: ContentSectio
     return (
       <section
         id={id}
-        className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-b from-custom-yellow/10 to-transparent dark:from-custom-dark/10"
+        className="min-h-[calc(100vh-8rem)] sm:min-h-screen flex items-center justify-center p-4 sm:p-8 bg-gradient-to-b from-custom-yellow/10 to-transparent dark:from-custom-dark/10"
       >
         <Book icon={icon} />
       </section>

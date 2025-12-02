@@ -13,6 +13,16 @@ export default function Book({ icon }: BookProps) {
   const [currentChapter, setCurrentChapter] = useState<keyof typeof bookChapters>('frontMatter');
   const [currentPage, setCurrentPage] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const allPages = [
     ...bookChapters.frontMatter,
@@ -25,7 +35,8 @@ export default function Book({ icon }: BookProps) {
 
   const nextPage = () => {
     setCurrentPage(prevPage => {
-      const nextPage = prevPage + 2;
+      const increment = isMobile ? 1 : 2;
+      const nextPage = prevPage + increment;
       if (nextPage < totalPages) {
         let pageCount = 0;
         for (const [chapter, pages] of Object.entries(bookChapters)) {
@@ -44,7 +55,8 @@ export default function Book({ icon }: BookProps) {
 
   const prevPage = () => {
     setCurrentPage(prevPage => {
-      const newPage = prevPage - 2;
+      const decrement = isMobile ? 1 : 2;
+      const newPage = prevPage - decrement;
       if (newPage >= 0) {
         let pageCount = 0;
         for (const [chapter, pages] of Object.entries(bookChapters)) {
@@ -78,23 +90,17 @@ export default function Book({ icon }: BookProps) {
     {
       id: 'introduction',
       title: 'Introduksjon',
-      chapter: 'introduction' as keyof typeof bookChapters,
-      color: 'from-rose-400 to-rose-500',
-      shadowColor: 'shadow-rose-500/20'
+      chapter: 'introduction' as keyof typeof bookChapters
     },
     {
       id: 'values',
       title: 'Våre verdier',
-      chapter: 'values' as keyof typeof bookChapters,
-      color: 'from-blue-400 to-blue-500',
-      shadowColor: 'shadow-blue-500/20'
+      chapter: 'values' as keyof typeof bookChapters
     },
     {
       id: 'salaryBenefits',
       title: 'Lønn og goder',
-      chapter: 'salaryBenefits' as keyof typeof bookChapters,
-      color: 'from-emerald-400 to-emerald-500',
-      shadowColor: 'shadow-emerald-500/20'
+      chapter: 'salaryBenefits' as keyof typeof bookChapters
     }
   ];
 
@@ -102,23 +108,24 @@ export default function Book({ icon }: BookProps) {
     <div className={`max-w-6xl w-full mx-auto flex ${!isOpen && 'justify-center'}`}>
       {/* Bookmarks - only visible when book is open on desktop */}
       {isOpen && (
-        <div className="hidden lg:flex flex-col gap-4 pt-4">
+        <div className="hidden lg:flex flex-col gap-4 pt-16">
           {bookmarks.map((bookmark) => (
             <button
               key={bookmark.id}
               onClick={() => goToChapter(bookmark.chapter)}
-              className="relative"
+              className="relative group"
             >
               <div
                 className={`
                   relative flex items-center gap-2 px-4 py-3
-                  bg-gradient-to-r ${bookmark.color}
-                  shadow-lg ${bookmark.shadowColor}
+                  bg-black text-yellow-400
+                  shadow-lg shadow-black/20
+                  hover:bg-black/90 transition-colors
+                  ${currentChapter === bookmark.chapter ? 'border-r-4 border-yellow-400' : ''}
                 `}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent" />
-                <Bookmark className="w-4 h-4 text-white relative z-10" />
-                <span className="text-sm font-medium text-white relative z-10 whitespace-nowrap">
+                <Bookmark className="w-4 h-4 text-yellow-400" />
+                <span className="text-sm font-medium whitespace-nowrap">
                   {bookmark.title}
                 </span>
               </div>
@@ -140,9 +147,9 @@ export default function Book({ icon }: BookProps) {
             <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-black/20 to-transparent dark:from-white/20" />
           </button>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {/* Mobile menu bar */}
-            <div className="lg:hidden flex items-center justify-between px-4 py-2 bg-white dark:bg-zinc-800 rounded-lg shadow-md">
+            <div className="lg:hidden flex items-center justify-between px-3 py-2 bg-white dark:bg-zinc-800 rounded-lg shadow-md">
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
                 className="flex items-center gap-2 text-sm font-medium text-custom-dark dark:text-white"
@@ -155,18 +162,15 @@ export default function Book({ icon }: BookProps) {
             {/* Mobile chapter menu dropdown */}
             {showMobileMenu && (
               <div className="lg:hidden">
-                <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-lg p-2 space-y-2">
+                <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-lg p-2 space-y-1">
                   {bookmarks.map((bookmark) => (
                     <button
                       key={bookmark.id}
                       onClick={() => goToChapter(bookmark.chapter)}
-                      className={`
-                        w-full text-left px-4 py-3 rounded-lg
-                        bg-gradient-to-r ${bookmark.color}
-                        transition-transform hover:scale-[1.02]
-                      `}
+                      className="w-full flex items-center gap-2 px-3 py-2 bg-black text-yellow-400 rounded-lg hover:bg-black/90 transition-colors"
                     >
-                      <span className="text-white font-medium">
+                      <Bookmark className="w-4 h-4" />
+                      <span className="text-sm font-medium">
                         {bookmark.title}
                       </span>
                     </button>
@@ -181,7 +185,7 @@ export default function Book({ icon }: BookProps) {
               <div className="absolute inset-0">
                 {/* Mobile: Single page view */}
                 <div className="block lg:hidden h-full">
-                  <div className="h-full p-8 bg-white dark:bg-zinc-900">
+                  <div className="h-full p-3 sm:p-6 bg-white dark:bg-zinc-900">
                     <BookSection 
                       page={allPages[currentPage]} 
                       pageNumber={currentPage + 1} 
@@ -212,32 +216,32 @@ export default function Book({ icon }: BookProps) {
                 </div>
 
                 {/* Navigation buttons */}
-                <div className="flex justify-between items-center absolute bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-4rem)] max-w-2xl">
+                <div className="flex justify-between items-center absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-2xl">
                   <button
                     onClick={prevPage}
                     disabled={currentPage === 0}
                     className={`
-                      p-3 rounded-full transition-all
+                      p-2 rounded-full transition-all
                       ${currentPage === 0
                         ? 'bg-gray-200 text-gray-400 dark:bg-zinc-700 dark:text-zinc-500'
                         : 'bg-custom-dark text-white dark:bg-white dark:text-custom-dark hover:scale-110'
                       }
                     `}
                   >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="w-5 h-5" />
                   </button>
                   <button
                     onClick={nextPage}
-                    disabled={currentPage >= totalPages - 2}
+                    disabled={currentPage >= (isMobile ? totalPages - 1 : totalPages - 2)}
                     className={`
-                      p-3 rounded-full transition-all
-                      ${currentPage >= totalPages - 2
+                      p-2 rounded-full transition-all
+                      ${currentPage >= (isMobile ? totalPages - 1 : totalPages - 2)
                         ? 'bg-gray-200 text-gray-400 dark:bg-zinc-700 dark:text-zinc-500'
                         : 'bg-custom-dark text-white dark:bg-white dark:text-custom-dark hover:scale-110'
                       }
                     `}
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
               </div>
@@ -246,7 +250,7 @@ export default function Book({ icon }: BookProps) {
             {/* Close button */}
             <button
               onClick={() => setIsOpen(false)}
-              className="text-sm text-custom-dark/60 dark:text-white/60 hover:text-custom-dark dark:hover:text-white transition-colors text-center w-full"
+              className="text-xs sm:text-sm text-custom-dark/60 dark:text-white/60 hover:text-custom-dark dark:hover:text-white transition-colors text-center w-full"
             >
               Lukk boken
             </button>

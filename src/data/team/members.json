@@ -1,0 +1,103 @@
+{
+  "members": [
+    {
+      "name": "Cato Hauge",
+      "image": "/cato.jpg",
+      "role": "Daglig leder | Seniorkonsulent",
+      "description": "Cato er en allsidig og erfaren systemutvikler som har hatt roller som utvikler, løsningsarkitekt, Scrum Master, Tech Lead og prosjektleder. Han har jobbet med utvikling og teknisk ledelse i store prosjekter, ofte med komplekse integrasjoner og tverrfaglige team.\n\nHan er dyktig på smidig utvikling, men også pragmatisk og løsningsorientert når det gjelder valg av metodikk og teknologi. Han har lang erfaring med teknisk koordinering, arkitekturdesign og forvaltning av komplekse systemer, særlig innen bank, finans og offentlig sektor.",
+      "expertise": [
+        "Systemutvikling",
+        "Løsningsarkitektur",
+        "Scrum Master",
+        "Tech Lead",
+        "Prosjektledelse"
+      ],
+      "technologies": ["Java", "Spring", "AngularJS", "React", "Hibernate", "OpenShift", "SQL"]
+    },
+    {
+      "name": "Kenneth Leine Schulstad",
+      "image": "/kenneth.png",
+      "role": "Seniorkonsulent",
+      "description": "Kenneth er en senior fullstack-utvikler med over 20 års erfaring og spisskompetanse innen skyplattformer, mikrotjenester og sikkerhet. Han har jobbet med store offentlige systemer og har erfaring som utvikler, arkitekt og tech lead i en rekke komplekse prosjekter.\n\nHan har spesialisert seg på Kubernetes, hendelsesorienterte arkitekturer og API-utvikling. Kenneth er også en sterk tilhenger av domenedrevet design (DDD) og sikkerhetsstandarder som OAuth og OIDC. Han trives best i teknisk utøvende roller hvor han kan balansere pragmatikk med fremtidsrettet arkitektur.",
+      "expertise": [
+        "Skyplattformer",
+        "Mikrotjenester",
+        "Sikkerhet",
+        "API-utvikling",
+        "Domenedrevet design"
+      ],
+      "technologies": ["Kotlin", "Java", "Python", "Go", "Kubernetes", "Docker", "Spring Boot", "REST", "OAuth"]
+    },
+    {
+      "name": "Espen Schulstad",
+      "image": "/espen.webp",
+      "role": "Seniorkonsulent",
+      "description": "Espen er en allsidig og erfaren fullstack-utvikler med solid bakgrunn innen arkitektur, integrasjon og utvikling av webapplikasjoner og API-er. Han har lang erfaring med store prosjekter innen logistikk, telekom og offentlig sektor.\n\nHan har vært en nøkkelperson i flere store prosjekter for Posten Norge, hvor han har hatt ansvar for checkout-løsninger, kundesystemer og miljø-API-er. Espen er opptatt av enkelhet, vedlikeholdbarhet og brukeropplevelse, og han har en pragmatisk tilnærming til teknologi.",
+      "expertise": [
+        "Fullstack-utvikling",
+        "Arkitektur",
+        "API-utvikling",
+        "Cloud",
+        "DevOps"
+      ],
+      "technologies": ["Kotlin", "React", "Node.js", "Azure", "Terraform", "PostgreSQL"]
+    },
+    {
+      "name": "Arild Greni",
+      "image": "/arild.jpg",
+      "role": "Seniorkonsulent",
+      "description": "Arild er en erfaren fullstack-utvikler med over 15 års erfaring innen utvikling av frontend, backend og mobilapplikasjoner. Han har jobbet som konsulent siden 2010 og har en sterk evne til å forstå kundenes behov og finne tekniske løsninger som gir verdi. Arild har hatt ledende roller som Tech Lead og mentor for yngre utviklere, og han trives i et hektisk miljø hvor samarbeid og teknisk innsikt er avgjørende.\n\nHan har bred erfaring med utvikling av moderne webapplikasjoner og komplekse backend-systemer, ofte i finanssektoren, der han har jobbet med onboarding-løsninger, meldingssystemer og bankinfrastruktur. Han har også erfaring fra telecom-bransjen og offentlig sektor.",
+      "expertise": [
+        "Fullstack-utvikling",
+        "Frontend-utvikling",
+        "Backend-utvikling",
+        "Mobilutvikling",
+        "Tech Lead",
+        "Mentoring"
+      ],
+      "technologies": ["React", "Redux", "TypeScript", "Kotlin", "Java", "OpenShift", "Spring", "SQL"]
+    },
+    {
+      "name": "Bjørn Arve Lagim",
+      "image": "/bjorn-arve.png",
+      "role": "Seniorkonsulent",
+      "description": "Bjørn Arve er en frontend-spesialist med over 15 års erfaring innen utvikling av skalerbare og brukervennlige web- og mobilapplikasjoner. Han har jobbet med selskaper som Telenor, Kahoot! og Telia, hvor han har hatt en sentral rolle i å bygge komplekse brukergrensesnitt med fokus på ytelse, design og responsivitet.\n\nHan har også erfaring med hybrid mobilutvikling og har vært med på å utvikle mobilapper for både iOS og Android. Bjørn Arve har jobbet mye med DevOps og CI/CD-prosesser og trives i tverrfaglige team der utviklere, designere og produkteiere samarbeider tett for å skape gode brukeropplevelser.",
+      "expertise": [
+        "Frontend-utvikling",
+        "Mobilutvikling",
+        "DevOps",
+        "CI/CD",
+        "UX/UI"
+      ],
+      "technologies": ["JavaScript", "TypeScript", "React", "Vue", "Ionic", "Cordova", "OpenShift", "Docker", "MaterialUI"]
+    },
+    {
+      "name": "Arne Olaf Godtland",
+      "image": "/arne.jpg",
+      "role": "Seniorkonsulent",
+      "description": "Arne Olaf er en erfaren systemarkitekt og utvikler med en mastergrad i informatikk fra Universitetet i Oslo. Han har jobbet innen bank, finans og offentlig sektor i en rekke komplekse prosjekter med fokus på arkitektur, tjenesteutvikling og integrasjoner. Han har flere års erfaring som løsningsarkitekt, der han har hatt ansvar for tekniske løsningsbeskrivelser, kravspesifisering og systemdesign.\n\nMed en solid bakgrunn i Java-baserte løsninger og cloud-teknologier har han ledet team gjennom større migreringsprosjekter, blant annet fra AWS til Azure, samt implementert moderne mikrotjenestearkitektur. Arne Olaf er opptatt av god systemarkitektur og standardisering av kode, og han fungerer ofte som mentor for utviklerteam.",
+      "expertise": [
+        "Systemarkitektur",
+        "Løsningsarkitektur",
+        "Cloud-teknologier",
+        "Mikrotjenester",
+        "Mentoring"
+      ],
+      "technologies": ["Java", "Kotlin", "Spring Boot", "OpenShift", "React", "Microsoft SQL Server", "OAuth", "Azure"]
+    },
+    {
+      "name": "Johannes Moskvil",
+      "image": "./johannes.webp",
+      "role": "Seniorkonsulent",
+      "description": "Johannes er en fullstack-utvikler med spesiell lidenskap for frontend. Han har et sterkt fokus på testbar og lettlest kode og leverer brukervennlige og elegante løsninger. Han har erfaring som faggruppeleder for webutvikling og trives med å jobbe i team hvor kodekvalitet og arkitektur står i sentrum.\n\nHan har jobbet med store offentlige prosjekter, særlig innen NAV, hvor han har hatt ledende roller innen frontendutvikling. Han har også erfaring med backend-utvikling i Java og Kotlin og har jobbet mye med mikrotjenestearkitektur og event-drevne systemer.",
+      "expertise": [
+        "Frontend-utvikling",
+        "Backend-utvikling",
+        "Mikrotjenester",
+        "Event-drevne systemer",
+        "Kodekvalitet"
+      ],
+      "technologies": ["React", "TypeScript", "Node.js", "Express", "Kotlin", "Spring Boot", "GraphQL"]
+    }
+  ]
+}

@@ -21,7 +21,7 @@ const clients: Client[] = [
     description: "På oppdrag hos Avinor har Rubberduck vært en sentral bidragsyter i gjennomføringen av en større migrering av tjenester og infrastruktur til sky. Vi er også en del av et meget progressivt og fremoverlent miljø som jobber med utvikling innenfor alt fra parkering - både for bil og fly - til systemer for køtidsprediksjoner."
   },
   {
-    name: "Posten Norge AS",
+    name: "Posten Bring AS",
     image: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2072&auto=format&fit=crop",
     description: "Vårt samarbeid med Posten strekker seg over flere år og Rubberduck har bistått med å få i havn mange viktige prosjekter, blant annet Pakkeboks som de fleste i Norge har et forhold til. Posten har vunnet prisen som Norges mest innovative selskap opptil flere ganger, og det er den type miljø som våre konsulenter stortrives i."
   },
@@ -63,22 +63,6 @@ export function ImpactSection({ geoData, darkMode }: ImpactSectionProps) {
   return (
     <section id="impact" className="py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-custom-dark dark:text-white mb-6">
-            Rubberduck i Norge
-          </h2>
-          <p className="text-lg md:text-xl text-custom-dark/80 dark:text-white/80 max-w-3xl mx-auto mb-8">
-            Koden vi skriver har stor betydning for Norges befolkning. Vi utvikler løsninger som brukes av millioner av mennesker hver dag, 
-            fra kritiske samfunnsfunksjoner til tjenester som gjør hverdagen enklere. Dette er vi utrolig stolte av!
-          </p>
-        </div>
-
-        {/* Centered map */}
-        <div className="max-w-4xl mx-auto mb-24">
-          <div className="aspect-[4/3]">
-            <NorwayMap geoData={geoData} darkMode={darkMode} />
-          </div>
-        </div>
 
         {/* Subheading for clients */}
         <div className="text-center mb-12">

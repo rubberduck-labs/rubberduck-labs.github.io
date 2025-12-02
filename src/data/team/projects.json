@@ -1,0 +1,133 @@
+{
+  "projects": {
+    "Arild Greni": [
+      {
+        "company": "Eika Gruppen",
+        "role": "Tech Lead",
+        "period": "2020 - nå",
+        "description": "Tech Lead for onboarding-løsning"
+      },
+      {
+        "company": "Telenor",
+        "role": "Seniorutvikler",
+        "period": "2018 - 2020",
+        "description": "CRM-system basert på Vue.js og Node.js"
+      },
+      {
+        "company": "Statens Pensjonskasse",
+        "role": "Utvikler",
+        "period": "2016 - 2018",
+        "description": "Saksbehandlingssystem for offentlig sektor"
+      }
+    ],
+    "Arne Olaf Godtland": [
+      {
+        "company": "Forbrukerrådet",
+        "role": "Systemarkitekt",
+        "period": "2021 - nå",
+        "description": "Migrering og modernisering av Strømpris.no"
+      },
+      {
+        "company": "Eika Kapitalforvaltning",
+        "role": "Tech Lead",
+        "period": "2019 - 2021",
+        "description": "Arkitektur og utvikling av Smartspar-appen"
+      },
+      {
+        "company": "Eika Gruppen",
+        "role": "Seniorutvikler",
+        "period": "2017 - 2019",
+        "description": "Implementering av BankID-signering og systemmodernisering"
+      }
+    ],
+    "Bjørn Arve Lagim": [
+      {
+        "company": "Tolletaten",
+        "role": "Frontend Lead",
+        "period": "2020 - nå",
+        "description": "Frontendutvikler for Kontroll & E-rapport-systemer"
+      },
+      {
+        "company": "Kahoot!",
+        "role": "Seniorutvikler",
+        "period": "2018 - 2020",
+        "description": "Frontendutvikler for den kommersielle plattformen"
+      },
+      {
+        "company": "OneCall",
+        "role": "Utvikler",
+        "period": "2016 - 2018",
+        "description": "Hybrid-apputvikling for mobiladministrasjon"
+      }
+    ],
+    "Cato Hauge": [
+      {
+        "company": "Eika Gruppen",
+        "role": "Tech Lead",
+        "period": "2020 - nå",
+        "description": "Teknisk ansvarlig for Kredittportal og lånesøknadsprosess"
+      },
+      {
+        "company": "Statens Pensjonskasse",
+        "role": "Seniorutvikler",
+        "period": "2018 - 2020",
+        "description": "Fullstack-utvikler for saksbehandlingssystem"
+      },
+      {
+        "company": "Aftenposten",
+        "role": "Utvikler",
+        "period": "2016 - 2018",
+        "description": "Utvikling av nettportal for stillingsannonser"
+      }
+    ],
+    "Espen Schulstad": [
+      {
+        "company": "Posten Bring Norge",
+        "role": "Seniorutvikler",
+        "period": "2018 - nå",
+        "description": "Jobbet i mange ulike teams! Kan trekke frem Pakkeboks og Checkout løsninger."
+      },
+      {
+        "company": "Telenor",
+        "role": "Systemutvikler",
+        "period": "2017 - 2019",
+        "description": "Modernisering av selvbetjeningsplattformen"
+      }
+    ],
+    "Johannes Moskvil": [
+        {
+        "company": "Nav IT",
+        "role": "Fullstackutvikler",
+        "period": "2022 - nå",
+        "description": "Utvikler for Nav sine løsninger for foreldrepengeytelser"
+      },
+      {
+        "company": "Entur",
+        "role": "Fullstackutvikler",
+        "period": "2017 - 2022",
+        "description": "Utvikler for Entur sine billett- og betalingssystemer"
+      }
+      
+    ],
+    "Kenneth Leine Schulstad": [
+      {
+        "company": "SSB",
+        "role": "Tech Lead",
+        "period": "2021 - nå",
+        "description": "Tech Lead for Dapla, skybasert dataplattform for statistikkproduksjon"
+      },
+      {
+        "company": "DNB",
+        "role": "API-utvikler",
+        "period": "2019 - 2021",
+        "description": "API-utvikler for PSD2-implementasjon i banksektoren"
+      },
+      {
+        "company": "Mimiro/OpenFarm",
+        "role": "Arkitekt",
+        "period": "2017 - 2019",
+        "description": "Arkitektur og sikkerhetsløsning for landbruksplattform"
+      }
+    ]
+  }
+}

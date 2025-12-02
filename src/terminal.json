@@ -1,0 +1,84 @@
+{
+  "type": "directory",
+  "contents": {
+    "home": {
+      "type": "directory",
+      "contents": {
+        "webmasters_log.txt": {
+          "type": "file",
+          "contents": [
+            "Stjernedato 47634.44 - Webmasters Logg",
+            "Ny feature lansert i dag! Nå tilpasser siden seg automatisk brukerens preferanser.",
+            "Kanskje ikke revolusjonerende, men små detaljer gjør stor forskjell.",
+            "",
+            "Stjernedato 47635.12 - Webmasters Logg", 
+            "Huskeliste til meg selv: Hvis jeg noen gang vurderer å gjøre en 'quick fix',",
+            "må jeg huske at det aldri blir verken 'quick' eller en 'fix'.",
+            "",
+            "Stjernedato 47636.73 - Webmasters Logg",
+            "En kompis sa at jeg burde få meg en hobby. Jeg prøvde å forklare at koding ER min hobby.",
+            "Han så rart på meg. Jaja.",
+            "",
+            "Stjernedato 47637.21 - Webmasters Logg",
+            "Beste følelsen i verden? Når en bug du har slitt med i timevis plutselig forsvinner.",
+            "Verste følelsen i verden? Når du ikke aner HVORFOR den forsvant.",
+            "",
+            "Stjernedato 47638.19 - Webmasters Logg",
+            "Tok en pause og skrev en script: quack.sh.",
+            "Nå kan jeg få terminalen til å kvakke på kommando. Jeg elsker jobben min.",
+            "",
+            "Stjernedato 47639.44 - Webmasters Logg",
+            "Hørte på stdout the Rapper i dag:",
+            "\"Stack overflow, I'm drowning in code, grep my soul before I implode!\"",
+            "Inspirerende. Men jeg trenger fortsatt kaffe.",
+            "",
+            "Stjernedato 47640.01 - Webmasters Logg",
+            "Litt eksperimentering i dag – la til et skjult script som forvandler terminalen til klingon.",
+            "Om noen finner `troll.sh` så er de veldig flinke",
+            "",
+            "Stjernedato 47641.89 - Webmasters Logg",
+            "En kollega foreslo å bruke AI for å generere commit-meldinger.",
+            "Trodde han kødda, men testet det uansett. Resultat: 'Refactored synergy module for enhanced engagement'.",
+            "Så over koden min, sounds about right.",
+            "",
+            "Stjernedato 47642.12 - Webmasters Logg",
+            "Noen spurte meg hva som motiverer meg til å kode hver dag.",
+            "Enkelte ville sagt 'penger'. Andre ville sagt 'karriere'.",
+            "Jeg? Jeg gjør det for den perfekte linjen med kode som funker på første forsøk.",
+            "(Og fordi jeg vil at terminalen min skal kvakke.)"
+          ]
+        },
+        "README": {
+          "type": "file",
+          "contents": [
+            "Welcome to RubberDuck OS!",
+            "",
+            "Available commands:",
+            "- help: Show available commands",
+            "- ls: List directory contents", 
+            "- cd: Change directory",
+            "- cat: View file contents",
+            "- clear: Clear terminal",
+            "- exit: Close terminal",
+            "- bgcolor: Change background color",
+            "- font: Change page font",
+            "",
+            "Try running some commands to explore the system."
+          ]
+        }
+      }
+    },
+    "scripts": {
+      "type": "directory",
+      "contents": {
+        "joke.sh": { "type": "executable" },
+        "quack.sh": { "type": "executable" },
+        "weather.sh": { "type": "executable" },
+        "bgcolor.sh": { "type": "executable" },
+        "add-employee.sh": { "type": "executable" },
+        "holiday.sh": { "type": "executable" },
+        "font.sh": { "type": "executable" }
+      }
+    }
+  }
+}

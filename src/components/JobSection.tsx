@@ -70,30 +70,6 @@ export function JobSection() {
 
             <SalaryCalculator />
           </div>
-
-          {/* Duck Divider */}
-          <div className="mt-24 py-24 relative overflow-hidden bg-color-blue-1 dark:bg-zinc-800">
-            {/* Clouds */}
-            <div className="cloud cloud--1"></div>
-            <div className="cloud cloud--2"></div>
-            <div className="cloud cloud--3"></div>
-            <div className="cloud cloud--4"></div>
-            
-            {/* Walking ducks */}
-            <div className="flex justify-around">
-              {[...Array(3)].map((_, i) => (
-                <div 
-                  key={i}
-                  style={{
-                    transform: `scale(${0.6 + (i * 0.2)})`,
-                    animationDelay: `${i * 0.5}s`
-                  }}
-                >
-                  <WalkingDuck />
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </section>
