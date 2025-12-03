@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sun, Moon, Instagram, Linkedin, Menu, X } from 'lucide-react';
+import {RubberDuckIcon} from "./Icons/RubberDuckIcon.tsx";
+import IconWrapper from "./IconWrapper.tsx";
+import {RubberDuckLogo} from "./Icons/RubberDuckLogo.tsx";
 
 interface NavigationProps {
   darkMode: boolean;
@@ -98,23 +101,19 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
           <div className="flex items-center gap-8">
             <Link
               to="/"
-              className="flex items-center gap-3 group"
+              className="flex items-center gap-3 group min-w-0"
             >
-              <img
-                src="/rubberduck-icon.svg"
-                alt="Duck Logo"
-                className={`h-12 transition-colors ${
-                  darkMode ? 'fill-yellow-400' : '[filter:brightness(0)]'
-                }`}
-              />
-              <span className={`text-2xl font-bold ${getLinkClasses('/')}`}>
-                <img
-                    src="/rubberduck-logo.svg"
-                    alt="Duck Logo"
-                    className={`w-48 transition-colors ${
-                        darkMode ? 'fill-yellow-400' : '[filter:brightness(0)]'
-                    }`}
-                />
+                <IconWrapper className={`shrink h-[clamp(32px,4.5vw,48px)] transition-colors ${
+                    darkMode ? 'text-yellow-400' : '[filter:brightness(0)]'
+                }`}>
+                    <RubberDuckIcon />
+                </IconWrapper>
+              <span className={`text-2xl font-bold min-w-0 ${getLinkClasses('/')}`}>
+                  <IconWrapper className={`shrink min-w-0 h-auto w-[clamp(150px,30vw,224px)] max-w-full transition-colors ${
+                      darkMode ? 'text-white' : '[filter:brightness(0)]'
+                  }`}>
+                      <RubberDuckLogo />
+                  </IconWrapper>
               </span>
             </Link>
             <div className="hidden md:flex items-center gap-6">

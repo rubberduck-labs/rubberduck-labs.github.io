@@ -4,25 +4,27 @@ interface IconWrapperProps {
     width?: number | string;
     height?: number | string;
     color?: string;
-    children: ReactElement<React.SVGProps<SVGSVGElement>>; // Correct type for SVG props
+    children: ReactElement<React.SVGProps<SVGSVGElement>>;
     className?: string;
     style?: React.CSSProperties;
 }
 
 const IconWrapper: React.FC<IconWrapperProps> = ({
-                                                     width = 32,
-                                                     height = 32,
-                                                     color = "currentColor",
+                                                     width,
+                                                     height,
+                                                     color = 'currentColor',
                                                      children,
                                                      ...props
                                                  }) => {
-
-    return React.cloneElement(children, {
-        width,
-        height,
-        fill: color,
+    const forwarded: React.SVGProps<SVGSVGElement> = {
         ...props,
-    });
+    };
+
+    if (width !== undefined) forwarded.width = width;
+    if (height !== undefined) forwarded.height = height;
+    if (color !== undefined) forwarded.fill = color || undefined;
+
+    return React.cloneElement(children, forwarded);
 };
 
 export default IconWrapper;
