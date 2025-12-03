@@ -101,14 +101,20 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               className="flex items-center gap-3 group"
             >
               <img
-                src="/duck.svg"
+                src="/rubberduck-icon.svg"
                 alt="Duck Logo"
-                className={`w-16 h-16 transition-colors ${
+                className={`h-12 transition-colors ${
                   darkMode ? 'fill-yellow-400' : '[filter:brightness(0)]'
                 }`}
               />
               <span className={`text-2xl font-bold ${getLinkClasses('/')}`}>
-                Rubberduck
+                <img
+                    src="/rubberduck-logo.svg"
+                    alt="Duck Logo"
+                    className={`w-48 transition-colors ${
+                        darkMode ? 'fill-yellow-400' : '[filter:brightness(0)]'
+                    }`}
+                />
               </span>
             </Link>
             <div className="hidden md:flex items-center gap-6">
