@@ -11,7 +11,7 @@ interface IconWrapperProps {
 
 const IconWrapper: React.FC<IconWrapperProps> = ({
                                                      width,
-                                                     height,
+                                                     height = 24,
                                                      color = 'currentColor',
                                                      children,
                                                      ...props

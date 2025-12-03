@@ -109,7 +109,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
                     <RubberDuckIcon />
                 </IconWrapper>
               <span className={`text-2xl font-bold min-w-0 ${getLinkClasses('/')}`}>
-                  <IconWrapper className={`shrink min-w-0 h-auto w-[clamp(150px,30vw,224px)] max-w-full transition-colors ${
+                  <IconWrapper className={`shrink min-w-0 h-auto w-[clamp(150px,30vw,200px)]  transition-colors ${
                       darkMode ? 'text-white' : '[filter:brightness(0)]'
                   }`}>
                       <RubberDuckLogo />
