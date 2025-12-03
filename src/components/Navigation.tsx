@@ -167,13 +167,6 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 bg-white dark:bg-zinc-900 rounded-lg shadow-lg overflow-hidden">
             <Link
-              to="/team"
-              className={getMobileLinkClasses('/team')}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Team
-            </Link>
-            <Link
               to="/jobs"
               className={getMobileLinkClasses('/jobs')}
               onClick={() => setIsMobileMenuOpen(false)}
