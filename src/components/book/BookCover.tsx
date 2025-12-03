@@ -15,7 +15,7 @@ export function BookCover() {
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-white">
         <img 
-          src="/duck.svg" 
+          src="/rubberduck-icon.svg"
           alt="Rubberduck Logo"
           className="w-48 h-48 object-contain mb-8 transform transition-transform group-hover:scale-110"
         />
