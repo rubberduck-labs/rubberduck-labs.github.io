@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CookieNotice } from './CookieNotice';
 import { Terminal } from './Terminal';
@@ -24,8 +24,18 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
               <span className="inline-block">et sted du kan vokse,</span>{' '}
               <span className="inline-block">og et liv utenom.</span>
             </h1>
-            <p className="text-lg md:text-xl text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto lg:mx-0 font-light">
-              Å jobbe som konsulent er gøy og lærerikt! Muligheten til å jobbe på tvers av bransjer, få lov til å bygge kompetanse på domener og teknologi i alle hjørner av samfunnet er et privilegium få andre yrker kan skilte med. Rubberduck er et koselig konsulenthus der kontinuerlig læring står i fokus.
+            <p
+              className="text-lg md:text-xl text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto lg:mx-0 font-light">
+              Å jobbe som konsulent er gøy og lærerikt!
+            </p>
+            <p
+              className="text-lg md:text-xl text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto lg:mx-0 font-light">
+              Muligheten til å jobbe på tvers av bransjer, få lov til å bygge kompetanse på domener og teknologi i alle
+              hjørner av samfunnet er et privilegium få andre yrker kan skilte med.
+            </p>
+            <p
+              className="text-lg md:text-xl text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto lg:mx-0 font-light">
+              Rubberduck er et koselig konsulenthus der kontinuerlig læring står i fokus.
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               {/* Button group with fixed widths */}
@@ -49,16 +59,16 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
               </div>
             </div>
           </div>
-          
+
           {/* Hide ProgrammerSection on mobile */}
           <div className="hidden lg:block">
             <ProgrammerSection setIsTerminalOpen={setIsTerminalOpen} />
           </div>
         </div>
       </div>
-      <Terminal 
-        isOpen={isTerminalOpen} 
-        onClose={() => setIsTerminalOpen(false)} 
+      <Terminal
+        isOpen={isTerminalOpen}
+        onClose={() => setIsTerminalOpen(false)}
         setBackgroundColor={setBackgroundColor}
       />
       <CookieNotice />

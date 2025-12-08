@@ -30,7 +30,7 @@ function App() {
       if (backgroundColor) {
         setNavBackgroundColor(backgroundColor.replace(')', ', 0.9)').replace('rgb', 'rgba'));
       } else {
-        setNavBackgroundColor('rgba(253, 224, 71, 0.9)');
+        setNavBackgroundColor('rgba(253, 216, 71, 0.9)');
       }
     }
   }, [darkMode, backgroundColor]);
