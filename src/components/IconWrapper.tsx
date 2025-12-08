@@ -20,9 +20,9 @@ export const IconWrapper: React.FC<IconWrapperProps> = ({
     ...props,
   };
 
-  if (width !== undefined) forwarded.width = width;
-  if (height !== undefined) forwarded.height = height;
-  if (color !== undefined) forwarded.fill = color || undefined;
+    if (width !== undefined) forwarded.width = width;
+    if (height !== undefined) forwarded.height = height;
+    if (color !== undefined) forwarded.fill = color;
 
   return React.cloneElement(children, forwarded);
 };
