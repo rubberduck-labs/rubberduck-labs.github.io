@@ -82,7 +82,7 @@ export function TeamSection() {
                   style={{
                     objectPosition: '50% 50%',
                     padding: '40px 40px 60px',
-                    marginBottom:'16px'
+                    marginBottom: '16px'
                   }}
                 />
                 {/* Gradient overlay */}
