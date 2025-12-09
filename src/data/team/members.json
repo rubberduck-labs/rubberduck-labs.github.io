@@ -16,7 +16,7 @@
     },
     {
       "name": "Kenneth Leine Schulstad",
-      "image": "/kenneth.png",
+      "image": "/kenneth.jpg",
       "role": "Seniorkonsulent",
       "description": "Kenneth er en senior fullstack-utvikler med over 20 års erfaring og spisskompetanse innen skyplattformer, mikrotjenester og sikkerhet. Han har jobbet med store offentlige systemer og har erfaring som utvikler, arkitekt og tech lead i en rekke komplekse prosjekter.\n\nHan har spesialisert seg på Kubernetes, hendelsesorienterte arkitekturer og API-utvikling. Kenneth er også en sterk tilhenger av domenedrevet design (DDD) og sikkerhetsstandarder som OAuth og OIDC. Han trives best i teknisk utøvende roller hvor han kan balansere pragmatikk med fremtidsrettet arkitektur.",
       "expertise": [
@@ -30,7 +30,7 @@
     },
     {
       "name": "Espen Schulstad",
-      "image": "/espen.webp",
+      "image": "/espen.jpg",
       "role": "Seniorkonsulent",
       "description": "Espen er en allsidig og erfaren fullstack-utvikler med solid bakgrunn innen arkitektur, integrasjon og utvikling av webapplikasjoner og API-er. Han har lang erfaring med store prosjekter innen logistikk, telekom og offentlig sektor.\n\nHan har vært en nøkkelperson i flere store prosjekter for Posten Norge, hvor han har hatt ansvar for checkout-løsninger, kundesystemer og miljø-API-er. Espen er opptatt av enkelhet, vedlikeholdbarhet og brukeropplevelse, og han har en pragmatisk tilnærming til teknologi.",
       "expertise": [
@@ -59,7 +59,7 @@
     },
     {
       "name": "Bjørn Arve Lagim",
-      "image": "/bjorn-arve.png",
+      "image": "/bjornarve.jpg",
       "role": "Seniorkonsulent",
       "description": "Bjørn Arve er en frontend-spesialist med over 15 års erfaring innen utvikling av skalerbare og brukervennlige web- og mobilapplikasjoner. Han har jobbet med selskaper som Telenor, Kahoot! og Telia, hvor han har hatt en sentral rolle i å bygge komplekse brukergrensesnitt med fokus på ytelse, design og responsivitet.\n\nHan har også erfaring med hybrid mobilutvikling og har vært med på å utvikle mobilapper for både iOS og Android. Bjørn Arve har jobbet mye med DevOps og CI/CD-prosesser og trives i tverrfaglige team der utviklere, designere og produkteiere samarbeider tett for å skape gode brukeropplevelser.",
       "expertise": [
@@ -72,22 +72,24 @@
       "technologies": ["JavaScript", "TypeScript", "React", "Vue", "Ionic", "Cordova", "OpenShift", "Docker", "MaterialUI"]
     },
     {
-      "name": "Arne Olaf Godtland",
-      "image": "/arne.jpg",
+      "name": "Øyvind Strømmen",
+      "image": "/oyvind.jpg",
       "role": "Seniorkonsulent",
-      "description": "Arne Olaf er en erfaren systemarkitekt og utvikler med en mastergrad i informatikk fra Universitetet i Oslo. Han har jobbet innen bank, finans og offentlig sektor i en rekke komplekse prosjekter med fokus på arkitektur, tjenesteutvikling og integrasjoner. Han har flere års erfaring som løsningsarkitekt, der han har hatt ansvar for tekniske løsningsbeskrivelser, kravspesifisering og systemdesign.\n\nMed en solid bakgrunn i Java-baserte løsninger og cloud-teknologier har han ledet team gjennom større migreringsprosjekter, blant annet fra AWS til Azure, samt implementert moderne mikrotjenestearkitektur. Arne Olaf er opptatt av god systemarkitektur og standardisering av kode, og han fungerer ofte som mentor for utviklerteam.",
-      "expertise": [
-        "Systemarkitektur",
-        "Løsningsarkitektur",
-        "Cloud-teknologier",
-        "Mikrotjenester",
-        "Mentoring"
-      ],
-      "technologies": ["Java", "Kotlin", "Spring Boot", "OpenShift", "React", "Microsoft SQL Server", "OAuth", "Azure"]
+      "description": "",
+      "expertise": [],
+      "technologies": []
+    },
+    {
+      "name": "Vegard Haugstvedt",
+      "image": "/vegard.jpg",
+      "role": "Seniorkonsulent",
+      "description": "",
+      "expertise": [],
+      "technologies": []
     },
     {
       "name": "Johannes Moskvil",
-      "image": "./johannes.webp",
+      "image": "./johannes.jpg",
       "role": "Seniorkonsulent",
       "description": "Johannes er en fullstack-utvikler med spesiell lidenskap for frontend. Han har et sterkt fokus på testbar og lettlest kode og leverer brukervennlige og elegante løsninger. Han har erfaring som faggruppeleder for webutvikling og trives med å jobbe i team hvor kodekvalitet og arkitektur står i sentrum.\n\nHan har jobbet med store offentlige prosjekter, særlig innen NAV, hvor han har hatt ledende roller innen frontendutvikling. Han har også erfaring med backend-utvikling i Java og Kotlin og har jobbet mye med mikrotjenestearkitektur og event-drevne systemer.",
       "expertise": [
