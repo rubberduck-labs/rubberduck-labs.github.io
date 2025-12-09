@@ -103,18 +103,12 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               to="/"
               className="flex items-center gap-3 group min-w-0"
             >
-                <IconWrapper className={`shrink-0 h-[clamp(32px,4.5vw,48px)] transition-colors ${
-                    darkMode ? 'text-yellow-400' : '[filter:brightness(0)]'
-                }`}>
-                    <RubberDuckIcon />
-                </IconWrapper>
-              <span className={`text-2xl font-bold min-w-0 ${getLinkClasses('/')}`}>
-                  <IconWrapper className={`shrink-0 min-w-0 h-auto w-[clamp(150px,30vw,200px)]  transition-colors ${
-                      darkMode ? 'text-white' : '[filter:brightness(0)]'
-                  }`}>
-                      <RubberDuckLogo />
-                  </IconWrapper>
-              </span>
+              <RubberDuckIcon className={`shrink-0 h-[clamp(32px,4.5vw,48px)] transition-colors ${
+                darkMode ? 'text-yellow-400' : '[filter:brightness(0)]'
+              }`} />
+              <RubberDuckLogo className={`shrink-0 min-w-0 h-auto w-[clamp(150px,30vw,200px)]  transition-colors ${
+                darkMode ? 'text-white' : '[filter:brightness(0)]'
+              }`} />
             </Link>
             <div className="hidden md:flex items-center gap-6">
               <Link
