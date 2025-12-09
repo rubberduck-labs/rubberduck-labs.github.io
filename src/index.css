@@ -10,7 +10,7 @@
 html {
   scroll-behavior: smooth;
   font-family: var(--font-family);
-    overflow-y: scroll
+    overflow-y: scroll;
 }
 
 .leaflet-container {
