@@ -156,7 +156,7 @@ export const salaryBenefitsChapter: BookPage[] = [
       },
       {
         type: 'paragraph',
-        text: `I Rubberduck tilbyr vi en attraktiv provisjonsbasert lønnsmodell som sikrer deg en konkurransedyktig inntekt basert på din innsats og kompetanse.",
+        text: `I Rubberduck tilbyr vi en attraktiv provisjonsbasert lønnsmodell som sikrer deg en konkurransedyktig inntekt basert på din innsats og kompetanse.
     
                Vår lønnsmodell fungerer slik:`
       },
