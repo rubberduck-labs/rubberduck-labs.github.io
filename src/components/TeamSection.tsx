@@ -57,22 +57,38 @@ export function TeamSection() {
 
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
           {allMembers.map((member, index) => (
+
+
             <div
               key={index}
-              className="group relative bg-white dark:bg-custom-dark/50 rounded-xl overflow-hidden  transition-all duration-300"
+              className="group relative  rounded-xl overflow-hidden  transition-all duration-300 lg:h-[500px] h-[300px]"
             >
-              <div className="relative pb-[170%] overflow-hidden">
+              <div className="relative overflow-hidden h-full">
                 <img
                   src={member.image}
                   alt={member.name}
-                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-contain object-top transition-transform duration-300 group-hover:scale-110 z-9 filter drop-shadow-[10px_5px_10px_rgba(0,0,0,0.45)]"
                   style={{
-                    objectPosition: '50% 50%'
+                    objectPosition: '50% 50%',
+                    padding: '40px 40px 60px',
+                  }}
+                />
+                <div className="absolute inset-x-0 bottom-0  bg-white rounded-t-2xl lg:h-[160px] h-[120px] group-hover:h-full transition-all duration-300 bg-[url('/portrait-bg.png')]
+      bg-cover bg-center bg-no-repeat">
+                </div>
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="absolute inset-0 w-full h-full object-contain object-top transition-transform duration-300 group-hover:scale-110 z-11"
+                  style={{
+                    objectPosition: '50% 50%',
+                    padding: '40px 40px 60px',
+                    marginBottom:'16px'
                   }}
                 />
                 {/* Gradient overlay */}
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90">
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90 ">
                 <h3 className="text-base sm:text-lg font-semibold">
                   {member.name}
                 </h3>
@@ -84,7 +100,7 @@ export function TeamSection() {
               {/* Enhanced CV Button */}
               <button
                 onClick={() => setSelectedMember(member)}
-                className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black/0 hover:bg-black/40 transition-colors group"
+                className="absolute top-80 right-0 bottom-0 left-0 flex items-center justify-center bg-black/0  transition-colors group"
                 aria-label="Se CV"
               >
                 <div className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white dark:bg-custom-dark text-custom-dark dark:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-2 shadow-lg">

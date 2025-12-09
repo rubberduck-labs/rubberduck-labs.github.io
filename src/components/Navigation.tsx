@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sun, Moon, Instagram, Linkedin, Menu, X } from 'lucide-react';
 import { RubberDuckIcon } from "./Icons/RubberDuckIcon";
-import { IconWrapper } from "./IconWrapper";
 import { RubberDuckLogo } from "./Icons/RubberDuckLogo";
 
 interface NavigationProps {
@@ -118,6 +117,12 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
                 Jobb hos oss
               </Link>
               <Link
+                to="/team"
+                className={getLinkClasses('/team')}
+              >
+                Team
+              </Link>
+              <Link
                 to="/impact"
                 className={getLinkClasses('/impact')}
               >
@@ -171,6 +176,13 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Jobb hos oss
+            </Link>
+            <Link
+              to="/team"
+              className={getMobileLinkClasses('/team')}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Team
             </Link>
             <Link
               to="/impact"
