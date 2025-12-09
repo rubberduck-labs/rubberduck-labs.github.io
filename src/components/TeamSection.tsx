@@ -73,8 +73,7 @@ export function TeamSection() {
                     padding: '40px 40px 60px',
                   }}
                 />
-                <div className="absolute inset-x-0 bottom-0  bg-white rounded-t-2xl lg:h-[160px] h-[120px] group-hover:h-full transition-all duration-300 bg-[url('/portrait-bg.png')]
-      bg-cover bg-center bg-no-repeat">
+                <div className="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl lg:h-[160px] h-[120px] group-hover:h-full transition-all duration-300 bg-[url('/portrait-bg.png')] bg-cover bg-center bg-no-repeat">
                 </div>
                 <img
                   src={member.image}
