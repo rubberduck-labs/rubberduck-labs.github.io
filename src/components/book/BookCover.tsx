@@ -1,4 +1,6 @@
-import React from 'react';
+import { RubberDuckIcon } from "../Icons/RubberDuckIcon.tsx";
+import { IconWrapper } from "../IconWrapper.tsx";
+import { RubberDuckLogo } from "../Icons/RubberDuckLogo.tsx";
 
 export function BookCover() {
   return (
@@ -14,14 +16,15 @@ export function BookCover() {
       
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-white">
-        <img 
-          src="/rubberduck-icon.svg"
-          alt="Rubberduck Logo"
-          className="w-48 h-48 object-contain mb-8 transform transition-transform group-hover:scale-110"
-        />
+        <IconWrapper className={'size-32 text-yellow-400'}>
+          <RubberDuckIcon />
+        </IconWrapper>
+        <IconWrapper className={'text-yellow-400 h-auto w-[300px] mb-24'} >
+          <RubberDuckLogo />
+        </IconWrapper>
         <h2 className="text-4xl font-bold text-center mb-4 relative">
           <span className="relative">
-            Rubberduck håndbok
+             Håndbok
             {/* Underline decoration */}
             <div className="absolute -bottom-2 left-0 right-0 h-1 bg-yellow-500/30" />
           </span>
