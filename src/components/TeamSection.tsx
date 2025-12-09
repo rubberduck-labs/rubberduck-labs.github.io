@@ -100,7 +100,7 @@ export function TeamSection() {
               {/* Enhanced CV Button */}
               <button
                 onClick={() => setSelectedMember(member)}
-                className="absolute top-80 right-0 bottom-0 left-0 flex items-center justify-center bg-black/0  transition-colors group"
+                className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black/0  transition-colors group lg:pt-80"
                 aria-label="Se CV"
               >
                 <div className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white dark:bg-custom-dark text-custom-dark dark:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-2 shadow-lg">
