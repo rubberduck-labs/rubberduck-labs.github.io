@@ -4,11 +4,8 @@ import { BookCover } from './BookCover';
 import { BookSection } from './BookSection';
 import { bookChapters } from './chapters';
 
-interface BookProps {
-  icon: React.ReactNode;
-}
 
-export default function Book({ icon }: BookProps) {
+export default function Book() {
   const [isOpen, setIsOpen] = useState(false);
   const [currentChapter, setCurrentChapter] = useState<keyof typeof bookChapters>('frontMatter');
   const [currentPage, setCurrentPage] = useState(0);
@@ -101,8 +98,9 @@ export default function Book({ icon }: BookProps) {
       id: 'salaryBenefits',
       title: 'Lønn og goder',
       chapter: 'salaryBenefits' as keyof typeof bookChapters
-    }
+    },
   ];
+
 
   return (
     <div className={`max-w-6xl w-full mx-auto flex ${!isOpen && 'justify-center'}`}>
@@ -149,11 +147,9 @@ export default function Book({ icon }: BookProps) {
         ) : (
           <div className="space-y-2">
             {/* Mobile menu bar */}
-            <div className="lg:hidden flex items-center justify-between px-3 py-2 bg-white dark:bg-zinc-800 rounded-lg shadow-md">
-              <button
-                onClick={() => setShowMobileMenu(!showMobileMenu)}
-                className="flex items-center gap-2 text-sm font-medium text-custom-dark dark:text-white"
-              >
+            <div onClick={() => setShowMobileMenu(!showMobileMenu)}
+                 className="lg:hidden flex items-center justify-between px-3 py-2 bg-white dark:bg-zinc-800 rounded-lg shadow-md">
+              <button className="flex items-center gap-2 text-sm font-medium text-custom-dark dark:text-white">
                 <Menu className="w-4 h-4" />
                 {bookChapters[currentChapter][0].title}
               </button>
@@ -180,7 +176,7 @@ export default function Book({ icon }: BookProps) {
             )}
 
             {/* Open book */}
-            <div className="aspect-[3/4] lg:aspect-[3/2] bg-white dark:bg-zinc-900 rounded-lg shadow-2xl overflow-hidden relative">
+            <div className="h-[75vh] lg:aspect-[3/2] lg:h-auto bg-white dark:bg-zinc-900 rounded-lg shadow-2xl overflow-hidden relative">
               {/* Book content */}
               <div className="absolute inset-0">
                 {/* Mobile: Single page view */}
