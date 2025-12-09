@@ -54,36 +54,35 @@ export function TeamSection() {
             Et dedikert team av eksperter som brenner for teknologi og innovasjon
           </p>
         </div>
-        
+
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
           {allMembers.map((member, index) => (
             <div
               key={index}
-              className="group relative bg-white dark:bg-custom-dark/50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+              className="group relative bg-white dark:bg-custom-dark/50 rounded-xl overflow-hidden  transition-all duration-300"
             >
-              <div className="relative pb-[125%] overflow-hidden">
+              <div className="relative pb-[170%] overflow-hidden">
                 <img
                   src={member.image}
                   alt={member.name}
                   className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
                   style={{
-                    objectPosition: '50% 15%'
+                    objectPosition: '50% 50%'
                   }}
                 />
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 group-hover:to-black/70 transition-opacity duration-300" />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90">
                 <h3 className="text-base sm:text-lg font-semibold">
                   {member.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-white/80">
+                <p className="text-xs sm:text-sm text-custom-dark/90">
                   {member.role}
                 </p>
               </div>
-              
+
               {/* Enhanced CV Button */}
-              <button 
+              <button
                 onClick={() => setSelectedMember(member)}
                 className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black/0 hover:bg-black/40 transition-colors group"
                 aria-label="Se CV"
@@ -107,7 +106,7 @@ export function TeamSection() {
               >
                 <X className="w-6 h-6 text-gray-500 dark:text-gray-400" />
               </button>
-              
+
               <div className="p-8">
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex flex-col">
@@ -141,7 +140,7 @@ export function TeamSection() {
                     </h4>
                     <ul className="space-y-2">
                       {selectedMember.expertise.map((item, index) => (
-                        <li 
+                        <li
                           key={index}
                           className="flex items-center gap-2 text-custom-dark/80 dark:text-white/80"
                         >
