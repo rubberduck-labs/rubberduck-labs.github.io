@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sun, Moon, Instagram, Linkedin, Menu, X } from 'lucide-react';
-import { RubberDuckIcon } from "./Icons/RubberDuckIcon.tsx";
-import { IconWrapper } from "./IconWrapper.tsx";
-import { RubberDuckLogo } from "./Icons/RubberDuckLogo.tsx";
+import { RubberDuckIcon } from "./Icons/RubberDuckIcon";
+import { IconWrapper } from "./IconWrapper";
+import { RubberDuckLogo } from "./Icons/RubberDuckLogo";
 
 interface NavigationProps {
   darkMode: boolean;
