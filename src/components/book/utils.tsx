@@ -1,4 +1,4 @@
-import { HandbookBlock } from "./types.ts";
+import { HandbookBlock } from "./types";
 import { ElementType, ReactElement } from "react";
 
 export const renderBlock = (

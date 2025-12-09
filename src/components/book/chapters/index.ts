@@ -1,4 +1,4 @@
-import { BookPage } from "../types.ts";
+import { BookPage } from "../types";
 
 export const frontMatterChapter: BookPage[] = [
   {
