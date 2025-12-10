@@ -9,6 +9,7 @@ interface TeamMember {
   name: string;
   image: string;
   role: string;
+  linkedin: string;
   description: string;
   expertise: string[];
   technologies: string[];
@@ -136,14 +137,18 @@ export function TeamSection() {
                       <p className="text-lg text-custom-dark/70 dark:text-white/70">
                         {selectedMember.role}
                       </p>
-                      <a
-                        href={`https://linkedin.com/in/search?q=${encodeURIComponent(selectedMember.name)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[#0A66C2] hover:text-[#0A66C2]/80 transition-colors"
-                      >
-                        <Linkedin className="w-5 h-5" />
-                      </a>
+                      {selectedMember.linkedin && (
+                        <a
+                          href={`https://linkedin.com/in/${encodeURIComponent(
+                            selectedMember.linkedin
+                          )}/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[#0A66C2] hover:text-[#0A66C2]/80 transition-colors"
+                        >
+                          <Linkedin className="w-5 h-5" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
