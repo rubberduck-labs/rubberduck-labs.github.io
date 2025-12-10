@@ -51,8 +51,8 @@ export function TeamSection() {
             Møt teamet
           </h2>
           <p className="text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
-            Et dedikert team av eksperter som brenner for teknologi og innovasjon
-          </p>
+            Et dedikert team av eksperter som brenner for teknologi og innovasjon<br/><span className="text-sm"><i>(Illustrasjoner:Flu Hartberg)</i></span></p>
+
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
