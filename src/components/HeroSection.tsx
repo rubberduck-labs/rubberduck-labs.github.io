@@ -49,7 +49,7 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
                 </Link>
                 <a
                   href="mailto:hei@rubberduck.no"
-                  className="inline-flex items-center gap-2 px-6  bg-white text-custom-dark dark:bg-custom-dark dark:text-white  rounded-full font-semibold hover:opacity-90 transition-opacity"
+                  className="inline-flex h-11 items-center justify-center gap-2 px-6  bg-white text-custom-dark dark:bg-custom-dark dark:text-white  rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
                   <Mail className="w-4 h-4" />
                   Kontakt oss
