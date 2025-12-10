@@ -49,7 +49,7 @@ export function TeamSection() {
              className="min-h-screen py-24 bg-gradient-radial from-custom-yellow/30 to-transparent dark:from-custom-dark/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-custom-dark dark:text-white mb-6">
+          <h2 className="font-fun text-4xl font-bold text-custom-dark dark:text-white mb-6">
             Møt teamet
           </h2>
           <p className="text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
@@ -90,10 +90,10 @@ export function TeamSection() {
                 {/* Gradient overlay */}
               </div>
               <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90 ">
-                <h3 className="text-base sm:text-lg font-semibold">
+                <h3 className="font-fun font-semibold text-base lg:text-2xl md:text-md">
                   {member.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-custom-dark/90">
+                <p className="font-cartoon text-sm sm:text-lg text-custom-dark/90">
                   {member.role}
                 </p>
               </div>
