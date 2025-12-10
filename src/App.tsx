@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import type { GeoJSON as GeoJSONType } from 'geojson';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
