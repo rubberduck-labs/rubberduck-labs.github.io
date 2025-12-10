@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CookieNotice } from './CookieNotice';
 import { Terminal } from './Terminal';
 import { SeasonalBanner } from './SeasonalBanner';
 import { ProgrammerSection } from './ProgrammerSection';
 import { ContactForm } from './ContactForm';
+import { Mail } from "lucide-react";
 
 interface HeroSectionProps {
   setBackgroundColor: (color: string | null) => void;
@@ -46,12 +47,13 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
                 >
                   Her er vi
                 </Link>
-                <button
-                  onClick={() => setShowContactForm(true)}
-                  className="inline-flex h-11 items-center justify-center w-full sm:w-[160px] px-6 bg-white text-custom-dark dark:bg-custom-dark dark:text-white rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
+                <a
+                  href="mailto:hei@rubberduck.no"
+                  className="inline-flex items-center gap-2 px-6  bg-white text-custom-dark dark:bg-custom-dark dark:text-white  rounded-full font-semibold hover:opacity-90 transition-opacity"
                 >
+                  <Mail className="w-4 h-4" />
                   Kontakt oss
-                </button>
+                </a>
               </div>
               {/* Seasonal banner in its own container */}
               <div className="w-full sm:w-auto">

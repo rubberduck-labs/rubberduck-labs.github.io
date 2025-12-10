@@ -105,7 +105,7 @@ export function TeamSection() {
                 aria-label="Se CV"
               >
                 <div
-                  className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white dark:bg-custom-dark text-custom-dark dark:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-2 shadow-lg">
+                  className="transform translate-y-8 group-hover:translate-y-0 opacity-0 hover-supported:group-hover:opacity-100 transition-all duration-300 bg-white dark:bg-custom-dark text-custom-dark dark:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-2 shadow-lg">
                   <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span className="text-sm sm:text-base font-semibold">Se CV</span>
                 </div>
