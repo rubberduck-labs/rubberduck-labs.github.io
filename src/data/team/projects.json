@@ -3,8 +3,20 @@
     "Arild Greni": [
       {
         "company": "Eika Gruppen",
+        "role": "Seniorutvikler",
+        "period": "2026 - nå",
+        "description": "Utvikler på Kredittportal og lånesøknadsprosess"
+      },
+      {
+        "company": "Norsk Gjenvinning",
+        "role": "Seniorutvikler",
+        "period": "2024 - 2025",
+        "description": "Utvikler på plattform for smartere avfallshåndtering (Engage) og app for mottakskontroll av avfall ute på anlegg (NG Spector)"
+      },
+      {
+        "company": "Eika Gruppen",
         "role": "Tech Lead",
-        "period": "2020 - nå",
+        "period": "2020 - 2024",
         "description": "Tech Lead for onboarding-løsning"
       },
       {
