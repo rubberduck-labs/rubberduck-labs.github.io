@@ -3,6 +3,7 @@ import { FileText, X, Linkedin } from 'lucide-react';
 import { TechIcon } from './TechIcon';
 import teamData from '../data/team/members.json';
 import projectsData from '../data/team/projects.json';
+import { CartoonBox } from "./CarttoonBox.tsx";
 
 interface TeamMember {
   name: string;
@@ -61,28 +62,26 @@ export function TeamSection() {
 
             <div
               key={index}
-              className="group relative  rounded-xl overflow-hidden  transition-all duration-300 lg:h-[500px] h-[300px]"
+              className="group relative  rounded-xl overflow-visible  transition-all duration-300 lg:h-[500px] h-[300px]"
             >
               <div className="relative overflow-hidden h-full">
                 <img
                   src={member.image}
                   alt={member.name}
-                  className="absolute inset-0 w-full h-full object-contain object-top transition-transform duration-300 group-hover:scale-110 z-9 filter drop-shadow-[10px_5px_10px_rgba(0,0,0,0.45)]"
+                  className="absolute inset-0 w-full h-full object-contain object-top transition-transform duration-300 hover-supported:group-hover:scale-110 z-9 filter drop-shadow-[10px_5px_10px_rgba(0,0,0,0.45)] lg:pt-[40px] lg:pb-[60px] lg:pl-[40px] lg:pr-[40px] pt-[10px] pb-[50px] pl-[20px] pr-[20px]"
                   style={{
                     objectPosition: '50% 50%',
-                    padding: '40px 40px 60px',
                   }}
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl lg:h-[160px] h-[120px] group-hover:h-full transition-all duration-300 bg-[url('/portrait-bg.png')] bg-cover bg-center bg-no-repeat">
+                <div className="absolute inset-x-0 bottom-0  rounded-t-2xl lg:h-[160px] h-[120px] hover-supported:group-hover:h-full transition-all duration-300">
+                  <CartoonBox />
                 </div>
                 <img
                   src={member.image}
                   alt={member.name}
-                  className="absolute inset-0 w-full h-full object-contain object-top transition-transform duration-300 group-hover:scale-110 z-11"
+                  className="absolute inset-0 w-full h-full object-contain object-top transition-transform duration-300 hover-supported:group-hover:scale-110 z-11 lg:pt-[40px] lg:pb-[60px] lg:pl-[40px] lg:pr-[40px] pt-[10px] pb-[50px] pl-[20px] pr-[20px]"
                   style={{
                     objectPosition: '50% 50%',
-                    padding: '40px 40px 60px',
-                    marginBottom: '16px'
                   }}
                 />
                 {/* Gradient overlay */}
