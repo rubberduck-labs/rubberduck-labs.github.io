@@ -1,4 +1,4 @@
-export const CartoonBox= () => {
+export const CartoonBox = () => {
   const borderWidth = 50;
   const borderStyle: React.CSSProperties = {
     borderWidth: `${borderWidth}px`,
@@ -19,6 +19,7 @@ export const CartoonBox= () => {
       <img
         src="/cartoon-paper.png"
         alt=""
+        role="presentation"
         style={{
           position: "absolute",
           inset: 20,

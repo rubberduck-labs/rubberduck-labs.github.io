@@ -3,7 +3,7 @@ import { FileText, X, Linkedin } from 'lucide-react';
 import { TechIcon } from './TechIcon';
 import teamData from '../data/team/members.json';
 import projectsData from '../data/team/projects.json';
-import { CartoonBox } from "./CarttoonBox.tsx";
+import { CartoonBox } from "./CartoonBox.tsx";
 
 interface TeamMember {
   name: string;
@@ -45,14 +45,16 @@ export function TeamSection() {
   }, [selectedMember]);
 
   return (
-    <section id="folka" className="min-h-screen py-24 bg-gradient-radial from-custom-yellow/30 to-transparent dark:from-custom-dark/30">
+    <section id="folka"
+             className="min-h-screen py-24 bg-gradient-radial from-custom-yellow/30 to-transparent dark:from-custom-dark/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-custom-dark dark:text-white mb-6">
             Møt teamet
           </h2>
           <p className="text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
-            Et dedikert team av eksperter som brenner for teknologi og innovasjon<br/><span className="text-sm"><i>(Illustrasjoner:Flu Hartberg)</i></span></p>
+            Et dedikert team av eksperter som brenner for teknologi og innovasjon<br /><span className="text-sm"><i>(Illustrasjoner:Flu Hartberg)</i></span>
+          </p>
 
         </div>
 
@@ -73,7 +75,8 @@ export function TeamSection() {
                     objectPosition: '50% 50%',
                   }}
                 />
-                <div className="absolute inset-x-0 bottom-0  rounded-t-2xl lg:h-[160px] h-[120px] hover-supported:group-hover:h-full transition-all duration-300">
+                <div
+                  className="absolute inset-x-0 bottom-0  rounded-t-2xl lg:h-[160px] h-[120px] hover-supported:group-hover:h-full transition-all duration-300">
                   <CartoonBox />
                 </div>
                 <img
@@ -101,7 +104,8 @@ export function TeamSection() {
                 className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black/0  transition-colors group lg:pt-80"
                 aria-label="Se CV"
               >
-                <div className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white dark:bg-custom-dark text-custom-dark dark:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-2 shadow-lg">
+                <div
+                  className="transform translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white dark:bg-custom-dark text-custom-dark dark:text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-2 shadow-lg">
                   <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span className="text-sm sm:text-base font-semibold">Se CV</span>
                 </div>
@@ -113,7 +117,8 @@ export function TeamSection() {
         {/* CV Modal */}
         {selectedMember && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <div
+              className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
               <button
                 onClick={handleCloseModal}
                 className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
