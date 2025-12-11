@@ -50,11 +50,11 @@ export function TeamSection() {
              className="min-h-screen py-24 bg-gradient-radial from-custom-yellow/30 to-transparent dark:from-custom-dark/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-custom-dark dark:text-white mb-6">
+          <h2 className="font text-4xl font-bold text-custom-dark dark:text-white mb-6">
             Møt teamet
           </h2>
-          <p className="text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
-            Et dedikert team av eksperter som brenner for teknologi og innovasjon<br /><span className="text-sm"><i>(Illustrasjoner:Flu Hartberg)</i></span>
+          <p className="font text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
+            Et dedikert team av eksperter som brenner for teknologi og innovasjon<br /><span className="text-sm"><i>(Illustrasjoner: Flu Hartberg)</i></span>
           </p>
 
         </div>
@@ -76,6 +76,20 @@ export function TeamSection() {
                     objectPosition: '50% 50%',
                   }}
                 />
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="hidden dark:block absolute inset-0 w-full h-full object-contain object-top transition-all duration-300 hover-supported:group-hover:scale-110 z-9 lg:pt-[40px] lg:pb-[60px] lg:pl-[40px] lg:pr-[40px] pt-[10px] pb-[50px] pl-[20px] pr-[20px]"
+                  style={{
+                    objectPosition: '50% 50%',
+                    filter: `
+                      drop-shadow(1px 0 white)
+                      drop-shadow(-1px 0 white)
+                      drop-shadow(0 1px white)
+                      drop-shadow(0 -1px white)
+                    `
+                  }}
+                />
                 <div
                   className="absolute inset-x-0 bottom-0  rounded-t-2xl lg:h-[160px] h-[120px] hover-supported:group-hover:h-full transition-all duration-300">
                   <CartoonBox />
@@ -90,11 +104,11 @@ export function TeamSection() {
                 />
                 {/* Gradient overlay */}
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90 ">
-                <h3 className="text-base sm:text-lg font-semibold">
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90">
+                <h3 className="font-fun font-semibold text-base lg:text-2xl md:text-md leading-[1.2rem]">
                   {member.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-custom-dark/90">
+                <p className="font-fun text-sm sm:text-lg text-custom-dark/90">
                   {member.role}
                 </p>
               </div>

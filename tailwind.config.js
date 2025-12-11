@@ -4,6 +4,10 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+	    fontFamily: {
+		    cartoon: ['"Klee One"', 'sans-serif'],
+		    fun: ['"Shantell Sans"', 'sans-serif'],
+	    },
       backgroundColor: {
         'custom-yellow': '#fde047',
         'custom-dark': '#1f2937',
