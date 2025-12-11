@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
 	    fontFamily: {
-		    cartoon: ['"Bubblegum Sans"', 'sans-serif'],
+		    cartoon: ['"Klee One"', 'sans-serif'],
 		    fun: ['"Shantell Sans"', 'sans-serif'],
 	    },
       backgroundColor: {
