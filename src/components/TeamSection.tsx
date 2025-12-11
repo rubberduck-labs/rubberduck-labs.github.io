@@ -49,10 +49,10 @@ export function TeamSection() {
              className="min-h-screen py-24 bg-gradient-radial from-custom-yellow/30 to-transparent dark:from-custom-dark/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="font-cartoon text-4xl font-bold text-custom-dark dark:text-white mb-6">
+          <h2 className="font text-4xl font-bold text-custom-dark dark:text-white mb-6">
             Møt teamet
           </h2>
-          <p className="font-fun text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
+          <p className="font text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
             Et dedikert team av eksperter som brenner for teknologi og innovasjon<br /><span className="text-sm"><i>(Illustrasjoner: Flu Hartberg)</i></span>
           </p>
 
@@ -103,8 +103,8 @@ export function TeamSection() {
                 />
                 {/* Gradient overlay */}
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90 ">
-                <h3 className="font-fun font-semibold text-base lg:text-2xl md:text-md">
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-custom-dark/90">
+                <h3 className="font-fun font-semibold text-base lg:text-2xl md:text-md leading-[1.2rem]">
                   {member.name}
                 </h3>
                 <p className="font-fun text-sm sm:text-lg text-custom-dark/90">
