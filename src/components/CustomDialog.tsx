@@ -72,7 +72,7 @@ export function CustomDialog({ open, onClose, title, children }: CustomDialogPro
     >
       <div
         ref={contentRef}
-        className="relative bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-lg rounded-none sm:rounded-xl overflow-hidden flex flex-col"
+        className="relative bg-white w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-3xl rounded-none sm:rounded-xl overflow-hidden flex flex-col"
       >
         <div className="absolute top-2 right-4">
           <button
