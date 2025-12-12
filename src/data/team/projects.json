@@ -79,19 +79,19 @@
         "period": "2024 - nå",
         "description": "Fremtidens kredittprosess"
       },
-{
+      {
         "company": "Eika Gruppen",
         "role": "Team lead, teknisk prosjektleder",
         "period": "2021 - 2024",
         "description": "Standardisering 2.0 - Migrering til ny kjerneplattform"
       },
-{
+      {
         "company": "Eika Gruppen",
         "role": "Tech Lead",
         "period": "2015 - 2020",
         "description": "Effektivisering av kredittprosessen - utvikling av Kredittportalen"
       },
-{
+      {
         "company": "Apokjeden",
         "role": "Fullstackutvikler",
         "period": "2012 - 2015",
@@ -125,7 +125,7 @@
       }
     ],
     "Johannes Moskvil": [
-        {
+      {
         "company": "Nav IT",
         "role": "Fullstackutvikler",
         "period": "2022 - nå",
@@ -137,7 +137,6 @@
         "period": "2017 - 2022",
         "description": "Utvikler for Entur sine billett- og betalingssystemer"
       }
-      
     ],
     "Kenneth Leine Schulstad": [
       {
