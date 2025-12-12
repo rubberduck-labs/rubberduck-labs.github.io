@@ -29,7 +29,6 @@ export const CartoonBox = () => {
           zIndex: 0,
         }}
       />
-
     </div>
   );
 };

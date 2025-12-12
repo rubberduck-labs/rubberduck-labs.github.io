@@ -1,5 +1,5 @@
 import { Command } from './types';
-import { sessionEmployees } from '../components/TeamSection';
+import { sessionEmployees } from '../components/Team/TeamSection.tsx';
 
 export const addEmployeeCommand: Command = {
   name: 'add-employee',

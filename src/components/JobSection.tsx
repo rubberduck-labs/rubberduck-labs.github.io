@@ -1,7 +1,5 @@
-import React from 'react';
 import { SalaryCalculator } from './SalaryCalculator';
 import { Mail } from 'lucide-react';
-import { WalkingDuck } from './WalkingDuck';
 
 export function JobSection() {
   return (
