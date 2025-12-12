@@ -75,21 +75,39 @@
     "Cato Hauge": [
       {
         "company": "Eika Gruppen",
+        "role": "Team lead, teknisk prosjektleder",
+        "period": "2024 - nå",
+        "description": "Fremtidens kredittprosess"
+      },
+{
+        "company": "Eika Gruppen",
+        "role": "Team lead, teknisk prosjektleder",
+        "period": "2021 - 2024",
+        "description": "Standardisering 2.0 - Migrering til ny kjerneplattform"
+      },
+{
+        "company": "Eika Gruppen",
         "role": "Tech Lead",
-        "period": "2020 - nå",
-        "description": "Teknisk ansvarlig for Kredittportal og lånesøknadsprosess"
+        "period": "2015 - 2020",
+        "description": "Effektivisering av kredittprosessen - utvikling av Kredittportalen"
+      },
+{
+        "company": "Apokjeden",
+        "role": "Fullstackutvikler",
+        "period": "2012 - 2015",
+        "description": "Utvikling av en rekke webapplikasjoner for Apokjeden"
       },
       {
         "company": "Statens Pensjonskasse",
         "role": "Seniorutvikler",
-        "period": "2018 - 2020",
+        "period": "2009 - 2011",
         "description": "Fullstack-utvikler for saksbehandlingssystem"
       },
       {
         "company": "Aftenposten",
         "role": "Utvikler",
-        "period": "2016 - 2018",
-        "description": "Utvikling av nettportal for stillingsannonser"
+        "period": "2006 - 2009",
+        "description": "Fullstackutvikler, teknisk prosjektleder"
       }
     ],
     "Espen Schulstad": [
