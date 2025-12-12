@@ -157,6 +157,62 @@
         "period": "2017 - 2019",
         "description": "Arkitektur og sikkerhetsløsning for landbruksplattform"
       }
+    ],
+    "Øyvind Strømmen": [
+      {
+        "company": "Bama",
+        "role": "Skyarkitekt, Platform Engineer",
+        "period": "2025 - nå",
+        "description": "Design og implementasjon av skyplattform"
+      },
+      {
+        "company": "Mnemonic",
+        "role": "Tech Lead, Platform Engineer",
+        "period": "2024 - 2025",
+        "description": "Utvikling og design av skybasert applikasjonsplattform"
+      },
+      {
+        "company": "Avinor",
+        "role": "Platform Engineer",
+        "period": "2020 - 2024",
+        "description": "Utvikling, design og forvaltning av skybasert applikasjonsplattform"
+      },
+      {
+        "company": "SSB",
+        "role": "Seniorutvikler",
+        "period": "2019 - 2020",
+        "description": "Utvikling av skybasert dataplattform for statistikkproduksjon"
+      },
+      {
+        "company": "Avinor",
+        "role": "Platform Engineer",
+        "period": "2019 - 2019",
+        "description": "Utvikling og forvaltning av skybasert applikasjonsplattform"
+      },
+      {
+        "company": "Statnett",
+        "role": "Fullstackutvikler",
+        "period": "2018 - 2019",
+        "description": "Fullstackutvikler på forretningskritisk programvare"
+      },
+      {
+        "company": "Nordea",
+        "role": "Fullstackutvikler",
+        "period": "2016 - 2017",
+        "description": "Fullstackutvikler på nettbank"
+      },
+      {
+        "company": "Telenor Digital Distribution",
+        "role": "Utvikler",
+        "period": "2015 - 2016",
+        "description": "Utvikling av API-er"
+      },
+      {
+        "company": "NAV IT",
+        "role": "Fullstackutvikler og teknisk ansvarlig",
+        "period": "2013 - 2015",
+        "description": "Utvikling og teknisk design av programvare for saksbehandling"
+      }
     ]
   }
 }
