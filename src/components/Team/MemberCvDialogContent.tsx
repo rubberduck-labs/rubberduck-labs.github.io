@@ -20,7 +20,7 @@ export const MemberCvDialogContent = ({ member, memberProjects }: MemberCvDialog
             <p className="text-lg text-custom-dark/70 dark:text-white/70">
               {member.role}
             </p>
-            {member.linkedin && (
+            {member?.linkedin && (
               <a
                 href={`https://linkedin.com/in/${encodeURIComponent(
                   member.linkedin

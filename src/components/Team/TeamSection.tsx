@@ -5,9 +5,7 @@ import { Project, TeamMember } from "./types";
 import { MemberCvDialogContent } from "./MemberCvDialogContent";
 import { MemberCard } from "./MemberCard";
 import { CustomDialog } from "../CustomDialog";
-
-// Store session employees
-const sessionEmployees: TeamMember[] = [];
+import { sessionEmployees } from "./utils";
 
 export function TeamSection() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);

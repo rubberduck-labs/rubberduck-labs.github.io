@@ -2,7 +2,7 @@ export type TeamMember = {
   name: string;
   image: string;
   role: string;
-  linkedin: string;
+  linkedin?: string;
   description: string;
   expertise: string[];
   technologies: string[];
