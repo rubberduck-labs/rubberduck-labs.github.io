@@ -81,9 +81,15 @@
       "image": "/oyvind-isolated.png",
       "role": "Seniorkonsulent",
       "linkedin": "øyvind-strømmen-27855146",
-      "description": "",
-      "expertise": [],
-      "technologies": []
+      "description": "Hands-on cloud architect og seniorutvikler med bred erfaring innen utvikling av plattformer og applikasjoner. Øyvind er en leveranseorientert konsulent som tar ansvar fra idé til produksjon, og kombinerer pragmatisk problemløsning med høy kvalitet i kode og arkitektur. Han har spesialisert seg på moderne skyløsninger (Azure, AWS, GCP) og tilhørende teknologier som Kubernetes og Terraform.",
+      "expertise": [
+        "Skyarkitektur",
+        "Platformutvikling",
+        "Sikkerhet",
+        "Programvareutvikling",
+        "DevSecOps"
+      ],
+      "technologies": ["Go", "Azure", "Kubernetes", "Terraform", "Docker", "JavaScript", "OAuth"]
     },
     {
       "name": "Vegard Haugstvedt",
