@@ -231,6 +231,38 @@
         "period": "2013 - 2015",
         "description": "Utvikling og teknisk design av programvare for saksbehandling"
       }
+    ],
+    "Vegard Haugstvedt": [
+      {
+        "company": "Yr.no / NRK",
+        "role": "Frontendutvikler",
+        "period": "2025 - nå",
+        "description": "Utvikling og forvaltning av yr.no"
+      }
+      {
+        "company": "Nav",
+        "role": "Frontendutvikler og ekspert på universell utforming",
+        "period": "2023-2025",
+        "description": "Utvikling og forvaltning av designsystemet Aksel"
+      },
+      {
+        "company": "Nav",
+        "role": "Frontendutvikler og ekspert på universell utforming",
+        "period": "2020 - 2022",
+        "description": "Utvikling av en skjemabygger for effektiv håndtering av store mengder nettbaserte skjemaer i Nav"
+      },
+      {
+        "company": "Telia",
+        "role": "Frontendutvikler",
+        "period": "2018 - 2019",
+        "description": "Utvikling og forvaltning av nettbutikken for privatmarkedet i Telia, med salg av abonnementer, mobiler og tilbehør"
+      },
+      {
+        "company": "KLP",
+        "role": "Frontendutvikler",
+        "period": "2016 - 2017",
+        "description": "Utvikling av løsninger for forsikringsområdet på innloggede sider for privat- og bedriftskunder i KLP"
+      }
     ]
   }
 }
