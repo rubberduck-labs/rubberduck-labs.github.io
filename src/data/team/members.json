@@ -66,7 +66,7 @@
       "image": "/bjornarve-isolated.png",
       "role": "Seniorkonsulent",
       "linkedin": "bjørn-arve-lagim-48581a112",
-      "description": "Bjørn Arve er en frontend-spesialist med over 15 års erfaring innen utvikling av skalerbare og brukervennlige web- og mobilapplikasjoner. Han har jobbet med selskaper som Telenor, Kahoot! og Telia, hvor han har hatt en sentral rolle i å bygge komplekse brukergrensesnitt med fokus på ytelse, design og responsivitet.\n\nHan har også erfaring med hybrid mobilutvikling og har vært med på å utvikle mobilapper for både iOS og Android. Bjørn Arve har jobbet mye med DevOps og CI/CD-prosesser og trives i tverrfaglige team der utviklere, designere og produkteiere samarbeider tett for å skape gode brukeropplevelser.",
+      "description": "Bjørn Arve er en erfaren seniorkonsulent med over 15 års erfaring innen frontend- og apputvikling, og har levert robuste og brukervennlige løsninger i komplekse prosjekter for både offentlige og private aktører som Tolletaten, Telenor, Kahoot! og Telia. Hans kjernekompetanse ligger i moderne JavaScript-teknologier, særlig React og TypeScript, kombinert med solid forståelse for arkitektur, ytelse og vedlikeholdbar kode.\n\nBjørn Arve jobber gjerne med helhetsansvar fra design og implementasjon til leveranse, og samarbeider tett med designere, produkteiere og backend-team. Han har erfaring med API-integrasjoner, kamera- og skannerteknologi, samt kontinuerlig integrasjon og levering i krevende driftsmiljøer. Han er selvstendig, løsningsorientert og rask til å sette seg inn i nye domener, og leverer stabile resultater i komplekse løsninger.",
       "expertise": [
         "Frontend-utvikling",
         "Mobilutvikling",
@@ -74,7 +74,7 @@
         "CI/CD",
         "UX/UI"
       ],
-      "technologies": ["JavaScript", "TypeScript", "React", "Vue", "Ionic", "Cordova", "OpenShift", "Docker", "MaterialUI"]
+      "technologies": ["JavaScript", "TypeScript", "React", "OpenShift", "designsystemet.no", "MaterialUI", "Ionic"]
     },
     {
       "name": "Øyvind Strømmen",

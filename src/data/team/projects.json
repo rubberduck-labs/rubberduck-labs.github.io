@@ -62,14 +62,26 @@
       {
         "company": "Tolletaten",
         "role": "Frontend Lead",
-        "period": "2020 - nå",
+        "period": "2022 - nå",
         "description": "Frontendutvikler for Kontroll & E-rapport-systemer"
       },
       {
         "company": "Kahoot!",
         "role": "Seniorutvikler",
-        "period": "2018 - 2020",
+        "period": "2020 - 2022",
         "description": "Frontendutvikler for den kommersielle plattformen"
+      },
+      {
+        "company": "Telenor",
+        "role": "Seniorutvikler",
+        "period": "2019 - 2020",
+        "description": "Frontendutvikler for telenor.no"
+      },
+      {
+        "company": "Tine/Mimiro",
+        "role": "Utvikler",
+        "period": "2018 - 2019",
+        "description": "Frontendutvikler Eana-prosjektet"
       },
       {
         "company": "OneCall",
