@@ -10,7 +10,7 @@
       {
         "company": "Norsk Gjenvinning",
         "role": "Seniorutvikler",
-        "period": "2024 - 2025",
+        "period": "2024 - 2026",
         "description": "Utvikler på plattform for smartere avfallshåndtering (Engage) og app for mottakskontroll av avfall ute på anlegg (NG Spector)"
       },
       {
@@ -22,13 +22,19 @@
       {
         "company": "Telenor",
         "role": "Seniorutvikler",
-        "period": "2018 - 2020",
+        "period": "2017 - 2020",
         "description": "CRM-system basert på Vue.js og Node.js"
       },
       {
+        "company": "Eika Gruppen",
+        "role": "Utvikler",
+        "period": "2014 - 2017",
+        "description": "Effektivisering av låneprosessen hos bank"
+      }
+      {
         "company": "Statens Pensjonskasse",
         "role": "Utvikler",
-        "period": "2016 - 2018",
+        "period": "2010 - 2014",
         "description": "Saksbehandlingssystem for offentlig sektor"
       }
     ],
