@@ -96,9 +96,21 @@
       "image": "/vegard-isolated.png",
       "role": "Seniorkonsulent",
       "linkedin": "vegardh",
-      "description": "",
-      "expertise": [],
-      "technologies": []
+      "description": "Vegard er en frontend-spesialist med over 10 års erfaring innen utvikling av brukervennlige og tilgjengelige webapplikasjoner. Han har jobbet med både små og store prosjekter for kunder i offentlig sektor, finans og e-handel. Vegard har en sterk lidenskap for å skape gode brukeropplevelser og er spesielt opptatt av universell utforming, designsystemer og moderne webteknologier. Han holder jevnlig foredrag om tilgjengelighet på konferanser og internt hos kunder. Han har erfaring med å jobbe i tverrfaglige team og trives i miljøer hvor samarbeid og kontinuerlig læring er i fokus.",
+      "expertise": [
+        "Frontend-utvikling",
+        "Universell utforming",
+        "Designsystemer",
+        "Automatisert testing"
+      ],
+      "technologies": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Jest",
+        "Cypress / Playwright",
+        "Storybook"
+      ]
     },
     {
       "name": "Johannes Moskvil",
