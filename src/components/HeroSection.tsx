@@ -4,7 +4,6 @@ import { CookieNotice } from './CookieNotice';
 import { Terminal } from './Terminal';
 import { SeasonalBanner } from './SeasonalBanner';
 import { ProgrammerSection } from './ProgrammerSection';
-import { ContactForm } from './ContactForm';
 import { Mail } from "lucide-react";
 
 interface HeroSectionProps {
@@ -13,7 +12,6 @@ interface HeroSectionProps {
 
 export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-  const [showContactForm, setShowContactForm] = useState(false);
 
   return (
     <section className="min-h-screen flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
@@ -74,23 +72,6 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
         setBackgroundColor={setBackgroundColor}
       />
       <CookieNotice />
-
-      {/* Contact Form Modal */}
-      {showContactForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[100]">
-          <div className="w-full max-w-2xl">
-            <div className="relative">
-              <button
-                onClick={() => setShowContactForm(false)}
-                className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
-              >
-                Lukk
-              </button>
-              <ContactForm />
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 }
