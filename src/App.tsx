@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import type { GeoJSON as GeoJSONType } from 'geojson';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -11,7 +10,6 @@ import { HandbookPage } from './pages/HandbookPage';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [geoData, setGeoData] = useState<GeoJSONType | null>(null);
   const [backgroundColor, setBackgroundColor] = useState<string | null>(null);
   const [navBackgroundColor, setNavBackgroundColor] = useState<string>('rgba(253, 224, 71, 0.9)');
 
@@ -35,13 +33,6 @@ function App() {
     }
   }, [darkMode, backgroundColor]);
 
-  useEffect(() => {
-    fetch('/kommuner.geojson')
-      .then(response => response.json())
-      .then(data => setGeoData(data))
-      .catch(error => console.error('Error loading map data:', error));
-  }, []);
-
   return (
     <Router>
       <div 
@@ -60,7 +51,7 @@ function App() {
             <Route path="/" element={<HomePage setBackgroundColor={setBackgroundColor} />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/jobs" element={<JobsPage />} />
-            <Route path="/impact" element={<ImpactPage geoData={geoData} darkMode={darkMode} />} />
+            <Route path="/impact" element={<ImpactPage />} />
             <Route path="/handbook" element={<HandbookPage />} />
           </Routes>
         </main>

@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
-import { NorwayMap } from './NorwayMap';
-import type { GeoJSON as GeoJSONType } from 'geojson';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface ImpactSectionProps {
-  geoData: GeoJSONType | null;
-  darkMode: boolean;
-}
 
 interface Client {
   name: string;
@@ -42,7 +36,7 @@ const clients: Client[] = [
   }
 ];
 
-export function ImpactSection({ geoData, darkMode }: ImpactSectionProps) {
+export function ImpactSection({}: ImpactSectionProps) {
   const [currentClient, setCurrentClient] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
