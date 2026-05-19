@@ -7,6 +7,7 @@ import { TeamPage } from './pages/TeamPage';
 import { JobsPage } from './pages/JobsPage';
 import { ImpactPage } from './pages/ImpactPage';
 import { HandbookPage } from './pages/HandbookPage';
+import { OppdragPage } from './pages/OppdragPage';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -53,6 +54,7 @@ function App() {
             <Route path="/jobs" element={<JobsPage />} />
             <Route path="/impact" element={<ImpactPage />} />
             <Route path="/handbook" element={<HandbookPage />} />
+            <Route path="/oppdrag" element={<OppdragPage />} />
           </Routes>
         </main>
         <Footer />
