@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Sun, Moon, Instagram, Linkedin, Menu, X } from 'lucide-react';
 import { RubberDuckIcon } from "./Icons/RubberDuckIcon";
 import { RubberDuckLogo } from "./Icons/RubberDuckLogo";
+import { useCanary } from '../hooks/useCanary';
 
 interface NavigationProps {
   darkMode: boolean;
@@ -63,6 +64,7 @@ const MobileSocialLinks = () => (
 export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: NavigationProps) {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const canary = useCanary();
 
   const handleDarkModeToggle = () => {
     setDarkMode(!darkMode);
@@ -134,6 +136,14 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               >
                 Håndbok
               </Link>
+              {canary && (
+                <Link
+                  to="/oppdrag"
+                  className={getLinkClasses('/oppdrag')}
+                >
+                  Oppdrag
+                </Link>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -198,6 +208,15 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
             >
               Håndbok
             </Link>
+            {canary && (
+              <Link
+                to="/oppdrag"
+                className={getMobileLinkClasses('/oppdrag')}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Oppdrag
+              </Link>
+            )}
 
             {/* Mobile social media links */}
             <MobileSocialLinks />

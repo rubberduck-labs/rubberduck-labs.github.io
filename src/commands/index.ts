@@ -12,6 +12,7 @@ import { catCommand } from './cat';
 import { addEmployeeCommand } from './add-employee';
 import { holidayCommand } from './holiday';
 import { fontCommand } from './font';
+import { canaryCommand } from './canary';
 
 export const commands: { [key: string]: Command } = {
   help: helpCommand,
@@ -27,4 +28,5 @@ export const commands: { [key: string]: Command } = {
   'add-employee': addEmployeeCommand,
   holiday: holidayCommand,
   font: fontCommand,
+  canary: canaryCommand,
 };
