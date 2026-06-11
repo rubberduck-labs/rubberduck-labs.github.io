@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MapPin, Calendar, Clock, ExternalLink, Mail } from 'lucide-react';
+import { MapPin, Calendar, Clock, Mail, X } from 'lucide-react';
 
 interface Assignment {
   id: string;
@@ -18,6 +18,154 @@ function formatDate(dateStr: string | null): string | null {
   if (!dateStr) return null;
   const date = new Date(dateStr);
   return date.toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+
+function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[100]"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between p-6 pb-0">
+          <div>
+            <h2 className="text-2xl font-bold text-custom-dark dark:text-white mb-1">
+              {assignment.title}
+            </h2>
+            <p className="text-custom-dark/70 dark:text-white/70 font-medium">
+              {assignment.company}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-full transition-colors shrink-0 ml-4"
+          >
+            <X className="w-5 h-5 text-custom-dark dark:text-white" />
+          </button>
+        </div>
+
+        <div className="p-6 flex flex-col gap-5">
+          <div className="flex flex-wrap gap-3 text-sm text-custom-dark/70 dark:text-white/70">
+            {assignment.location && (
+              <span className="flex items-center gap-1">
+                <MapPin className="w-4 h-4 shrink-0" />
+                {assignment.location}
+              </span>
+            )}
+            {assignment.applicationDeadlineDate && (
+              <span className="flex items-center gap-1">
+                <Calendar className="w-4 h-4 shrink-0" />
+                Frist: {formatDate(assignment.applicationDeadlineDate)}
+              </span>
+            )}
+            {assignment.expectedDuration && (
+              <span className="flex items-center gap-1">
+                <Clock className="w-4 h-4 shrink-0" />
+                {assignment.expectedDuration}
+              </span>
+            )}
+          </div>
+
+          {assignment.llmDescription && (
+            <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">
+              {assignment.llmDescription}
+            </p>
+          )}
+
+          {assignment.tags && assignment.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {assignment.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-xs font-medium bg-yellow-100 dark:bg-zinc-700 text-custom-dark dark:text-white rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="pt-2 border-t border-gray-100 dark:border-zinc-700">
+            <a
+              href={`mailto:hei@rubberduck.no?subject=Interesse for oppdrag: ${encodeURIComponent(assignment.title)}`}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full font-semibold hover:opacity-90 transition-opacity"
+            >
+              <Mail className="w-4 h-4" />
+              Kontakt oss
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onClick: () => void }) {
+  return (
+    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
+      <div>
+        <h2 className="text-xl font-bold text-custom-dark dark:text-white mb-1">
+          {assignment.title}
+        </h2>
+        <p className="text-custom-dark/70 dark:text-white/70 font-medium">
+          {assignment.company}
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-3 text-sm text-custom-dark/70 dark:text-white/70">
+        {assignment.location && (
+          <span className="flex items-center gap-1">
+            <MapPin className="w-4 h-4 shrink-0" />
+            {assignment.location}
+          </span>
+        )}
+        {assignment.applicationDeadlineDate && (
+          <span className="flex items-center gap-1">
+            <Calendar className="w-4 h-4 shrink-0" />
+            Frist: {formatDate(assignment.applicationDeadlineDate)}
+          </span>
+        )}
+        {assignment.expectedDuration && (
+          <span className="flex items-center gap-1">
+            <Clock className="w-4 h-4 shrink-0" />
+            {assignment.expectedDuration}
+          </span>
+        )}
+      </div>
+
+      {assignment.llmDescription && (
+        <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed line-clamp-3">
+          {assignment.llmDescription}
+        </p>
+      )}
+
+      {assignment.tags && assignment.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {assignment.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-3 py-1 text-xs font-medium bg-yellow-100 dark:bg-zinc-700 text-custom-dark dark:text-white rounded-full"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-auto pt-2">
+        <button
+          onClick={onClick}
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+        >
+          Se oppdrag
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function SubscribeSection() {
@@ -51,7 +199,6 @@ function SubscribeSection() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-      {/* Newsletter */}
       <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -98,7 +245,6 @@ function SubscribeSection() {
         )}
       </div>
 
-      {/* Slack */}
       <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -124,79 +270,11 @@ function SubscribeSection() {
   );
 }
 
-function AssignmentCard({ assignment }: { assignment: Assignment }) {
-  return (
-    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
-      <div>
-        <h2 className="text-xl font-bold text-custom-dark dark:text-white mb-1">
-          {assignment.title}
-        </h2>
-        <p className="text-custom-dark/70 dark:text-white/70 font-medium">
-          {assignment.company}
-        </p>
-      </div>
-
-      <div className="flex flex-wrap gap-3 text-sm text-custom-dark/70 dark:text-white/70">
-        {assignment.location && (
-          <span className="flex items-center gap-1">
-            <MapPin className="w-4 h-4 shrink-0" />
-            {assignment.location}
-          </span>
-        )}
-        {assignment.applicationDeadlineDate && (
-          <span className="flex items-center gap-1">
-            <Calendar className="w-4 h-4 shrink-0" />
-            Frist: {formatDate(assignment.applicationDeadlineDate)}
-          </span>
-        )}
-        {assignment.expectedDuration && (
-          <span className="flex items-center gap-1">
-            <Clock className="w-4 h-4 shrink-0" />
-            {assignment.expectedDuration}
-          </span>
-        )}
-      </div>
-
-      {assignment.llmDescription && (
-        <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed">
-          {assignment.llmDescription}
-        </p>
-      )}
-
-      {assignment.tags && assignment.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {assignment.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-3 py-1 text-xs font-medium bg-yellow-100 dark:bg-zinc-700 text-custom-dark dark:text-white rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {assignment.link && (
-        <div className="mt-auto pt-2">
-          <a
-            href={assignment.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
-          >
-            Se oppdrag
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export function OppdragPage() {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Assignment | null>(null);
 
   useEffect(() => {
     const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/Assignments?isDirect=eq.true&status=eq.ACTIVE&order=publishedDate.desc`;
@@ -259,12 +337,20 @@ export function OppdragPage() {
           {!loading && !error && assignments.length > 0 && (
             <div className="flex flex-col gap-6">
               {assignments.map((assignment) => (
-                <AssignmentCard key={assignment.id} assignment={assignment} />
+                <AssignmentCard
+                  key={assignment.id}
+                  assignment={assignment}
+                  onClick={() => setSelected(assignment)}
+                />
               ))}
             </div>
           )}
         </div>
       </div>
+
+      {selected && (
+        <AssignmentModal assignment={selected} onClose={() => setSelected(null)} />
+      )}
     </section>
   );
 }
