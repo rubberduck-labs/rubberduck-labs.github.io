@@ -24,12 +24,12 @@ export function JobSection() {
                 </h2>
                 <div className="prose prose-lg dark:prose-invert">
                   <p className="text-custom-dark/80 dark:text-white/80 mb-6">
-                    Vi ser etter utviklere, gjerne med erfaring fra Java, Kotlin, Python, Go eller JavaScript. 
-                    Du er faglig dyktig, positiv og utadvendt, og du er sulten etter å lære mer. 
+                    Vi ser etter seniorutviklere, gjerne med erfaring fra Java, Kotlin, Python, Go eller JavaScript.
+                    Du er faglig dyktig, positiv og utadvendt, og du er sulten etter å lære mer.
                     Som person er du selvdreven og nysgjerrig og du tar initiativ til å dele din kunnskap med kolleger.
                   </p>
                   <p className="text-custom-dark/80 dark:text-white/80 mb-6">
-                    Vi ønsker deg med minimum 5 år erfaring og relevant utdannelse fra høyskole eller universitet.
+                    Vi ønsker deg med minimum 7 år erfaring og relevant utdannelse fra høyskole eller universitet.
                   </p>
                   <p className="text-custom-dark/80 dark:text-white/80">
                     Interessert? Send oss noen linjer om deg selv, så tar vi kontakt

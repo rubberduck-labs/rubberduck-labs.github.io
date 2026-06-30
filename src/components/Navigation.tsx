@@ -64,7 +64,7 @@ const MobileSocialLinks = () => (
 export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: NavigationProps) {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const canary = useCanary();
+  const isCanary = useCanary();
 
   const handleDarkModeToggle = () => {
     setDarkMode(!darkMode);
@@ -136,7 +136,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               >
                 Håndbok
               </Link>
-              {canary && (
+              {isCanary && (
                 <Link
                   to="/oppdrag"
                   className={getLinkClasses('/oppdrag')}
@@ -208,7 +208,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
             >
               Håndbok
             </Link>
-            {canary && (
+            {isCanary && (
               <Link
                 to="/oppdrag"
                 className={getMobileLinkClasses('/oppdrag')}
