@@ -76,6 +76,7 @@
           ['Fra rammen opprettet til spillet', t.firstHeight != null && t.frameCreated != null ? ms(t.firstHeight - t.frameCreated) : '–'],
           ['Høydemeldinger / siste høyde', heights + ' / ' + (lastHeight == null ? '–' : lastHeight + ' px')],
           ['Rammens adresse', info.src || '–'],
+          ['Siden synlig', document.visibilityState === 'visible' ? 'ja' : 'nei – en skjult fane tegner ikke spillet, så tidene over venter', document.visibilityState === 'visible' ? '' : 'wait'],
         ]);
         table('apidata', [
           ['Kall', apiInfo.url || '–'],
@@ -156,6 +157,7 @@
         if (t.firstHeight == null) { t.firstHeight = performance.now(); log('Spillet tegnet, høyde ' + lastHeight + ' px (fra ' + e.origin + ')'); }
         render();
       });
+      document.addEventListener('visibilitychange', function () { log('Siden ' + (document.visibilityState === 'visible' ? 'synlig' : 'skjult')); render(); });
       window.addEventListener('error', function (e) { log('Feil på siden: ' + e.message); });
       window.addEventListener('load', function () { log('Siden: load'); setTimeout(render, 0); });
 
