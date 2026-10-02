@@ -3,30 +3,181 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- A test page for now, with no links to it, so search engines leave it out. -->
+    <!-- A test page for the Daily Hiku embed, with no links to it, so search engines leave it out. -->
     <meta name="robots" content="noindex" />
-    <title>Dagens Hiku – Rubberduck</title>
-    <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shantell+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Hiku embed-test</title>
     <style>
-      body { margin: 0; background: #fde047; color: #1f2937; font-family: "Shantell Sans", sans-serif; }
-      header { max-width: 480px; margin: 0 auto; padding: 24px 16px 8px; display: flex; align-items: center; gap: 12px; }
-      header img { height: 40px; max-width: 100%; object-fit: contain; object-position: left; }
-      main { max-width: 520px; margin: 0 auto; padding: 8px 16px 48px; }
-      footer { text-align: center; font-size: 14px; padding-bottom: 32px; }
-      footer a { color: #1f2937; }
+      body { margin: 0; padding: 16px; font: 14px/1.4 system-ui, sans-serif; color: #111; background: #fff; }
+      h1 { font-size: 18px; margin: 0 0 12px; }
+      h2 { font-size: 14px; margin: 20px 0 6px; text-transform: uppercase; letter-spacing: .04em; color: #555; }
+      .wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+      .game { flex: 1 1 360px; max-width: 480px; outline: 1px dashed #bbb; }
+      .data { flex: 1 1 360px; min-width: 0; }
+      table { border-collapse: collapse; width: 100%; font: 12px/1.4 ui-monospace, Menlo, monospace; }
+      td { padding: 2px 8px 2px 0; vertical-align: top; border-bottom: 1px solid #eee; word-break: break-word; }
+      td:first-child { color: #555; white-space: nowrap; width: 40%; }
+      .ok { color: #137333; } .bad { color: #c5221f; } .wait { color: #b06000; }
+      #log { font: 12px/1.4 ui-monospace, Menlo, monospace; background: #f6f6f6; padding: 8px; max-height: 260px; overflow: auto; white-space: pre-wrap; }
+      button { font: inherit; margin: 0 8px 8px 0; padding: 6px 10px; }
     </style>
   </head>
   <body>
-    <header>
-      <a href="/"><img src="/rubberduck-logo.svg" alt="Rubberduck" /></a>
-    </header>
-    <main>
-      <div data-hiku data-theme="light"></div>
-    </main>
-    <footer>Laget av <a href="/">Rubberduck</a></footer>
+    <h1>Hiku embed-test</h1>
+    <div>
+      <button id="remount">Last spillet på nytt</button>
+      <button id="api">Test API på nytt</button>
+      <button id="copy">Kopier rapport</button>
+    </div>
+    <div class="wrap">
+      <div class="game"><div data-hiku></div></div>
+      <div class="data">
+        <h2>Lasting</h2>
+        <table id="timing"></table>
+        <h2>API</h2>
+        <table id="apidata"></table>
+        <h2>Miljø</h2>
+        <table id="env"></table>
+        <h2>Logg</h2>
+        <div id="log"></div>
+      </div>
+    </div>
+
+    <script>
+      // Everything measured in milliseconds since the page started loading (performance.now()).
+      var t = {}, info = {}, apiInfo = {}, heights = 0, lastHeight = null, lines = [];
+      var ms = function (v) { return v == null ? '–' : Math.round(v) + ' ms'; };
+      var esc = function (s) { return String(s).replace(/[&<>]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]; }); };
+      function log(msg) {
+        lines.push('[' + (performance.now() / 1000).toFixed(3) + ' s] ' + msg);
+        document.getElementById('log').textContent = lines.join('\n');
+      }
+      function table(id, rows) {
+        document.getElementById(id).innerHTML = rows.map(function (r) {
+          return '<tr><td>' + esc(r[0]) + '</td><td class="' + (r[2] || '') + '">' + esc(r[1]) + '</td></tr>';
+        }).join('');
+      }
+
+      function render() {
+        var nav = performance.getEntriesByType('navigation')[0] || {};
+        var embed = performance.getEntriesByType('resource').filter(function (e) { return /embed\.js/.test(e.name); }).pop();
+        var frameRes = performance.getEntriesByType('resource').filter(function (e) { return e.initiatorType === 'iframe' && /hikupuzzle/.test(e.name); }).pop();
+        var drawn = t.firstHeight != null;
+        table('timing', [
+          ['Status', drawn ? 'Spillet er tegnet' : t.frameLoad != null ? 'Rammen er lastet, venter på spillet' : 'Laster …', drawn ? 'ok' : 'wait'],
+          ['Siden: første byte', ms(nav.responseStart)],
+          ['Siden: DOMContentLoaded', ms(nav.domContentLoadedEventEnd)],
+          ['Siden: load', ms(nav.loadEventEnd || null)],
+          ['embed.js: start → ferdig', embed ? ms(embed.startTime) + ' → ' + ms(embed.responseEnd) + ' (' + ms(embed.duration) + ')' : '–'],
+          ['embed.js: overført', embed ? (embed.transferSize ? embed.transferSize + ' B' : embed.transferSize === 0 ? '0 B (cache, eller skjult av CORS)' : '–') : '–'],
+          ['Rammen opprettet', ms(t.frameCreated)],
+          ['Rammen lastet (load)', ms(t.frameLoad)],
+          ['Rammen: dokument hentet', frameRes ? ms(frameRes.startTime) + ' → ' + ms(frameRes.responseEnd) + ' (' + ms(frameRes.duration) + ')' : '–'],
+          ['Spillet tegnet (første høyde)', ms(t.firstHeight), drawn ? 'ok' : ''],
+          ['Fra rammen opprettet til spillet', t.firstHeight != null && t.frameCreated != null ? ms(t.firstHeight - t.frameCreated) : '–'],
+          ['Høydemeldinger / siste høyde', heights + ' / ' + (lastHeight == null ? '–' : lastHeight + ' px')],
+          ['Rammens adresse', info.src || '–'],
+        ]);
+        table('apidata', [
+          ['Kall', apiInfo.url || '–'],
+          ['Status', apiInfo.status == null ? '–' : apiInfo.status, apiInfo.status === 200 ? 'ok' : apiInfo.status ? 'bad' : ''],
+          ['Tid', ms(apiInfo.time)],
+          ['Størrelse', apiInfo.bytes == null ? '–' : apiInfo.bytes + ' B'],
+          ['Cache-Control', apiInfo.cache || '–'],
+          ['Innhold', apiInfo.summary || '–', apiInfo.error ? 'bad' : ''],
+          ['I går / i morgen', apiInfo.neighbours || '–'],
+        ]);
+      }
+
+      function environment() {
+        var c = navigator.connection || {};
+        var storage;
+        try { localStorage.setItem('hiku-test', '1'); localStorage.removeItem('hiku-test'); storage = 'ja'; } catch (e) { storage = 'nei (' + e.name + ')'; }
+        var now = new Date();
+        table('env', [
+          ['Nettleser', navigator.userAgent],
+          ['Språk', (navigator.languages || [navigator.language]).join(', ')],
+          ['Tidssone', Intl.DateTimeFormat().resolvedOptions().timeZone + ' (UTC' + (now.getTimezoneOffset() <= 0 ? '+' : '−') + Math.abs(now.getTimezoneOffset() / 60) + ')'],
+          ['Lokal dato og tid', now.toLocaleString('nb-NO')],
+          ['Dagens dag (spillets nøkkel)', localDay(0)],
+          ['Vindu / skjerm / DPR', innerWidth + '×' + innerHeight + ' / ' + screen.width + '×' + screen.height + ' / ' + devicePixelRatio],
+          ['Nett', navigator.onLine ? 'på' : 'av', navigator.onLine ? '' : 'bad'],
+          ['Tilkobling', c.effectiveType ? c.effectiveType + ', rtt ' + c.rtt + ' ms, ' + c.downlink + ' Mb/s' : 'ukjent'],
+          ['localStorage', storage],
+          ['Informasjonskapsler på', navigator.cookieEnabled ? 'ja' : 'nei'],
+        ]);
+      }
+
+      function localDay(offset) {
+        var d = new Date(); d.setDate(d.getDate() + offset);
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+      }
+
+      // The same request the game makes inside its frame, timed here on its own.
+      function testApi() {
+        apiInfo = {url: 'https://hikupuzzle.com/api/daily?day=' + localDay(0)};
+        render(); log('API: henter ' + apiInfo.url);
+        var start = performance.now();
+        fetch(apiInfo.url, {cache: 'no-store'}).then(function (r) {
+          apiInfo.status = r.status; apiInfo.cache = r.headers.get('cache-control');
+          return r.text();
+        }).then(function (text) {
+          apiInfo.time = performance.now() - start; apiInfo.bytes = new Blob([text]).size;
+          try {
+            var j = JSON.parse(text);
+            apiInfo.summary = Object.keys(j).map(function (k) { return k + (Array.isArray(j[k]) ? '[' + j[k].length + ']' : typeof j[k] === 'object' && j[k] ? '{' + Object.keys(j[k]).join(',') + '}' : '=' + j[k]); }).join(' ');
+          } catch (e) { apiInfo.summary = text.slice(0, 120); apiInfo.error = true; }
+          log('API: ' + apiInfo.status + ' på ' + Math.round(apiInfo.time) + ' ms'); render();
+          return Promise.all([-1, 1].map(function (o) {
+            return fetch('https://hikupuzzle.com/api/daily?day=' + localDay(o), {cache: 'no-store'}).then(function (r) { return r.status; }, function () { return 'feil'; });
+          }));
+        }).then(function (s) {
+          if (s) { apiInfo.neighbours = s[0] + ' / ' + s[1] + ' (en dag gis bare ut mens det er den dagen et sted på jorda)'; render(); }
+        }).catch(function (e) {
+          apiInfo.time = performance.now() - start; apiInfo.summary = String(e); apiInfo.error = true; log('API: feil ' + e); render();
+        });
+      }
+
+      // The frame is created by embed.js; watch for it so its creation and loading can be timed.
+      function watch(frame) {
+        if (frame.dataset.watched) return;
+        frame.dataset.watched = '1';
+        t.frameCreated = performance.now(); info.src = frame.src;
+        log('Rammen opprettet: ' + frame.src);
+        frame.addEventListener('load', function () { t.frameLoad = performance.now(); log('Rammen: load'); render(); });
+        render();
+      }
+      new MutationObserver(function () {
+        var f = document.querySelector('[data-hiku] iframe'); if (f) watch(f);
+      }).observe(document.querySelector('[data-hiku]'), {childList: true});
+
+      window.addEventListener('message', function (e) {
+        if (!e.data || e.data.type !== 'hiku:height') return;
+        heights++; lastHeight = Math.ceil(e.data.height);
+        if (t.firstHeight == null) { t.firstHeight = performance.now(); log('Spillet tegnet, høyde ' + lastHeight + ' px (fra ' + e.origin + ')'); }
+        render();
+      });
+      window.addEventListener('error', function (e) { log('Feil på siden: ' + e.message); });
+      window.addEventListener('load', function () { log('Siden: load'); setTimeout(render, 0); });
+
+      document.getElementById('remount').onclick = function () {
+        var host = document.querySelector('[data-hiku]');
+        host.innerHTML = ''; delete host.dataset.hikuMounted;
+        t = {}; info = {}; heights = 0; lastHeight = null;
+        log('Laster spillet på nytt');
+        if (window.Hiku) window.Hiku.mount(); render();
+      };
+      document.getElementById('api').onclick = testApi;
+      document.getElementById('copy').onclick = function () {
+        var text = ['timing', 'apidata', 'env'].map(function (id) {
+          return [].map.call(document.querySelectorAll('#' + id + ' tr'), function (r) { return r.cells[0].textContent + ': ' + r.cells[1].textContent; }).join('\n');
+        }).join('\n\n') + '\n\nLogg:\n' + lines.join('\n');
+        navigator.clipboard.writeText(text).then(function () { log('Rapport kopiert'); }, function () { log('Kunne ikke kopiere'); });
+      };
+
+      log('Siden starter');
+      environment(); render(); testApi();
+      setTimeout(function () { if (t.firstHeight == null) log('Spillet er ikke tegnet etter 10 s'); render(); }, 10000);
+    </script>
     <script src="https://hikupuzzle.com/daily/embed.js" async></script>
   </body>
 </html>
