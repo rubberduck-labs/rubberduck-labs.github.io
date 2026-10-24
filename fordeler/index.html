@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Oversikt over fordelene ved å jobbe i Rubberduck. Ingen lenker til siden, og noindex holder den unna søkemotorer. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Fordeler i Rubberduck</title>
+    <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
+    <style>
+      :root {
+        --yellow: #fde047;
+        --ink: #1f2937;
+        --bg: #f3f4f6;
+        --fg: var(--ink);
+        
+        --box: #ffffff;
+        --box-ink: #1f2937;
+        --box-muted: #374151;
+        --box-line: #e3e8ee;
+        --display: system-ui, -apple-system, sans-serif;
+        --body: system-ui, -apple-system, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #111827; --fg: #e5e7eb; }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 400 16px/1.5 var(--body);
+        padding-inline: 16px;
+      }
+      .wrap { max-width: 920px; margin: 0 auto; padding-block: 28px 64px; }
+      header.top { display: flex; align-items: center; gap: 10px; padding-block: 4px 16px; margin-bottom: 32px; }
+      header.top img { height: 32px; width: 32px; }
+      header.top span { font: 700 19px/1 var(--display); }
+
+      .hero { margin-bottom: 28px; }
+      .hero h1 { font: 700 34px/1.15 var(--display); margin: 0; }
+      .hero p { font-size: clamp(18px, 2.4vw, 21px); margin: 0; max-width: 54ch; }
+
+      .boxes { display: flex; flex-direction: column; gap: 24px; }
+      .cat > h2 { font: 700 15px/1.2 var(--display); text-transform: uppercase; letter-spacing: 0.06em; color: #374151; margin: 0 0 8px; }
+      .box {
+        background: var(--box);
+        color: var(--box-ink);
+        border-radius: 2px;
+        border: 1px solid #e0e3e8;
+        padding: 4px 20px;
+      }
+      .box dl { margin: 0; }
+      .row { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: baseline; gap: 2px 24px; padding-block: 12px; }
+      @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+      .row + .row { border-top: 1px solid var(--box-line); }
+      .row dt { font-weight: 700; min-width: 0; white-space: nowrap; }
+      @media (max-width: 640px) { .row dt { white-space: normal; } }
+      .row dd { margin: 0; color: var(--box-muted); min-width: 0; }
+      .row dd ol { margin: 4px 0 0; padding-left: 1.4em; }
+      .row dd li + li { margin-top: 2px; }
+      .row.todo dd { color: #9a3412; font-style: normal; }
+
+      footer.end { margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--fg); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
+      footer.end p { margin: 0; }
+      a { color: inherit; text-underline-offset: 3px; }
+      .box a { color: var(--box-ink); }
+      a:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <img src="/rubberduck-icon.svg" alt="" />
+        <span>Rubberduck</span>
+      </header>
+
+      <section class="hero">
+        <h1>Fordeler i Rubberduck</h1>
+      </section>
+
+      <div class="boxes">
+        <section class="cat">
+          <h2>Utstyr</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Startpakke</dt><dd><ol><li>Hodetelefoner</li><li>Laptop</li><li>Mobil</li><li>Ryggsekk (som regel Patagonia)</li></ol></dd></div>
+            <div class="row"><dt>Mobil og laptop</dt><dd>Fra øverste hylle, du velger selv</dd></div>
+            <div class="row"><dt>Utstyrsbudsjett</dt><dd>10 000 kr per år, i tillegg til mobil og laptop</dd></div>
+            <div class="row"><dt>AI-verktøy</dt><dd>Vi dekker utlegg, i tillegg til utstyrsbudsjettet:<ol><li>Claude</li><li>ChatGPT Pro</li></ol></dd></div>
+            <div class="row"><dt>Bredbånd</dt><dd>Vi dekker bredbånd</dd></div>
+            <div class="row"><dt>Bytte av mobil</dt><dd>Mulighet til å bytte etter tre år</dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Reise</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Månedskort</dt><dd>Uansett hvor du bor</dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Faglig utvikling</h2>
+          <div class="box"><dl>
+            <div class="row todo"><dt>Kurs og konferanser</dt><dd>Mangler</dd></div>
+            <div class="row todo"><dt>Tid til fag</dt><dd>Mangler</dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Karriere</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Nettverk</dt><dd>Jobber for at du får drømmeoppdraget</dd></div>
+            <div class="row"><dt>Valg av oppdrag</dt><dd>Vi velger sammen</dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Trygghet</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Forsikringer</dt><dd>God forsikringsordning</dd></div>
+            <div class="row todo"><dt>Uføreforsikring</dt><dd>Mangler</dd></div>
+            <div class="row todo"><dt>Livsforsikring</dt><dd>Mangler</dd></div>
+            <div class="row todo"><dt>Sykdom</dt><dd>Mangler</dd></div>
+            <div class="row todo"><dt>Foreldrepermisjon</dt><dd>Mangler</dd></div>
+            <div class="row"><dt>Garantilønn mellom oppdrag</dt><dd>3000 kr per dag, opptil to måneder</dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Lønn og pensjon</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Provisjonslønn</dt><dd>70 % av fakturert, minus feriepenger og arbeidsgiveravgift</dd></div>
+            <div class="row"><dt>Eksempel</dt><dd>1 450 kr/t og 1 600 timer gir ca. 1,29 mill. kr i året</dd></div>
+            <div class="row"><dt>Pensjon, lønn frem til 7 G</dt><dd>5 %, kommer på toppen av lønnen</dd></div>
+            <div class="row"><dt>Pensjon, lønn 7 til 12 G</dt><dd>Opp til 10 %</dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Sosialt</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Blåtur</dt><dd>Hvert år</dd></div>
+            <div class="row"><dt>Treffes</dt><dd>Omtrent hver sjette uke, for de som kan</dd></div>
+          </dl></div>
+        </section>
+      </div>
+
+      <footer class="end">
+        <p>Spørsmål? <a href="mailto:hei@rubberduck.no">hei@rubberduck.no</a></p>
+        <p><a href="/#/jobs">Se ledige stillinger</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
