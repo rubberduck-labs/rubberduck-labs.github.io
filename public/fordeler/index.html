@@ -9,15 +9,14 @@
     <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
     <style>
       :root {
-        --yellow: #fde047;
         --ink: #1f2937;
-        --bg: #f3f4f6;
+        --bg: #f1f3f5;
         --fg: var(--ink);
         
         --box: #ffffff;
-        --box-ink: #1f2937;
-        --box-muted: #374151;
-        --box-line: #e3e8ee;
+        --box-ink: #111827;
+        --box-muted: #4b5563;
+        --box-line: #eceef1;
         --display: system-ui, -apple-system, sans-serif;
         --body: system-ui, -apple-system, sans-serif;
       }
@@ -30,39 +29,41 @@
         margin: 0;
         background: var(--bg);
         color: var(--fg);
-        font: 400 16px/1.5 var(--body);
+        font: 400 16px/1.55 var(--body);
+        font-variant-numeric: tabular-nums;
+        -webkit-font-smoothing: antialiased;
         padding-inline: 16px;
       }
-      .wrap { max-width: 920px; margin: 0 auto; padding-block: 28px 64px; }
-      header.top { display: flex; align-items: center; gap: 10px; padding-block: 4px 16px; margin-bottom: 32px; }
+      .wrap { max-width: 920px; margin: 0 auto; padding-block: 36px 88px; }
+      header.top { display: flex; align-items: center; gap: 10px; padding-block: 0 20px; margin-bottom: 44px; border-bottom: 1px solid rgba(17, 24, 39, 0.14); }
       header.top img { height: 32px; width: 32px; }
-      header.top span { font: 700 19px/1 var(--display); }
+      header.top span { font: 600 18px/1 var(--display); letter-spacing: -0.01em; }
 
-      .hero { margin-bottom: 28px; }
-      .hero h1 { font: 700 34px/1.15 var(--display); margin: 0; }
-      .hero p { font-size: clamp(18px, 2.4vw, 21px); margin: 0; max-width: 54ch; }
+      .hero { margin-bottom: 40px; }
+      .hero h1 { font: 600 40px/1.1 var(--display); letter-spacing: -0.025em; margin: 0; }
+      .hero p { font-size: 17px; margin: 10px 0 0; color: #4b5563; }
 
-      .boxes { display: flex; flex-direction: column; gap: 24px; }
-      .cat > h2 { font: 700 15px/1.2 var(--display); text-transform: uppercase; letter-spacing: 0.06em; color: #374151; margin: 0 0 8px; }
+      .boxes { display: flex; flex-direction: column; gap: 36px; }
+      .cat > h2 { font: 600 13px/1.2 var(--display); text-transform: uppercase; letter-spacing: 0.1em; color: #4b5563; margin: 0 0 12px; }
       .box {
         background: var(--box);
         color: var(--box-ink);
         border-radius: 2px;
-        border: 1px solid #e0e3e8;
-        padding: 4px 20px;
+        border: 1px solid #dde1e7;
+        box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+        padding: 6px 28px;
       }
       .box dl { margin: 0; }
-      .row { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: baseline; gap: 2px 24px; padding-block: 12px; }
+      .row { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: baseline; gap: 2px 32px; padding-block: 16px; }
       @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
       .row + .row { border-top: 1px solid var(--box-line); }
-      .row dt { font-weight: 700; min-width: 0; white-space: nowrap; }
+      .row dt { font-weight: 600; color: var(--box-ink); min-width: 0; white-space: nowrap; }
       @media (max-width: 640px) { .row dt { white-space: normal; } }
       .row dd { margin: 0; color: var(--box-muted); min-width: 0; }
       .row dd ol { margin: 4px 0 0; padding-left: 1.4em; }
       .row dd li + li { margin-top: 2px; }
-      .row.todo dd { color: #9a3412; font-style: normal; }
 
-      footer.end { margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--fg); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
+      footer.end { margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(17, 24, 39, 0.14); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
       footer.end p { margin: 0; }
       a { color: inherit; text-underline-offset: 3px; }
       .box a { color: var(--box-ink); }
@@ -78,6 +79,7 @@
 
       <section class="hero">
         <h1>Fordeler i Rubberduck</h1>
+        <p>Dette er hva vi har akkurat nå.</p>
       </section>
 
       <div class="boxes">
@@ -101,14 +103,6 @@
         </section>
 
         <section class="cat">
-          <h2>Faglig utvikling</h2>
-          <div class="box"><dl>
-            <div class="row todo"><dt>Kurs og konferanser</dt><dd>Mangler</dd></div>
-            <div class="row todo"><dt>Tid til fag</dt><dd>Mangler</dd></div>
-          </dl></div>
-        </section>
-
-        <section class="cat">
           <h2>Karriere</h2>
           <div class="box"><dl>
             <div class="row"><dt>Nettverk</dt><dd>Jobber for at du får drømmeoppdraget</dd></div>
@@ -120,10 +114,6 @@
           <h2>Trygghet</h2>
           <div class="box"><dl>
             <div class="row"><dt>Forsikringer</dt><dd>God forsikringsordning</dd></div>
-            <div class="row todo"><dt>Uføreforsikring</dt><dd>Mangler</dd></div>
-            <div class="row todo"><dt>Livsforsikring</dt><dd>Mangler</dd></div>
-            <div class="row todo"><dt>Sykdom</dt><dd>Mangler</dd></div>
-            <div class="row todo"><dt>Foreldrepermisjon</dt><dd>Mangler</dd></div>
             <div class="row"><dt>Garantilønn mellom oppdrag</dt><dd>3000 kr per dag, opptil to måneder</dd></div>
           </dl></div>
         </section>
