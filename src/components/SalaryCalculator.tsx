@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { calculateProvision } from '../utils/salary';
 
 export function SalaryCalculator() {
-  const [rate, setRate] = useState('1450');
+  const [rate, setRate] = useState('1600');
   const [hours, setHours] = useState('1600');
 
   const result = rate && hours 
@@ -32,7 +32,7 @@ export function SalaryCalculator() {
               value={rate}
               onChange={(e) => setRate(e.target.value)}
               className="w-full px-3 py-2 bg-zinc-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono"
-              placeholder="1450"
+              placeholder="1600"
             />
           </div>
           <div>
