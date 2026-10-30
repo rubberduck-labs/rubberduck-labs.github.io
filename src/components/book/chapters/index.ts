@@ -175,7 +175,7 @@ export const salaryBenefitsChapter: BookPage[] = [
       {
         type: 'list',
         items: [
-          'Garantert dagsats på 3000 NOK i opptil to måneder mellom oppdrag',
+          'Vi har ordninger for lønn mellom oppdrag',
           'Dette gir deg ro til å finne det rette neste oppdraget'
         ]
       },

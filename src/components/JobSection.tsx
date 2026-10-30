@@ -62,7 +62,7 @@ export function JobSection() {
               og trekker fra feriepenger og arbeidsgiveravgift. Det som gjenstår er ditt.
             </p>
             <p className="text-base text-custom-dark/70 dark:text-white/70 max-w-2xl mx-auto mb-8">
-              Mellom oppdrag sikrer vi deg med en dagsats på 3000 NOK i opptil to måneder, 
+              Vi har ordninger for lønn mellom oppdrag, 
               slik at du kan føle deg trygg i perioder mellom oppdrag.
             </p>
 
