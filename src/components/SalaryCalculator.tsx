@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { calculateProvision } from '../utils/salary';
 
-export function SalaryCalculator() {
+export function SalaryCalculator({ onChange }: { onChange?: (rate: number, hours: number) => void }) {
   const [rate, setRate] = useState('1600');
   const [hours, setHours] = useState('1600');
+
+  useEffect(() => {
+    onChange?.(Number(rate), Number(hours));
+  }, [rate, hours]);
 
   const result = rate && hours 
     ? calculateProvision(Number(rate), Number(hours))
