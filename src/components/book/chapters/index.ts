@@ -163,9 +163,9 @@ export const salaryBenefitsChapter: BookPage[] = [
       {
         type: 'list',
         items: [
-          'Du får 70% av det du fakturerer',
-          'Fra dette trekkes feriepenger og arbeidsgiveravgift',
-          'Resten er din lønn'
+          'Grunnlaget er 70 % av det du fakturerer',
+          'Av dette betaler vi arbeidsgiveravgift',
+          'Resten er din lønn og dine feriepenger'
         ]
       },
       {

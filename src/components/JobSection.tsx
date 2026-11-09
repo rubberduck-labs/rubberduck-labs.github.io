@@ -58,8 +58,8 @@ export function JobSection() {
               I Rubberduck tilbyr vi provisjonslønn til våre ansatte.
             </p>
             <p className="text-base text-custom-dark/70 dark:text-white/70 max-w-2xl mx-auto mb-4">
-              For å komme frem til din provisjonslønn så tar vi utgangspunkt i 70% av det du fakturerer, 
-              og trekker fra feriepenger og arbeidsgiveravgift. Det som gjenstår er ditt.
+              For å komme frem til din provisjonslønn så tar vi utgangspunkt i 70 % av det du fakturerer. 
+              Av det går arbeidsgiveravgift, og resten er lønn og feriepenger.
             </p>
             <p className="text-base text-custom-dark/70 dark:text-white/70 max-w-2xl mx-auto mb-8">
               Vi har ordninger for lønn mellom oppdrag, 
