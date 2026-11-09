@@ -41,7 +41,6 @@
 
       .hero { margin-bottom: 40px; }
       .hero h1 { font: 600 40px/1.1 var(--display); letter-spacing: -0.025em; margin: 0; }
-      .hero p { font-size: 17px; margin: 10px 0 0; color: #4b5563; }
 
       .boxes { display: flex; flex-direction: column; gap: 36px; }
       .cat > h2 { font: 600 13px/1.2 var(--display); text-transform: uppercase; letter-spacing: 0.1em; color: #4b5563; margin: 0 0 12px; }
@@ -66,7 +65,7 @@
       .row input { font: inherit; width: 8em; padding: 6px 10px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; }
       .row input:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .row.total dt, .row.total dd { font-weight: 700; color: var(--box-ink); }
-      .box + .box { margin-top: 16px; }
+      .note { margin: 0; padding: 14px 0 12px; border-top: 1px solid var(--box-line); color: var(--box-muted); font-size: 14px; }
 
       footer.end { margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(17, 24, 39, 0.14); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
       footer.end p { margin: 0; }
@@ -84,37 +83,32 @@
 
       <section class="hero">
         <h1>Fordeler i Rubberduck</h1>
-        <p>Dette er hva vi har akkurat nå.</p>
       </section>
 
       <div class="boxes">
         <section class="cat">
           <h2>Utstyr</h2>
           <div class="box"><dl>
-            <div class="row"><dt>Startpakke</dt><dd><ol><li>Hodetelefoner</li><li>Laptop</li><li>Mobil</li><li>Ryggsekk</li></ol></dd></div>
-            <div class="row"><dt>Mobil og laptop</dt><dd>Fra øverste hylle, du velger selv</dd></div>
-            <div class="row"><dt>Utstyrsbudsjett</dt><dd>10 000 kr per år, i tillegg til mobil og laptop</dd></div>
-            <div class="row"><dt>AI-verktøy</dt><dd>Vi dekker utlegg, i tillegg til utstyrsbudsjettet:<ol><li>Claude</li><li>ChatGPT Pro</li></ol></dd></div>
-            <div class="row"><dt>Bredbånd</dt><dd>Vi dekker bredbånd</dd></div>
-            <div class="row"><dt>Bytte av mobil</dt><dd>Mulighet til å bytte etter tre år</dd></div>
-          </dl></div>
-        </section>
-
-        <section class="cat">
-          <h2>Reise</h2>
-          <div class="box"><dl>
-            <div class="row"><dt>Månedskort</dt><dd>Uansett hvor du bor</dd></div>
+            <div class="row"><dt>Du får utlevert</dt><dd>Hodetelefoner, laptop, mobil og ryggsekk</dd></div>
+            <div class="row"><dt>Mobil og laptop</dt><dd>Fra øverste hylle, du velger selv. Du kan bytte mobil etter tre år.</dd></div>
+            <div class="row"><dt>Dekkes av oss</dt><dd><ul>
+              <li>10 000 kr per år til annet utstyr, i tillegg til mobil og laptop</li>
+              <li>Bredbånd</li>
+              <li>Månedskort, uansett hvor du bor</li>
+              <li>Claude, ChatGPT Pro og annen programvare du trenger, i tillegg til utstyrsbudsjettet</li>
+            </ul></dd></div>
           </dl></div>
         </section>
 
         <section class="cat">
           <h2>Lønn og pensjon</h2>
           <div class="box"><dl>
-            <div class="row"><dt>Provisjonslønn</dt><dd>70 % av fakturert, minus feriepenger og arbeidsgiveravgift</dd></div>
-            <div class="row"><dt>Eksempel</dt><dd>1 600 kr/t og 1 600 timer gir ca. 1,42 mill. kr i året</dd></div>
+            <div class="row"><dt>Provisjonslønn</dt><dd>70 % av fakturert. Av det går arbeidsgiveravgift, og resten er lønn og feriepenger.</dd></div>
             <div class="row"><dt>Lønn mellom oppdrag</dt><dd>Vi har ordninger for lønn mellom oppdrag</dd></div>
-            <div class="row"><dt>Pensjon, lønn frem til 7 G</dt><dd>5 %, kommer på toppen av lønnen</dd></div>
-            <div class="row"><dt>Pensjon, lønn 7 til 12 G</dt><dd>10 %</dd></div>
+            <div class="row"><dt>Pensjon</dt><dd>På toppen av lønnen:<ul>
+              <li>5 % av lønn frem til 7 G</li>
+              <li>10 % av lønn mellom 7 og 12 G</li>
+            </ul></dd></div>
             <div class="row"><dt>Forsikringer</dt><dd>Gjennom Virke Forsikring og Tryg:<ul>
               <li>Fritidsulykke, til 67 år</li>
               <li>Yrkesskade, også på vei til og fra jobb</li>
@@ -133,21 +127,12 @@
             <div class="row"><dt><label for="hours">Timer per år</label></dt><dd><input id="hours" type="number" inputmode="numeric" min="0" step="50" value="1600" /> timer</dd></div>
             <div class="row"><dt>Fakturert i året</dt><dd id="o-turnover"></dd></div>
             <div class="row"><dt>70 % av fakturert</dt><dd id="o-base"></dd></div>
-            <div class="row"><dt>Feriepenger</dt><dd><span id="o-vac"></span> (12 % av lønnen)</dd></div>
             <div class="row"><dt>Arbeidsgiveravgift</dt><dd><span id="o-tax"></span> (14,1 % av lønnen)</dd></div>
-            <div class="row total"><dt>Årslønn</dt><dd id="o-salary"></dd></div>
-          </dl></div>
-          <div class="box"><dl>
-            <div class="row"><dt>Slik regner vi</dt><dd><ol>
-              <li>Vi starter med det du fakturerer: timerate ganger timer.</li>
-              <li>Av det tar vi 70 %.</li>
-              <li>Feriepenger og arbeidsgiveravgift betales av de 70 %.</li>
-              <li>Det som er igjen, er årslønnen din.</li>
-            </ol></dd></div>
-            <div class="row"><dt>Regnestykket</dt><dd>årslønn = fakturert × 0,7 ÷ 1,261</dd></div>
-            <div class="row"><dt>Tallet 1,261</dt><dd>Lønnen + 12 % feriepenger + 14,1 % arbeidsgiveravgift, begge av lønnen.</dd></div>
-            <div class="row"><dt>Pensjon</dt><dd>Kommer på toppen av lønnen.</dd></div>
-          </dl></div>
+            <div class="row total"><dt>Til deg i året</dt><dd id="o-total"></dd></div>
+            <div class="row"><dt>Hvorav årslønn</dt><dd id="o-salary"></dd></div>
+            <div class="row"><dt>Hvorav feriepenger</dt><dd><span id="o-vac"></span> (12 % av lønnen)</dd></div>
+          </dl>
+          <p class="note">Av de 70 % betaler vi arbeidsgiveravgift, og resten går til årslønn og feriepenger. Beløpene er før skatt. Feriepenger er 12 % og arbeidsgiveravgiften 14,1 % av lønnen.</p></div>
         </section>
       </div>
 
@@ -163,12 +148,15 @@
         var fmt = function (n) { return Math.round(n).toLocaleString('nb-NO') + ' kr'; };
         function calc() {
           var r = Math.max(0, Number(rate.value) || 0), h = Math.max(0, Number(hours.value) || 0);
-          var turnover = r * h, base = turnover * 0.7, salary = base / 1.261, vac = salary * 0.12, tax = base - salary - vac;
+          var turnover = r * h, base = turnover * 0.7, salaryRaw = base / 1.261;
+          var salary = Math.round(salaryRaw), total = Math.round(salaryRaw * 1.12);
+          var vac = total - salary, tax = Math.round(base) - total;
           document.getElementById('o-turnover').textContent = fmt(turnover);
           document.getElementById('o-base').textContent = fmt(base);
-          document.getElementById('o-vac').textContent = '− ' + fmt(vac);
           document.getElementById('o-tax').textContent = '− ' + fmt(tax);
+          document.getElementById('o-total').textContent = fmt(total);
           document.getElementById('o-salary').textContent = fmt(salary);
+          document.getElementById('o-vac').textContent = fmt(vac);
         }
         rate.addEventListener('input', calc);
         hours.addEventListener('input', calc);
