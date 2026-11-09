@@ -63,6 +63,11 @@
       .row dd ol, .row dd ul { margin: 4px 0 0; padding-left: 1.4em; }
       .row dd li + li { margin-top: 2px; }
 
+      .row input { font: inherit; width: 8em; padding: 6px 10px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; }
+      .row input:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
+      .row.total dt, .row.total dd { font-weight: 700; color: var(--box-ink); }
+      .box + .box { margin-top: 16px; }
+
       footer.end { margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(17, 24, 39, 0.14); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
       footer.end p { margin: 0; }
       a { color: inherit; text-underline-offset: 3px; }
@@ -121,11 +126,27 @@
           </dl></div>
         </section>
 
-        <section class="cat">
-          <h2>Sosialt</h2>
+        <section class="cat" id="kalkulator">
+          <h2>Lønnskalkulator</h2>
           <div class="box"><dl>
-            <div class="row"><dt>Blåtur</dt><dd>Hvert år</dd></div>
-            <div class="row"><dt>Treffes</dt><dd>Omtrent hver sjette uke, for de som kan</dd></div>
+            <div class="row"><dt><label for="rate">Timerate</label></dt><dd><input id="rate" type="number" inputmode="numeric" min="0" step="50" value="1600" /> kr</dd></div>
+            <div class="row"><dt><label for="hours">Timer per år</label></dt><dd><input id="hours" type="number" inputmode="numeric" min="0" step="50" value="1600" /> timer</dd></div>
+            <div class="row"><dt>Fakturert i året</dt><dd id="o-turnover"></dd></div>
+            <div class="row"><dt>70 % av fakturert</dt><dd id="o-base"></dd></div>
+            <div class="row"><dt>Feriepenger</dt><dd><span id="o-vac"></span> (12 % av lønnen)</dd></div>
+            <div class="row"><dt>Arbeidsgiveravgift</dt><dd><span id="o-tax"></span> (14,1 % av lønnen)</dd></div>
+            <div class="row total"><dt>Årslønn</dt><dd id="o-salary"></dd></div>
+          </dl></div>
+          <div class="box"><dl>
+            <div class="row"><dt>Slik regner vi</dt><dd><ol>
+              <li>Vi starter med det du fakturerer: timerate ganger timer.</li>
+              <li>Av det tar vi 70 %.</li>
+              <li>Feriepenger og arbeidsgiveravgift betales av de 70 %.</li>
+              <li>Det som er igjen, er årslønnen din.</li>
+            </ol></dd></div>
+            <div class="row"><dt>Regnestykket</dt><dd>årslønn = fakturert × 0,7 ÷ 1,261</dd></div>
+            <div class="row"><dt>Tallet 1,261</dt><dd>Lønnen + 12 % feriepenger + 14,1 % arbeidsgiveravgift, begge av lønnen.</dd></div>
+            <div class="row"><dt>Pensjon</dt><dd>Kommer på toppen av lønnen.</dd></div>
           </dl></div>
         </section>
       </div>
@@ -135,5 +156,24 @@
         <p><a href="/#/jobs">Se ledige stillinger</a></p>
       </footer>
     </div>
+    <script>
+      // Samme regnestykke som kalkulatoren på rubberduck.no/#/jobs: fakturert × 0,7 ÷ 1,261.
+      (function () {
+        var rate = document.getElementById('rate'), hours = document.getElementById('hours');
+        var fmt = function (n) { return Math.round(n).toLocaleString('nb-NO') + ' kr'; };
+        function calc() {
+          var r = Math.max(0, Number(rate.value) || 0), h = Math.max(0, Number(hours.value) || 0);
+          var turnover = r * h, base = turnover * 0.7, salary = base / 1.261, vac = salary * 0.12, tax = base - salary - vac;
+          document.getElementById('o-turnover').textContent = fmt(turnover);
+          document.getElementById('o-base').textContent = fmt(base);
+          document.getElementById('o-vac').textContent = '− ' + fmt(vac);
+          document.getElementById('o-tax').textContent = '− ' + fmt(tax);
+          document.getElementById('o-salary').textContent = fmt(salary);
+        }
+        rate.addEventListener('input', calc);
+        hours.addEventListener('input', calc);
+        calc();
+      })();
+    </script>
   </body>
 </html>
