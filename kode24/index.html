@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Annonseside: søkeskjema og oversikt over fordelene. Skjemaet går til Supabase-funksjonen «soknad», som varsler #rekruttering i Slack. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Jobb i Rubberduck</title>
+    <script src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js" data-app-id="4951D471-44AC-4A8C-B21E-D1F5CF04B17C"></script>
+    <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
+    <style>
+      :root {
+        --ink: #1f2937;
+        --bg: #f1f3f5;
+        --fg: var(--ink);
+        
+        --box: #ffffff;
+        --box-ink: #111827;
+        --box-muted: #4b5563;
+        --box-line: #eceef1;
+        --display: system-ui, -apple-system, sans-serif;
+        --body: system-ui, -apple-system, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root { --bg: #111827; --fg: #e5e7eb; }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 400 16px/1.55 var(--body);
+        font-variant-numeric: tabular-nums;
+        -webkit-font-smoothing: antialiased;
+        padding-inline: 16px;
+      }
+      .wrap { max-width: 920px; margin: 0 auto; padding-block: 36px 88px; }
+      header.top { display: flex; align-items: center; gap: 10px; padding-block: 0 20px; margin-bottom: 44px; border-bottom: 1px solid rgba(17, 24, 39, 0.14); }
+      header.top img { height: 32px; width: 32px; }
+      header.top span { font: 600 18px/1 var(--display); letter-spacing: -0.01em; }
+
+      .hero { margin-bottom: 40px; }
+      .hero h1 { font: 600 40px/1.1 var(--display); letter-spacing: -0.025em; margin: 0; }
+
+      .boxes { display: flex; flex-direction: column; gap: 36px; }
+      .cat > h2 { font: 600 13px/1.2 var(--display); text-transform: uppercase; letter-spacing: 0.1em; color: #4b5563; margin: 0 0 12px; }
+      .box {
+        background: var(--box);
+        color: var(--box-ink);
+        border-radius: 2px;
+        border: 1px solid #dde1e7;
+        box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+        padding: 6px 28px;
+      }
+      .box dl { margin: 0; }
+      .row { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: baseline; gap: 2px 32px; padding-block: 16px; }
+      @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+      .row + .row { border-top: 1px solid var(--box-line); }
+      .row dt { font-weight: 600; color: var(--box-ink); min-width: 0; white-space: nowrap; }
+      @media (max-width: 640px) { .row dt { white-space: normal; } }
+      .row dd { margin: 0; color: var(--box-muted); min-width: 0; }
+      .row dd ol, .row dd ul { margin: 4px 0 0; padding-left: 1.4em; }
+      .row dd li + li { margin-top: 2px; }
+
+      .row input { font: inherit; width: 8em; padding: 6px 10px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; }
+      .row input:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
+      .row.total dt, .row.total dd { font-weight: 700; color: var(--box-ink); }
+      .note { margin: 0; padding: 14px 0 12px; border-top: 1px solid var(--box-line); color: var(--box-muted); font-size: 14px; }
+
+
+      .strip { display: block; width: 100%; max-width: 720px; height: auto; margin-top: 24px; border: 1px solid #dde1e7; }
+      .intro { margin-top: 20px; max-width: 62ch; font-size: 18px; line-height: 1.6; }
+      .intro p { margin: 0 0 14px; }
+      .intro p:last-child { margin-bottom: 0; }
+      .apply .box { padding: 24px 28px; }
+      .apply p { margin: 0 0 16px; color: var(--box-muted); max-width: 60ch; }
+      .apply label { display: block; font-weight: 600; color: var(--box-ink); margin-bottom: 8px; }
+      .apply .field { display: flex; flex-wrap: wrap; gap: 10px; }
+      .apply textarea { display: block; width: 100%; font: inherit; padding: 10px 12px; margin-bottom: 18px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; resize: vertical; }
+      .apply textarea:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
+      .apply input[type=email] { font: inherit; flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; }
+      .apply input[type=email]:focus-visible, .apply button:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
+      .apply button { font: inherit; font-weight: 600; padding: 10px 22px; border: 1px solid var(--box-ink); border-radius: 2px; background: var(--box-ink); color: #fff; cursor: pointer; }
+      .apply button:disabled { opacity: 0.6; cursor: default; }
+      .apply .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+      .apply .small { margin: 12px 0 0; font-size: 14px; }
+      .apply .status { margin: 12px 0 0; font-size: 15px; color: var(--box-ink); min-height: 1.5em; }
+
+      footer.end { margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(17, 24, 39, 0.14); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
+      footer.end p { margin: 0; }
+      a { color: inherit; text-underline-offset: 3px; }
+      .box a { color: var(--box-ink); }
+      a:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <img src="/rubberduck-icon.svg" alt="" />
+        <span>Rubberduck</span>
+      </header>
+
+      <section class="hero">
+        <h1>Jobb i Rubberduck</h1>
+        <img class="strip" src="kvakker.png" alt="Tegneserie med en gul and. Første rute: Kvakker du som oss? Andre rute: Går du som oss?" width="1280" height="490" />
+        <div class="intro">
+          <p>Vi er et koselig lite konsulenthus med seniorutviklere som finner på mye sammen, både faglig og sosialt. Og flere av oss har faktisk liv utenom jobben også.</p>
+          <p>Filosofien vår er enkel. Det er du som skaper verdiene. Da skal du også ha det største kakestykket. Samtidig har du verdens beste gjeng i ryggen, med tryggheten, nettverket og alle godene vi har bygget opp gjennom over 20 år i bransjen. Sammenlign oss med hvem som helst. Fordelene våre står under.</p>
+          <p>Nå ser vi etter noen nye nebb. Derfor har vi veldig lyst til å snakke med deg som har minst 7 års erfaring, henger med i tiden og elsker jobben som utvikler. Send oss et lite pip, så kan vi ta en kaffe og bli litt bedre kjent!</p>
+        </div>
+      </section>
+
+      <div class="boxes">
+
+      <section class="cat apply" id="sok">
+        <h2>Søk her</h2>
+        <div class="box">
+          <form id="apply-form" novalidate>
+            <label for="message">Fortell oss hvem du er</label>
+            <textarea id="message" name="message" rows="4" maxlength="1000" placeholder="Litt om bakgrunnen din, hva du jobber med nå og hva du leter etter"></textarea>
+            <label for="email">E-post</label>
+            <div class="field">
+              <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="navn@epost.no" required />
+              <button type="submit" id="apply-btn">Søk her</button>
+            </div>
+            <div class="hp" aria-hidden="true"><label>Ikke fyll ut<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></label></div>
+            <p class="status" id="apply-status" role="status" aria-live="polite"></p>
+            <p class="small">Vi bruker e-posten bare til å kontakte deg om stillingen.</p>
+          </form>
+        </div>
+      </section>
+
+        <section class="cat">
+          <h2>Utstyr</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Du får utlevert</dt><dd>Hodetelefoner, laptop, mobil og ryggsekk</dd></div>
+            <div class="row"><dt>Mobil og laptop</dt><dd>Fra øverste hylle, du velger selv. Du kan bytte mobil etter tre år.</dd></div>
+            <div class="row"><dt>Dekkes av oss</dt><dd><ul>
+              <li>10 000 kr per år til annet utstyr, i tillegg til mobil og laptop</li>
+              <li>Bredbånd</li>
+              <li>Månedskort, uansett hvor du bor</li>
+              <li>Claude, ChatGPT Pro og annen programvare du trenger, i tillegg til utstyrsbudsjettet</li>
+            </ul></dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat">
+          <h2>Lønn og pensjon</h2>
+          <div class="box"><dl>
+            <div class="row"><dt>Provisjonslønn</dt><dd>70 % av fakturert. Av det går arbeidsgiveravgift, og resten er lønn og feriepenger.</dd></div>
+            <div class="row"><dt>Lønn mellom oppdrag</dt><dd>Vi har ordninger for lønn mellom oppdrag</dd></div>
+            <div class="row"><dt>Pensjon</dt><dd>På toppen av lønnen. G er folketrygdens grunnbeløp:<ul>
+              <li>5 % av lønn frem til 7 G</li>
+              <li>10 % av lønn mellom 7 og 12 G</li>
+            </ul></dd></div>
+            <div class="row"><dt>Forsikringer</dt><dd>Gjennom Virke Forsikring og Tryg:<ul>
+              <li>Fritidsulykke, til 67 år</li>
+              <li>Yrkesskade, også på vei til og fra jobb</li>
+              <li>Gruppeliv, 22 G til alle ansatte</li>
+              <li>Behandlingsforsikring, privat sykehus innen ca. 14 dager etter henvisning</li>
+              <li>Reiseforsikring, tjeneste- og fritidsreiser</li>
+              <li>Sykdom, 5,5 G ved arbeidsuførhet, til 67 år</li>
+            </ul></dd></div>
+          </dl></div>
+        </section>
+
+        <section class="cat" id="kalkulator">
+          <h2>Lønnskalkulator</h2>
+          <div class="box"><dl>
+            <div class="row"><dt><label for="rate">Timerate</label></dt><dd><input id="rate" type="number" inputmode="numeric" min="0" step="50" value="1600" /> kr/t</dd></div>
+            <div class="row"><dt><label for="hours">Fakturerbare timer per år</label></dt><dd><input id="hours" type="number" inputmode="numeric" min="0" step="50" value="1600" /> timer</dd></div>
+            <div class="row"><dt>70 % av fakturert</dt><dd id="o-base"></dd></div>
+            <div class="row"><dt>Arbeidsgiveravgift</dt><dd><span id="o-tax"></span> (14,1 % av lønnen)</dd></div>
+            <div class="row total"><dt>Til deg i året</dt><dd id="o-total"></dd></div>
+            <div class="row"><dt>Hvorav årslønn</dt><dd id="o-salary"></dd></div>
+            <div class="row"><dt>Hvorav feriepenger</dt><dd><span id="o-vac"></span> (12 % av lønnen)</dd></div>
+          </dl>
+          <p class="note">Av de 70 % betaler vi arbeidsgiveravgift, og resten går til årslønn og feriepenger. Beløpene er før skatt. Feriepenger er 12 % og arbeidsgiveravgiften 14,1 % av lønnen.</p></div>
+        </section>
+      </div>
+
+      <footer class="end">
+        <p>Spørsmål? <a href="mailto:hei@rubberduck.no">hei@rubberduck.no</a></p>
+        <p><a href="/#/jobs">Les mer om Rubberduck</a></p>
+      </footer>
+    </div>
+    <script>
+      // Samme regnestykke som kalkulatoren på rubberduck.no/#/jobs: fakturert × 0,7 ÷ 1,261.
+      (function () {
+        var rate = document.getElementById('rate'), hours = document.getElementById('hours');
+        var fmt = function (n) { return Math.round(n).toLocaleString('nb-NO') + ' kr'; };
+        function calc() {
+          var r = Math.max(0, Number(rate.value) || 0), h = Math.max(0, Number(hours.value) || 0);
+          var turnover = r * h, base = turnover * 0.7, salaryRaw = base / 1.261;
+          var salary = Math.round(salaryRaw), total = Math.round(salaryRaw * 1.12);
+          var vac = total - salary, tax = Math.round(base) - total;
+          document.getElementById('o-base').textContent = fmt(base);
+          document.getElementById('o-tax').textContent = '− ' + fmt(tax);
+          document.getElementById('o-total').textContent = fmt(total);
+          document.getElementById('o-salary').textContent = fmt(salary);
+          document.getElementById('o-vac').textContent = fmt(vac);
+        }
+        rate.addEventListener('input', calc);
+        hours.addEventListener('input', calc);
+        calc();
+      })();
+    </script>
+    <script>
+      (function () {
+        var ENDPOINT = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/soknad';
+        var form = document.getElementById('apply-form'), btn = document.getElementById('apply-btn');
+        var email = document.getElementById('email'), status = document.getElementById('apply-status');
+        var source = 'kode24';
+        try { source = new URLSearchParams(location.search).get('kilde') || 'kode24'; } catch (e) {}
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var value = email.value.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { status.textContent = 'Sjekk at e-postadressen er riktig.'; email.focus(); return; }
+          btn.disabled = true; status.textContent = 'Sender …';
+          fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: value, message: document.getElementById('message').value, source: source, website: document.getElementById('website').value })
+          }).then(function (r) {
+            if (!r.ok) throw new Error(r.status);
+            status.textContent = 'Takk! Vi tar kontakt.'; form.reset();
+          }).catch(function () {
+            status.textContent = 'Noe gikk galt. Send oss en e-post på hei@rubberduck.no i stedet.'; btn.disabled = false;
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
