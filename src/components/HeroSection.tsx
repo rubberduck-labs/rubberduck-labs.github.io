@@ -5,6 +5,7 @@ import { Terminal } from './Terminal';
 import { SeasonalBanner } from './SeasonalBanner';
 import { ProgrammerSection } from './ProgrammerSection';
 import { Mail } from "lucide-react";
+import { ContactDialog } from './ContactDialog';
 
 interface HeroSectionProps {
   setBackgroundColor: (color: string | null) => void;
@@ -12,6 +13,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <section className="min-h-screen flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
@@ -45,13 +47,14 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
                 >
                   Her er vi
                 </Link>
-                <a
-                  href="mailto:hei@rubberduck.no"
+                <button
+                  type="button"
+                  onClick={() => setIsContactOpen(true)}
                   className="inline-flex h-11 items-center justify-center gap-2 px-6  bg-white text-custom-dark dark:bg-custom-dark dark:text-white  rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
                   <Mail className="w-4 h-4" />
                   Kontakt oss
-                </a>
+                </button>
               </div>
               {/* Seasonal banner in its own container */}
               <div className="w-full sm:w-auto">
@@ -71,6 +74,7 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
         onClose={() => setIsTerminalOpen(false)}
         setBackgroundColor={setBackgroundColor}
       />
+      <ContactDialog open={isContactOpen} onClose={() => setIsContactOpen(false)} />
       <CookieNotice />
     </section>
   );

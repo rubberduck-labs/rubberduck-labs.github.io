@@ -190,16 +190,28 @@ export const salaryBenefitsChapter: BookPage[] = [
       },
       {
         type: 'paragraph',
-        text: `Som ansatt i Rubberduck får du tilgang til en rekke verdifulle goder som gjør hverdagen enklere og bedre:`
+        text: `Du får utlevert hodetelefoner, laptop, mobil og ryggsekk. Mobil og laptop er fra øverste hylle, og du velger selv. Du kan bytte mobil etter tre år.
+
+               Dette dekker vi:`
       },
       {
         type: 'list',
         items: [
-          'Dekket kollektivbillett innenfor Viken',
-          'Fri mobil (bruk og datatrafikk)',
-          'Dekket bredbånd hjemme',
-          '5% sparing til tjenestepensjon (OTP) som tillegg til lønn',
-          'Dekket årlig helsesjekk'
+          '10 000 kr per år til annet utstyr, i tillegg til mobil og laptop',
+          'Bredbånd',
+          'Månedskort, uansett hvor du bor',
+          'Claude, ChatGPT Pro og annen programvare du trenger, i tillegg til utstyrsbudsjettet'
+        ]
+      },
+      {
+        type: 'paragraph',
+        text: `Pensjon kommer på toppen av lønnen. G er folketrygdens grunnbeløp:`
+      },
+      {
+        type: 'list',
+        items: [
+          '5 % av lønn frem til 7 G',
+          '10 % av lønn mellom 7 og 12 G'
         ]
       }
     ]
@@ -213,23 +225,18 @@ export const salaryBenefitsChapter: BookPage[] = [
       },
       {
         type: 'paragraph',
-        text: `Vi tar vare på deg og dine med en omfattende forsikringspakke. I tillegg til de lovpålagte forsikringene har vi:`
+        text: `Vi har forsikringer gjennom Virke Forsikring og Tryg:`
       },
       {
         type: 'list',
         items: [
-          'Helse/behandlingsforsikring',
-          'Yrkesskade',
-          'Reise inkl familie',
-          'Fritidsulykke',
-          'Dødsfall pga sykdom',
-          'Invaliditet og uførhet pga sykdom',
-          'Gruppelivsforsikring',
+          'Fritidsulykke, til 67 år',
+          'Yrkesskade, også på vei til og fra jobb',
+          'Gruppeliv, 22 G til alle ansatte',
+          'Behandlingsforsikring, privat sykehus innen ca. 14 dager etter henvisning',
+          'Reiseforsikring, tjeneste- og fritidsreiser',
+          'Sykdom, 5,5 G ved arbeidsuførhet, til 67 år'
         ]
-      },
-      {
-        type: 'paragraph',
-        text: `Denne forsikringspakken gir deg og din familie trygghet i hverdagen og sikkerhet hvis noe uforutsett skulle skje.`
       },
     ],
   }
