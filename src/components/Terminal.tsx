@@ -35,7 +35,6 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
     'Welcome to RubberDuck OS v2.0.25',
     '> Loading development environment...',
     '> Initializing duck protocols...',
-    '> Quack! Ready for debugging...',
   ];
 
   useEffect(() => {
