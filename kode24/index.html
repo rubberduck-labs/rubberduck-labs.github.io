@@ -77,6 +77,12 @@
       .crew li { text-align: center; }
       .crew img { display: block; width: 100%; max-width: 130px; height: auto; margin: 0 auto 6px; }
       .crew span { font-size: 15px; }
+      .crew a { display: block; color: inherit; text-decoration: none; border-radius: 2px; }
+      .crew a img { transition: filter 0.2s ease, transform 0.2s ease; }
+      .crew a:hover img, .crew a:focus-visible img { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 8px #fff) drop-shadow(0 0 20px #fff) drop-shadow(0 0 32px rgba(255, 255, 255, 0.9)); transform: translateY(-2px); }
+      .crew a:hover span, .crew a:focus-visible span { text-decoration: underline; text-underline-offset: 3px; }
+      .crew a:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 4px; }
+      @media (prefers-reduced-motion: reduce) { .crew a img { transition: none; } .crew a:hover img, .crew a:focus-visible img { transform: none; } }
       @media (min-width: 760px) { .crew { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
       .apply .box { padding: 24px 28px; }
       .apply p { margin: 0 0 16px; color: var(--box-muted); max-width: 60ch; }
@@ -152,13 +158,13 @@
       <section class="cat crew-wrap">
         <h2>Ducks i dag</h2>
         <ul class="crew">
-            <li><img src="/cato-isolated.png" alt="Cato Hauge" width="167" height="250" loading="lazy" /><span>Cato</span></li>
-            <li><img src="/kenneth-isolated.png" alt="Kenneth Leine Schulstad" width="167" height="250" loading="lazy" /><span>Kenneth</span></li>
-            <li><img src="/espen-isolated.png" alt="Espen Schulstad" width="167" height="250" loading="lazy" /><span>Espen</span></li>
-            <li><img src="/arild-isolated.png" alt="Arild Greni" width="167" height="250" loading="lazy" /><span>Arild</span></li>
-            <li><img src="/oyvind-isolated.png" alt="Øyvind Strømmen" width="167" height="250" loading="lazy" /><span>Øyvind</span></li>
-            <li><img src="/vegard-isolated.png" alt="Vegard Haugstvedt" width="167" height="250" loading="lazy" /><span>Vegard</span></li>
-            <li><img src="/johannes-isolated.png" alt="Johannes Moskvil" width="167" height="250" loading="lazy" /><span>Johannes</span></li>
+            <li><a href="https://linkedin.com/in/cato-hauge-7b80401" target="_blank" rel="noopener noreferrer" aria-label="Cato Hauge på LinkedIn (åpnes i ny fane)"><img src="/cato-isolated.png" alt="Cato Hauge" width="167" height="250" loading="lazy" /><span>Cato</span></a></li>
+            <li><a href="https://linkedin.com/in/kennethleineschulstad" target="_blank" rel="noopener noreferrer" aria-label="Kenneth Leine Schulstad på LinkedIn (åpnes i ny fane)"><img src="/kenneth-isolated.png" alt="Kenneth Leine Schulstad" width="167" height="250" loading="lazy" /><span>Kenneth</span></a></li>
+            <li><a href="https://linkedin.com/in/schulstad" target="_blank" rel="noopener noreferrer" aria-label="Espen Schulstad på LinkedIn (åpnes i ny fane)"><img src="/espen-isolated.png" alt="Espen Schulstad" width="167" height="250" loading="lazy" /><span>Espen</span></a></li>
+            <li><a href="https://linkedin.com/in/arild-greni-52503018" target="_blank" rel="noopener noreferrer" aria-label="Arild Greni på LinkedIn (åpnes i ny fane)"><img src="/arild-isolated.png" alt="Arild Greni" width="167" height="250" loading="lazy" /><span>Arild</span></a></li>
+            <li><a href="https://linkedin.com/in/%C3%B8yvind-str%C3%B8mmen-27855146" target="_blank" rel="noopener noreferrer" aria-label="Øyvind Strømmen på LinkedIn (åpnes i ny fane)"><img src="/oyvind-isolated.png" alt="Øyvind Strømmen" width="167" height="250" loading="lazy" /><span>Øyvind</span></a></li>
+            <li><a href="https://linkedin.com/in/vegardh" target="_blank" rel="noopener noreferrer" aria-label="Vegard Haugstvedt på LinkedIn (åpnes i ny fane)"><img src="/vegard-isolated.png" alt="Vegard Haugstvedt" width="167" height="250" loading="lazy" /><span>Vegard</span></a></li>
+            <li><a href="https://linkedin.com/in/johannes-moskvil-41a32716a" target="_blank" rel="noopener noreferrer" aria-label="Johannes Moskvil på LinkedIn (åpnes i ny fane)"><img src="/johannes-isolated.png" alt="Johannes Moskvil" width="167" height="250" loading="lazy" /><span>Johannes</span></a></li>
         </ul>
       </section>
 
