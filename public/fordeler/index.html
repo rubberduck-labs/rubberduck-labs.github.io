@@ -37,9 +37,10 @@
       }
       .wrap { max-width: 920px; margin: 0 auto; padding-block: 36px 88px; }
       header.top { display: flex; align-items: center; gap: 10px; padding-block: 0 20px; margin-bottom: 44px; border-bottom: 1px solid rgba(17, 24, 39, 0.14); }
-      header.top .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
-      header.top img { height: 32px; width: 32px; }
-      header.top span { font: 600 18px/1 var(--display); letter-spacing: -0.01em; }
+      header.top .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+      header.top .icon { height: clamp(32px, 4.5vw, 48px); width: auto; }
+      header.top .logo { width: clamp(150px, 30vw, 200px); height: auto; }
+      @media (prefers-color-scheme: dark) { header.top img { filter: invert(1); } }
 
       .hero { margin-bottom: 40px; }
       .hero h1 { font: 600 40px/1.1 var(--display); letter-spacing: -0.025em; margin: 0; }
@@ -80,8 +81,8 @@
     <div class="wrap">
       <header class="top">
         <a class="brand" href="/" aria-label="Rubberduck, til forsiden">
-          <img src="/rubberduck-icon.svg" alt="" />
-          <span>Rubberduck</span>
+          <img class="icon" src="/rubberduck-icon.svg" alt="" />
+          <img class="logo" src="/rubberduck-logo.svg" alt="Rubberduck" />
         </a>
       </header>
 
