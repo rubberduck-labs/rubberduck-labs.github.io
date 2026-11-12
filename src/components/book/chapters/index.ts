@@ -5,7 +5,7 @@ export const frontMatterChapter: BookPage[] = [
     content: [
       {
         type: 'centeredParagraph',
-        text: `© 2025 Rubberduck AS
+        text: `© 2025 Rubberduck Dev AS
                 Første utgave, første opplag
                 ISBN: 978-82-02-77391-4
 

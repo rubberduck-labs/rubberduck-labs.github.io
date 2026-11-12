@@ -50,7 +50,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-white/10 text-center text-sm text-white/60">
-          <p>© 2026 Rubberduck AS. Org.nr 988 353 612</p>
+          <p>© 2026 Rubberduck Dev AS. Org.nr 988 353 612</p>
         </div>
       </div>
     </footer>
