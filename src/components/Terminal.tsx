@@ -28,6 +28,7 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const terminalRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fsRef = useRef<FileSystemManager>(new FileSystemManager(terminalConfig));
 
@@ -62,11 +63,12 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
     return () => clearInterval(typeInterval);
   }, [isOpen]);
 
+  // Rull innholdsboksen (den som faktisk har overflow-y-auto), ikke det ytre vinduet.
   useEffect(() => {
-    if (terminalRef.current) {
-      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    if (contentRef.current) {
+      contentRef.current.scrollTop = contentRef.current.scrollHeight;
     }
-  }, [lines]);
+  }, [lines, isInitializing, completions]);
 
   useEffect(() => {
     if (!isInitializing && inputRef.current) {
@@ -304,6 +306,7 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
         
         {/* Terminal content */}
         <div 
+          ref={contentRef}
           className="p-4 font-mono text-sm h-[500px] overflow-y-auto"
           onClick={() => inputRef.current?.focus()}
         >

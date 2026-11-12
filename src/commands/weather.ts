@@ -1,88 +1,146 @@
 import { Command } from './types';
 
+// Bare Oslo. Resten av landet er ikke verdt båndbredden.
+const OSLO = { name: 'Oslo', lat: 59.91, lon: 10.75 };
+
 interface WeatherData {
-  city: string;
   temperature: number;
-  condition: string;
+  symbol: string;
   windSpeed: number;
   humidity: number;
 }
 
-const cities = [
-  { name: "Oslo", lat: 59.91, lon: 10.75 },
-  { name: "Bergen", lat: 60.39, lon: 5.32 },
-  { name: "Trondheim", lat: 63.43, lon: 10.39 },
-  { name: "Stavanger", lat: 58.97, lon: 5.73 },
-  { name: "Kristiansand", lat: 58.15, lon: 8.00 },
-  { name: "Tromsø", lat: 69.65, lon: 18.96 },
-  { name: "Bodø", lat: 67.28, lon: 14.37 },
-  { name: "Ålesund", lat: 62.47, lon: 6.15 },
-  { name: "Drammen", lat: 59.74, lon: 10.20 },
-  { name: "Fredrikstad", lat: 59.22, lon: 10.95 }
-];
-
-async function fetchWeather(city: { name: string; lat: number; lon: number }): Promise<WeatherData> {
-  const url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${city.lat}&lon=${city.lon}`;
-  
+async function fetchOslo(): Promise<WeatherData> {
+  const url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${OSLO.lat}&lon=${OSLO.lon}`;
   const response = await fetch(url, {
-    headers: { "User-Agent": "Rubberduck/1.0 (es@rubberduck.no)" }
+    headers: { 'User-Agent': 'Rubberduck/1.0 (es@rubberduck.no)' },
   });
   const data = await response.json();
-  
+
   const latest = data.properties.timeseries[0];
   const details = latest.data.instant.details;
-  const symbol = latest.data.next_1_hours.summary.symbol_code;
-  
+  const symbol: string =
+    latest.data.next_1_hours?.summary?.symbol_code ?? latest.data.next_6_hours?.summary?.symbol_code ?? 'cloudy';
+
   return {
-    city: city.name,
     temperature: details.air_temperature,
-    condition: symbol.replace("_", " "),
+    symbol,
     windSpeed: details.wind_speed,
-    humidity: details.relative_humidity
+    humidity: details.relative_humidity,
   };
 }
 
+const NORSK: Record<string, string> = {
+  clearsky: 'klarvær',
+  fair: 'lettskyet',
+  partlycloudy: 'delvis skyet',
+  cloudy: 'skyet',
+  fog: 'tåke',
+  lightrain: 'lett regn',
+  rain: 'regn',
+  heavyrain: 'kraftig regn',
+  lightrainshowers: 'lette regnbyger',
+  rainshowers: 'regnbyger',
+  heavyrainshowers: 'kraftige regnbyger',
+  lightsleet: 'lett sludd',
+  sleet: 'sludd',
+  heavysleet: 'kraftig sludd',
+  lightsleetshowers: 'lette sluddbyger',
+  sleetshowers: 'sluddbyger',
+  heavysleetshowers: 'kraftige sluddbyger',
+  lightsnow: 'lett snø',
+  snow: 'snø',
+  heavysnow: 'kraftig snø',
+  lightsnowshowers: 'lette snøbyger',
+  snowshowers: 'snøbyger',
+  heavysnowshowers: 'kraftige snøbyger',
+};
+
+// "lightrainandthunder_night" -> "lett regn og torden"
+function describe(symbol: string): string {
+  const base = symbol.replace(/_(day|night|polartwilight)$/, '');
+  const thunder = base.includes('thunder');
+  const plain = base.replace(/(and)?thunder/, '');
+  const text = NORSK[plain] ?? null;
+  if (thunder) return text ? `${text} og torden` : 'torden';
+  return text ?? 'skyet';
+}
+
+type Mood = 'thunder' | 'fog' | 'snow' | 'sleet' | 'heavyrain' | 'rain' | 'clear' | 'cloudy';
+
+function moodOf(symbol: string): Mood {
+  const s = symbol.replace(/_(day|night|polartwilight)$/, '');
+  if (s.includes('thunder')) return 'thunder';
+  if (s.includes('fog')) return 'fog';
+  if (s.includes('snow')) return 'snow';
+  if (s.includes('sleet')) return 'sleet';
+  if (s.includes('heavyrain')) return 'heavyrain';
+  if (s.includes('rain')) return 'rain';
+  if (s === 'clearsky' || s === 'fair') return 'clear';
+  return 'cloudy';
+}
+
+const QUIPS: Record<Mood, string[]> = {
+  clear: ['Klarvær. Ikke venn deg til det.', 'Sola er ute. Gå ut, eller ikke. Jeg er en terminal.'],
+  cloudy: ['Skyet. Oslo som vanlig.', 'Overskyet. Overrasker ingen.'],
+  rain: ['Regn. Igjen.', 'Det regner. Du visste det.', 'Vått. Naturlig nok.'],
+  heavyrain: ['Kraftig regn. Planene dine er avlyst.', 'Det pøser ned. Bli inne.'],
+  snow: ['Snø. Byen er overrasket, som alltid.', 'Snø. Alt blir forsinket.'],
+  sleet: ['Sludd. Været klarer ikke å bestemme seg.', 'Sludd. Det verste fra begge verdener.'],
+  fog: ['Tåke. Nyt mysteriet.', 'Tåke. Sikt: dårlig. Humør: det samme.'],
+  thunder: ['Torden. Dramatisk.', 'Torden. Lagre jobben din.'],
+};
+
+// Terminalen skriver linjene som HTML, så alt brukeren har skrevet må escapes.
+function escapeHtml(text: string): string {
+  return text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+}
+
+function pick<T>(items: T[]): T {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function extremes(w: WeatherData): string[] {
+  const extra: string[] = [];
+  if (w.temperature <= 0) extra.push('Minusgrader. Ta på den ordentlige jakka.');
+  if (w.temperature >= 25) extra.push('Varmt. Regn med at alle nevner det.');
+  if (w.windSpeed >= 10) extra.push('Kraftig vind. Hold deg fast i noe.');
+  return extra;
+}
+
+// Norsk desimalkomma: 2.5 -> "2,5"
+const nb = (n: number) => String(n).replace('.', ',');
+
 export const weatherCommand: Command = {
   name: 'weather',
-  description: 'Show weather for a city or all cities',
+  description: 'Vær i Oslo, med kommentarer',
   execute: async (args, { setLines }) => {
+    const out = (content: string) => ({ content, type: 'output' as const });
     try {
-      setLines(prev => [...prev, { content: 'Fetching weather data...', type: 'output' }]);
-      
       if (args.length > 0) {
-        const cityName = args.join(' ');
-        const city = cities.find(c => c.name.toLowerCase() === cityName.toLowerCase());
-        
-        if (city) {
-          const weather = await fetchWeather(city);
-          setLines(prev => [
-            ...prev,
-            { content: `Weather for ${weather.city}:`, type: 'output' },
-            { content: `  Temperature: ${weather.temperature}°C`, type: 'output' },
-            { content: `  Condition: ${weather.condition}`, type: 'output' },
-            { content: `  Wind Speed: ${weather.windSpeed} m/s`, type: 'output' },
-            { content: `  Humidity: ${weather.humidity}%`, type: 'output' }
-          ]);
-        } else {
-          setLines(prev => [
-            ...prev,
-            { content: `City not found: ${cityName}`, type: 'output' },
-            { content: 'Available cities: ' + cities.map(c => c.name).join(', '), type: 'output' }
-          ]);
+        const asked = args.join(' ');
+        if (asked.toLowerCase() !== 'oslo') {
+          setLines(prev => [...prev, out(`${escapeHtml(asked)}? Bare Oslo. Beklager.`)]);
+          return;
         }
-      } else {
-        const weatherData = await Promise.all(cities.map(fetchWeather));
-        setLines(prev => [
-          ...prev,
-          { content: 'Current weather in Norwegian cities:', type: 'output' },
-          ...weatherData.map(weather => ({
-            content: `${weather.city}: ${weather.temperature}°C, ${weather.condition}`,
-            type: 'output' as const
-          }))
-        ]);
       }
-    } catch (error) {
-      setLines(prev => [...prev, { content: 'Error fetching weather data. Please try again later.', type: 'output' }]);
+
+      setLines(prev => [...prev, out('Sjekker Oslo...')]);
+      const w = await fetchOslo();
+
+      setLines(prev => [
+        ...prev,
+        out('Oslo akkurat nå:'),
+        out(`  Temperatur: ${nb(w.temperature)}°C`),
+        out(`  Vær: ${describe(w.symbol)}`),
+        out(`  Vind: ${nb(w.windSpeed)} m/s`),
+        out(`  Luftfuktighet: ${nb(w.humidity)}%`),
+        out(''),
+        out(pick(QUIPS[moodOf(w.symbol)])),
+        ...extremes(w).map(out),
+      ]);
+    } catch {
+      setLines(prev => [...prev, out('Fikk ikke tak i været. Se ut av vinduet.')]);
     }
-  }
+  },
 };
