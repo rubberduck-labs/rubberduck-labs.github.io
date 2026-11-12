@@ -328,5 +328,60 @@
         });
       })();
     </script>
+    <script>
+      // Pilene henter musa når den er på vei mot tilbake-knappen (kun med mus, ikke ved redusert bevegelse).
+      (function () {
+        var btn = document.getElementById('apply-btn');
+        if (!btn || !window.matchMedia || !Element.prototype.animate) return;
+        var mq = function (q) { return window.matchMedia(q).matches; };
+        if (!mq('(hover: hover) and (pointer: fine)') || mq('(prefers-reduced-motion: reduce)')) return;
+        var last = null, busy = false, fired = 0;
+        function fetchMouse(x, y) {
+          if (fired >= 3 || busy || btn.disabled) return;
+          fired++; busy = true;
+          var w = window.innerWidth, h = window.innerHeight, r = btn.getBoundingClientRect();
+          var tg = document.querySelector('.btn-top'), tr = tg && tg.getBoundingClientRect();
+          if (tr && tr.width) r = tr; else tg = null;
+          var b = { x: r.left + r.width / 2, y: Math.min(r.top + r.height / 2, h - 40) };
+          if (tg) tg.style.visibility = 'hidden';
+          var c = { x: Math.min(Math.max(x, 50), w - 50), y: Math.max(y, 70) };
+          var base = Math.atan2(b.y - c.y, b.x - c.x);
+          var layer = document.createElement('div');
+          layer.setAttribute('aria-hidden', 'true');
+          layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;color:#1f2937';
+          document.body.appendChild(layer);
+          var ang = function (from, to) { return Math.atan2(-(to.x - from.x), to.y - from.y) * 180 / Math.PI; };
+          var at = function (p, rot, o) { return { transform: 'translate(' + (p.x - 14) + 'px,' + (p.y - 24) + 'px) rotate(' + rot + 'deg)', opacity: o }; };
+          var ring = function (a, d) { return { x: c.x + Math.cos(a) * d, y: c.y + Math.sin(a) * d }; };
+          [-0.7, 0, 0.7].forEach(function (spread, i) {
+            var a = base + spread;
+            var pf = ring(a, 110), pn = ring(a, 44), pb = ring(a, 36);
+            var toC = ang(pn, c), toB = ang(pn, b);
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 30 50');
+            svg.style.cssText = 'position:absolute;left:0;top:0;width:29px;height:48px;fill:none;stroke:currentColor;stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 0 rgba(255,255,255,.5))';
+            svg.innerHTML = '<use href="#arr-down"/>';
+            layer.appendChild(svg);
+            var anim = svg.animate([
+              Object.assign(at(b, ang(b, c), 1), { offset: 0 }),
+              Object.assign(at(pf, toC, 1), { offset: 0.3, easing: 'ease-in' }),
+              Object.assign(at(pb, toC, 1), { offset: 0.42 }),
+              Object.assign(at(pn, toC, 1), { offset: 0.52 }),
+              Object.assign(at(pb, toC, 1), { offset: 0.62 }),
+              Object.assign(at(pn, toB + 360, 1), { offset: 0.72 }),
+              Object.assign(at(b, toB + 360, 0), { offset: 1, easing: 'ease-in' })
+            ], { duration: 2400, delay: i * 90, fill: 'both' });
+            if (i === 2) anim.onfinish = function () { layer.remove(); if (tg) tg.style.visibility = ''; busy = false; };
+          });
+        }
+        document.addEventListener('mousemove', function (e) {
+          if (last && e.clientY < 90 && last.y - e.clientY >= 4) fetchMouse(e.clientX, e.clientY);
+          last = { x: e.clientX, y: e.clientY };
+        });
+        document.documentElement.addEventListener('mouseleave', function (e) {
+          if (e.clientY <= 0) fetchMouse(e.clientX, 0);
+        });
+      })();
+    </script>
   </body>
 </html>
