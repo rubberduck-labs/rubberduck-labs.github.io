@@ -125,8 +125,8 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
                 Team
               </Link>
               <Link
-                to="/impact"
-                className={getLinkClasses('/impact')}
+                to="/kunder"
+                className={getLinkClasses('/kunder')}
               >
                 Her er vi
               </Link>
@@ -195,8 +195,8 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               Team
             </Link>
             <Link
-              to="/impact"
-              className={getMobileLinkClasses('/impact')}
+              to="/kunder"
+              className={getMobileLinkClasses('/kunder')}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Her er vi

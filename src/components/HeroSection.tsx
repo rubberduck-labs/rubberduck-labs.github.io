@@ -42,7 +42,7 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
               {/* Button group with fixed widths */}
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                 <Link
-                  to="/impact"
+                  to="/kunder"
                   className="inline-flex h-11 items-center justify-center w-full sm:w-[160px] px-6 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
                   Her er vi

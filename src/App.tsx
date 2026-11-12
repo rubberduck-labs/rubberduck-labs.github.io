@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -52,7 +52,8 @@ function App() {
             <Route path="/" element={<HomePage setBackgroundColor={setBackgroundColor} />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/jobs" element={<JobsPage />} />
-            <Route path="/impact" element={<ImpactPage />} />
+            <Route path="/kunder" element={<ImpactPage />} />
+            <Route path="/impact" element={<Navigate to="/kunder" replace />} />
             <Route path="/handbook" element={<HandbookPage />} />
             <Route path="/oppdrag" element={<OppdragPage />} />
           </Routes>
