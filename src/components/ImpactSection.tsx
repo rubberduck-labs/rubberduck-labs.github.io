@@ -1,135 +1,70 @@
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+type Featured = { name: string; logo: string; tall: boolean; text: string };
+type Logo = { name: string; logo: string; tall: boolean };
 
-
-interface Client {
-  name: string;
-  image: string;
-  description: string;
-}
-
-const clients: Client[] = [
-  {
-    name: "Avinor",
-    image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop",
-    description: "På oppdrag hos Avinor har Rubberduck vært en sentral bidragsyter i gjennomføringen av en større migrering av tjenester og infrastruktur til sky. Vi er også en del av et meget progressivt og fremoverlent miljø som jobber med utvikling innenfor alt fra parkering - både for bil og fly - til systemer for køtidsprediksjoner."
-  },
-  {
-    name: "Posten Bring AS",
-    image: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=2072&auto=format&fit=crop",
-    description: "Vårt samarbeid med Posten strekker seg over flere år og Rubberduck har bistått med å få i havn mange viktige prosjekter, blant annet Pakkeboks som de fleste i Norge har et forhold til. Posten har vunnet prisen som Norges mest innovative selskap opptil flere ganger, og det er den type miljø som våre konsulenter stortrives i."
-  },
-  {
-    name: "Eika",
-    image: "https://images.unsplash.com/photo-1601597111158-2fceff292cdc?q=80&w=2070&auto=format&fit=crop",
-    description: "Helt siden Rubberducks oppstart i 2005 har vi hatt konsulenter på plass i Eika. Bank og finans er et veldig spennende og viktig område som har hatt mye utvikling de siste årene. Vi trives veldig godt på Eika, nettopp fordi vi har hatt mulighet til å delta på så mange viktige prosjekter som har formet bankhverdagen til så mange."
-  },
-  {
-    name: "Tolletaten",
-    image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop",
-    description: "I Tolletaten jobber vi med samfunnskritiske systemer som er i bruk døgnet rundt av tollbetjenter for å utføre grense- og vareførselskontroller. Tolletaten er en etat som aldri sover! Etaten krever derfor at systemer utvikles med robust og sikker kode, og dette er noe vi brenner for."
-  },
-  {
-    name: "Statistisk sentralbyrå",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-    description: "SSB har et fremoverlent teknisk miljø der Rubberduck har stor frihet over hvordan ting bygges og driftes. All kode som produseres er åpen kildekode. Vi jobber med utvikling av \"Dapla\" - SSBs dataplattform i skyen, hvor data fra mange ulike kilder hentes inn, pseudonymiseres og konverteres til felles format som kan brukes til statistikk."
-  }
+const featured: Featured[] = [
+  { name: "Posten Bring", logo: "/logos/postenbring.png", tall: true, text: "Vårt samarbeid med Posten strekker seg over flere år og Rubberduck har bistått med å få i havn mange viktige prosjekter, blant annet Pakkeboks som de fleste i Norge har et forhold til. Posten har vunnet prisen som Norges mest innovative selskap opptil flere ganger, og det er den type miljø som våre konsulenter stortrives i." },
+  { name: "Eika", logo: "/logos/eika.svg", tall: false, text: "Helt siden Rubberducks oppstart i 2005 har vi hatt konsulenter på plass i Eika. Bank og finans er et veldig spennende og viktig område som har hatt mye utvikling de siste årene. Vi trives veldig godt på Eika, nettopp fordi vi har hatt mulighet til å delta på så mange viktige prosjekter som har formet bankhverdagen til så mange." },
+  { name: "Bama", logo: "/logos/bama.svg", tall: false, text: "Frukt og grønt skal fra bonden til butikkhyllene, og de digitale systemene må henge med. Siden 2025 har vi vært med på å bygge skyplattformen Bama skal bygge videre på, fra design til ferdig løsning." },
+  { name: "SpareBank 1", logo: "/logos/sparebank1.svg", tall: false, text: "I SB1 Bedrift finner bedriftskundene i hele SpareBank 1-alliansen bank, pensjon, forsikring og regnskap på ett sted. Vi har vært med på å bygge løsningen hos SpareBank 1 Utvikling siden 2024. Vi trives med å bygge noe så mange bruker, og som må fungere hver eneste dag." },
 ];
 
-export function ImpactSection({}: ImpactSectionProps) {
-  const [currentClient, setCurrentClient] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+const others: Logo[] = [
+  { name: "Avinor", logo: "/logos/avinor.svg", tall: false },
+  { name: "DNB", logo: "/logos/dnb.svg", tall: false },
+  { name: "Forbrukerrådet", logo: "/logos/forbrukerradet.svg", tall: false },
+  { name: "Kahoot!", logo: "/logos/kahoot.svg", tall: false },
+  { name: "NAV", logo: "/logos/nav.svg", tall: false },
+  { name: "Norsk Gjenvinning", logo: "/logos/norskgjenvinning.png", tall: true },
+  { name: "SSB", logo: "/logos/ssb.png", tall: false },
+  { name: "Tine", logo: "/logos/tine.svg", tall: false },
+  { name: "Telenor", logo: "/logos/telenor.svg", tall: false },
+  { name: "Yr.no / NRK", logo: "/logos/yr.svg", tall: true },
+];
 
-  const nextClient = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentClient((prev) => (prev + 1) % clients.length);
-    setTimeout(() => setIsAnimating(false), 500);
-  };
-
-  const prevClient = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentClient((prev) => (prev - 1 + clients.length) % clients.length);
-    setTimeout(() => setIsAnimating(false), 500);
-  };
-
+export function ImpactSection() {
   return (
     <section id="impact" className="py-16 md:py-24">
-      <div className="container mx-auto px-4">
-
-        {/* Subheading for clients */}
+      <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-bold text-custom-dark dark:text-white mb-4">
-            Her er vi
-          </h3>
+          <h3 className="text-2xl md:text-3xl font-bold text-custom-dark dark:text-white mb-4">Her er vi</h3>
           <p className="text-lg text-custom-dark/80 dark:text-white/80">
             Vi jobber med noen av Norges mest spennende bedrifter
           </p>
         </div>
-        
-        {/* Centered client carousel */}
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl overflow-hidden">
-            <div className="relative aspect-video">
-              <img
-                src={clients[currentClient].image}
-                alt={clients[currentClient].name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <h3 className="absolute bottom-6 left-6 text-3xl font-bold text-white">
-                {clients[currentClient].name}
-              </h3>
-            </div>
-            
-            <div className="p-6">
-              <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">
-                {clients[currentClient].description}
-              </p>
-            </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-zinc-700">
-              <button
-                onClick={prevClient}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-full transition-colors"
-                disabled={isAnimating}
-              >
-                <ChevronLeft className="w-6 h-6 text-custom-dark dark:text-white" />
-              </button>
-
-              {/* Dots */}
-              <div className="flex gap-2">
-                {clients.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      if (!isAnimating) {
-                        setIsAnimating(true);
-                        setCurrentClient(index);
-                        setTimeout(() => setIsAnimating(false), 500);
-                      }
-                    }}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === currentClient
-                        ? 'w-6 bg-custom-dark dark:bg-white'
-                        : 'bg-gray-300 dark:bg-zinc-600'
-                    }`}
+        <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl divide-y divide-gray-200 dark:divide-zinc-700">
+          {featured.map((c) => (
+            <div key={c.name} className="grid gap-4 md:grid-cols-[180px_1fr] md:gap-10 items-center p-6 md:p-8">
+              <div className="flex items-center h-16">
+                <div className="bg-white rounded-lg px-2 py-1 flex items-center">
+                  <img
+                    src={c.logo}
+                    alt={c.name}
+                    loading="lazy"
+                    className={c.tall ? 'h-16 w-auto max-w-[120px] object-contain' : 'h-11 w-auto max-w-[160px] object-contain'}
                   />
-                ))}
+                </div>
               </div>
-
-              <button
-                onClick={nextClient}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-full transition-colors"
-                disabled={isAnimating}
-              >
-                <ChevronRight className="w-6 h-6 text-custom-dark dark:text-white" />
-              </button>
+              <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">{c.text}</p>
             </div>
-          </div>
+          ))}
         </div>
+
+        <h4 className="mt-12 mb-4 text-sm font-semibold uppercase tracking-widest text-custom-dark/70 dark:text-white/70">
+          Og mange flere, her er noen av dem
+        </h4>
+        <ul className="grid grid-cols-2 md:grid-cols-5 gap-px bg-gray-200 dark:bg-zinc-700 rounded-2xl overflow-hidden shadow-xl">
+          {others.map((c) => (
+            <li key={c.name} className="bg-white flex items-center justify-center h-28 px-6">
+              <img
+                src={c.logo}
+                alt={c.name}
+                loading="lazy"
+                className={c.tall ? 'h-16 w-auto max-w-[65%] object-contain' : 'h-11 w-auto max-w-[80%] object-contain'}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
