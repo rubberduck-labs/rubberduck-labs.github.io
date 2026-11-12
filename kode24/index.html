@@ -11,7 +11,7 @@
     <style>
       :root {
         --ink: #1f2937;
-        --bg: #f1f3f5;
+        --bg: #ffe45c;
         --fg: var(--ink);
         
         --box: #ffffff;
@@ -20,9 +20,6 @@
         --box-line: #eceef1;
         --display: system-ui, -apple-system, sans-serif;
         --body: system-ui, -apple-system, sans-serif;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root { --bg: #111827; --fg: #e5e7eb; }
       }
       * { box-sizing: border-box; }
       html { -webkit-text-size-adjust: 100%; }
@@ -40,7 +37,6 @@
       header.top .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
       header.top .icon { height: clamp(32px, 4.5vw, 48px); width: auto; }
       header.top .logo { width: clamp(150px, 30vw, 200px); height: auto; }
-      @media (prefers-color-scheme: dark) { header.top img { filter: invert(1); } }
 
       .hero { margin-bottom: 40px; }
       .hero h1 { font: 600 40px/1.1 var(--display); letter-spacing: -0.025em; margin: 48px 0 0; }
@@ -65,7 +61,8 @@
       .row dd ol, .row dd ul { margin: 4px 0 0; padding-left: 1.4em; }
       .row dd li + li { margin-top: 2px; }
 
-      .row input { font: inherit; width: 8em; padding: 6px 10px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; }
+      .apply textarea::placeholder, .apply input::placeholder { color: var(--box-muted); opacity: 1; }
+      .row input { font: inherit; width: 8em; max-width: 100%; padding: 6px 10px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; }
       .row input:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .row.total dt, .row.total dd { font-weight: 700; color: var(--box-ink); }
       .note { margin: 0; padding: 14px 0 12px; border-top: 1px solid var(--box-line); color: var(--box-muted); font-size: 14px; }
@@ -85,9 +82,9 @@
       .apply p { margin: 0 0 16px; color: var(--box-muted); max-width: 60ch; }
       .apply label { display: block; font-weight: 600; color: var(--box-ink); margin-bottom: 8px; }
       .apply .field { display: flex; flex-wrap: wrap; gap: 10px; }
-      .apply textarea { display: block; width: 100%; font: inherit; padding: 10px 12px; margin-bottom: 18px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; resize: vertical; }
+      .apply textarea { display: block; width: 100%; font: inherit; padding: 10px 12px; margin-bottom: 18px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; resize: vertical; }
       .apply textarea:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
-      .apply input[type=email] { font: inherit; flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid #c9cfd8; border-radius: 2px; color: var(--box-ink); background: #fff; }
+      .apply input[type=email] { font: inherit; flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; }
       .apply input[type=email]:focus-visible, .apply button:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .apply button { font: inherit; font-weight: 600; padding: 10px 22px; border: 1px solid var(--box-ink); border-radius: 2px; background: var(--box-ink); color: #fff; cursor: pointer; }
       .apply button:disabled { opacity: 0.6; cursor: default; }
@@ -95,7 +92,7 @@
       .apply .small { margin: 12px 0 0; font-size: 14px; }
       .apply .status { margin: 12px 0 0; font-size: 15px; color: var(--box-ink); min-height: 1.5em; }
 
-      .site-footer { background: #18181b; color: rgba(255, 255, 255, 0.8); margin: 0 -16px; padding: 56px 16px 32px; font-weight: 300; }
+      .site-footer { background: #18181b; color: rgba(255, 255, 255, 0.8); margin: 0 -16px; padding: 56px 16px 32px; font-weight: 400; }
       .site-footer .inner { max-width: 920px; margin: 0 auto; }
       .site-footer .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
       @media (max-width: 760px) { .site-footer .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -120,6 +117,7 @@
         </a>
       </header>
 
+      <main id="main">
       <section class="hero">
         <img class="strip" src="kvakker.png" alt="Tegneserie med en gul and. Første rute: Kvakker du som oss? Andre rute: Går du som oss?" width="1280" height="490" />
         <h1>Jobb hos oss</h1>
@@ -213,7 +211,7 @@
           <p class="note">Av de 70 % betaler vi arbeidsgiveravgift, og resten går til årslønn og feriepenger. Beløpene er før skatt. Feriepenger er 12 % og arbeidsgiveravgiften 14,1 % av lønnen.</p></div>
         </section>
       </div>
-
+      </main>
     </div>
 
     <footer class="site-footer">
