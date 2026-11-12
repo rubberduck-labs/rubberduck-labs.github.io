@@ -35,7 +35,7 @@
         -webkit-font-smoothing: antialiased;
         padding-inline: 16px;
       }
-      .wrap { max-width: 920px; margin: 0 auto; padding-block: 36px 88px; }
+      .wrap { max-width: 920px; margin: 0 auto; padding-block: 36px 56px; }
       header.top { display: flex; align-items: center; gap: 10px; padding-block: 0 20px; margin-bottom: 44px; border-bottom: 1px solid rgba(17, 24, 39, 0.14); }
       header.top .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
       header.top img { height: 32px; width: 32px; }
@@ -94,8 +94,17 @@
       .apply .small { margin: 12px 0 0; font-size: 14px; }
       .apply .status { margin: 12px 0 0; font-size: 15px; color: var(--box-ink); min-height: 1.5em; }
 
-      footer.end { margin-top: 56px; padding-top: 20px; border-top: 1px solid rgba(17, 24, 39, 0.14); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; }
-      footer.end p { margin: 0; }
+      .site-footer { background: #18181b; color: rgba(255, 255, 255, 0.8); margin: 0 -16px; padding: 56px 16px 32px; font-weight: 300; }
+      .site-footer .inner { max-width: 920px; margin: 0 auto; }
+      .site-footer .cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+      @media (max-width: 760px) { .site-footer .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      @media (max-width: 420px) { .site-footer .cols { grid-template-columns: 1fr; } }
+      .site-footer h3 { margin: 0 0 10px; font: 500 16px/1.3 var(--display); color: #fff; }
+      .site-footer p { margin: 0; }
+      .site-footer a { color: inherit; text-decoration: none; }
+      .site-footer a:hover { color: #fff; }
+      .site-footer a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+      .site-footer .bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; font-size: 14px; color: rgba(255, 255, 255, 0.6); }
       a { color: inherit; text-underline-offset: 3px; }
       .box a { color: var(--box-ink); }
       a:focus-visible { outline: 3px solid currentColor; outline-offset: 3px; border-radius: 4px; }
@@ -204,11 +213,35 @@
         </section>
       </div>
 
-      <footer class="end">
-        <p>Spørsmål? <a href="mailto:hei@rubberduck.no">hei@rubberduck.no</a></p>
-        <p><a href="/#/jobs">Les mer om Rubberduck</a></p>
-      </footer>
     </div>
+
+    <footer class="site-footer">
+      <div class="inner">
+        <div class="cols">
+          <div>
+            <h3>E-post</h3>
+            <a href="mailto:hei@rubberduck.no">hei@rubberduck.no</a>
+          </div>
+          <div>
+            <h3>Telefon</h3>
+            <a href="tel:+4721520196">+47 21 52 01 96</a>
+          </div>
+          <div>
+            <h3>Postadresse</h3>
+            <p>Postboks 4814</p>
+            <p>0422 Oslo</p>
+          </div>
+          <div>
+            <h3>Besøksadresse</h3>
+            <p>Nydalsveien 28</p>
+            <p>Oslo</p>
+          </div>
+        </div>
+        <div class="bottom">
+          <p>© 2026 Rubberduck AS. Org.nr 988 353 612</p>
+        </div>
+      </div>
+    </footer>
     <script>
       // Samme regnestykke som kalkulatoren på rubberduck.no/#/jobs: fakturert × 0,7 ÷ 1,261.
       (function () {
