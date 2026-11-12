@@ -35,7 +35,7 @@ export function ImpactSection() {
         <div className="bg-white dark:bg-zinc-800 rounded-2xl shadow-xl divide-y divide-gray-200 dark:divide-zinc-700">
           {featured.map((c) => (
             <div key={c.name} className="grid gap-4 md:grid-cols-[180px_1fr] md:gap-10 items-center p-6 md:p-8">
-              <div className="flex items-center h-16">
+              <div className="flex items-center justify-start md:justify-center h-16">
                 <div className="bg-white rounded-lg px-2 py-1 flex items-center">
                   <img
                     src={c.logo}
