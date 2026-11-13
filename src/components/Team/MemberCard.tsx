@@ -1,7 +1,9 @@
 import { MemberImage } from "./MemberImage";
 import { MemberNameCard } from "./MemberNameCard";
-import { FileText } from "lucide-react";
+import { FileText, Grid2x2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import { TeamMember } from "./types";
+import { CustomDialog } from "../CustomDialog";
 
 interface MemberCardProps {
   member: TeamMember;
@@ -10,9 +12,20 @@ interface MemberCardProps {
 
 
 export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
+  const [hikuOpen, setHikuOpen] = useState(false);
+  const hasHiku = member.name === 'Espen Schulstad';
+  // Dagens Hiku lastes først når noen åpner det. Skriptet monterer spillet i alle [data-hiku] på siden.
+  useEffect(() => {
+    if (!hikuOpen || document.querySelector('script[data-hiku-embed]')) return;
+    const script = document.createElement('script');
+    script.src = 'https://hikupuzzle.com/daily/embed.js';
+    script.async = true;
+    script.dataset.hikuEmbed = '1';
+    document.head.appendChild(script);
+  }, [hikuOpen]);
   return (
     <div
-      className="group relative  rounded-xl overflow-visible  transition-all duration-300 lg:h-[500px] h-[300px]"
+      className={`group relative  rounded-xl overflow-visible  transition-all duration-300 lg:h-[500px] h-[300px]`}
     >
       <MemberImage member={member} />
       <MemberNameCard member={member} />
@@ -29,6 +42,23 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
           <span className="text-sm sm:text-base font-semibold">Se CV</span>
         </div>
       </button>
+
+      {hasHiku && (
+        <>
+          <button
+            type="button"
+            onClick={() => setHikuOpen(true)}
+            className="absolute bottom-4 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full text-custom-dark/80 hover:bg-custom-dark/10 hover:text-custom-dark transition-colors"
+            aria-label="Dagens hiku"
+            title="Dagens hiku"
+          >
+            <Grid2x2 className="h-4 w-4" />
+          </button>
+          <CustomDialog open={hikuOpen} onClose={() => setHikuOpen(false)} widthClass="sm:max-w-[460px]">
+            <div className="pt-8"><div data-hiku data-lang="nb" /></div>
+          </CustomDialog>
+        </>
+      )}
     </div>
   )
 }

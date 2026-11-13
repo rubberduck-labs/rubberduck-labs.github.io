@@ -5,10 +5,12 @@ interface CustomDialogProps {
   open: boolean;
   onClose: () => void;
   title?: string;
+  /** Overstyrer maksbredden fra sm og opp, for eksempel «sm:max-w-md». */
+  widthClass?: string;
   children: React.ReactNode;
 }
 
-export function CustomDialog({ open, onClose, title, children }: CustomDialogProps) {
+export function CustomDialog({ open, onClose, title, widthClass = "sm:max-w-3xl", children }: CustomDialogProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollYRef = useRef<number>(0);
 
@@ -72,7 +74,7 @@ export function CustomDialog({ open, onClose, title, children }: CustomDialogPro
     >
       <div
         ref={contentRef}
-        className="relative bg-white  dark:bg-zinc-900 dark:text-zinc-100 w-full h-full sm:h-auto sm:max-h-[90vh] sm:max-w-3xl rounded-none sm:rounded-xl overflow-hidden flex flex-col dark:ring-1 dark:ring-white/20 "
+        className={`relative bg-white  dark:bg-zinc-900 dark:text-zinc-100 w-full h-full sm:h-auto sm:max-h-[90vh] ${widthClass} rounded-none sm:rounded-xl overflow-hidden flex flex-col dark:ring-1 dark:ring-white/20 `}
       >
         <div className="absolute top-2 right-4">
           <button
