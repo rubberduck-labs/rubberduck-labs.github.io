@@ -83,6 +83,7 @@
   scrollbar-color: #96702599 #ead9af;
   scrollbar-gutter: stable;
   overscroll-behavior-y: contain;
+  touch-action: pan-y;
   overflow-wrap: anywhere;
   hyphens: auto;
 }

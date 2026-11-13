@@ -59,6 +59,26 @@ export default function FlipBook() {
   children.push(<ManuscriptCover key="back" title="Rubberduck" subtitle="Slutt" />);
 
   const last = children.length - 1;
+  // På mobil styrer biblioteket ikke lenger berøring, for da ble et trykk eller en liten sidebevegelse mens man rullet
+  // teksten til et sidebytte. I stedet blar et tydelig sidelengs sveip, og vertikale bevegelser får bare rulle.
+  const touch = useRef<{ x: number; y: number; t: number } | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => {
+    const p = e.touches[0];
+    touch.current = { x: p.clientX, y: p.clientY, t: Date.now() };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touch.current;
+    touch.current = null;
+    if (landscape || !start) return;
+    const p = e.changedTouches[0];
+    const dx = p.clientX - start.x;
+    const dy = p.clientY - start.y;
+    if (Math.abs(dx) > 60 && Math.abs(dy) < 40 && Math.abs(dx) > Math.abs(dy) * 2.5 && Date.now() - start.t < 700) {
+      if (dx < 0) book.current?.pageFlip().flipNext();
+      else book.current?.pageFlip().flipPrev();
+    }
+  };
+
   // turnToPage hopper rett til siden uten å melde fra, så tilstanden settes her.
   const goTo = (n: number) => {
     book.current?.pageFlip().turnToPage(n);
@@ -73,10 +93,13 @@ export default function FlipBook() {
       {/* Lukket bok viser bare én side, og den står på halvdelen av oppslaget. Flytt den så den står midt på siden. */}
       <div style={{ overflowY: 'clip', overflowX: 'visible' }}>
       <div
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
         className="flex justify-center transition-transform duration-700 ease-in-out"
         style={{ transform: landscape ? `translateX(${resting && page === 0 ? '-25%' : resting && page >= last ? '25%' : '0'})` : undefined }}
       >
         <HTMLFlipBook
+          key={landscape ? 'spread' : 'single'}
           ref={book as never}
           width={420}
           height={600}
@@ -92,13 +115,13 @@ export default function FlipBook() {
           usePortrait
           startZIndex={0}
           autoSize
-          clickEventForward
-          useMouseEvents
+          clickEventForward={landscape}
+          useMouseEvents={landscape}
           swipeDistance={30}
           showPageCorners
-          disableFlipByClick={false}
+          disableFlipByClick={false} // useMouseEvents={false} på mobil stopper trykk. Denne må stå av, ellers avviser biblioteket flipPrev().
           mobileScrollSupport
-          startPage={0}
+          startPage={page}
           className="book-shadow"
           style={{}}
           onFlip={(e: { data: number }) => setPage(e.data)}
