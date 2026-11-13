@@ -6,11 +6,11 @@
   var URL_ = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/t';
   var path = function () { return location.hash.indexOf('#/') === 0 ? location.hash.slice(1) : location.pathname; };
   var first = true;
-  function send(e) {
+  function send(e, label) {
     try {
       var q = new URLSearchParams(location.search);
       var body = JSON.stringify({
-        e: e, p: path(), w: window.innerWidth,
+        e: e, l: typeof label === 'string' ? label : undefined, p: path(), w: window.innerWidth,
         r: first && e === 'pageview' ? document.referrer || undefined : undefined,
         u: { source: q.get('utm_source') || undefined, campaign: q.get('utm_campaign') || undefined },
       });

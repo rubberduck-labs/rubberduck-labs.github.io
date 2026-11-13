@@ -94,6 +94,10 @@
       .who { margin-left: auto; font-size: 13px; font-weight: 400; color: var(--muted); }
       .who a { color: inherit; }
       .msg:empty { display: none; }
+      .more { margin: 16px 0 0; }
+      .more button { font: inherit; padding: 8px 14px; border: 1px solid var(--line); border-radius: 2px; background: var(--box); color: var(--fg); cursor: pointer; }
+      .more button:disabled { opacity: .6; cursor: default; }
+      .more button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
       .msg { color: var(--muted); padding: 24px 0; }
       @media (max-width: 640px) { .hide-s { display: none; } }
     </style>
@@ -161,6 +165,7 @@
         <thead><tr><th>Tid</th><th>Hendelse</th><th>Side</th><th class="hide-s">Fra</th><th class="hide-s">Enhet</th></tr></thead>
         <tbody id="rows"></tbody>
       </table>
+      <p class="more"><button type="button" id="more" hidden>Hent flere</button></p>
     </div>
     </div>
     <script>
@@ -175,7 +180,7 @@
         var token = '', who = '';
         try { token = localStorage.getItem(KEY) || ''; who = localStorage.getItem(WHO) || ''; } catch (e) {}
         var $ = function (id) { return document.getElementById(id); };
-        var LABEL = { pageview: 'Besøk', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn' };
+        var LABEL = { pageview: 'Besøk', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn', message_started: 'Begynte på beskrivelsen', calc_used: 'Brukte kalkulatoren', team_cv_open: 'Åpnet CV' };
         function ago(iso) {
           var s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000));
           return s < 60 ? s + ' s siden' : Math.round(s / 60) + ' min siden';
@@ -224,19 +229,40 @@
           drawChart(d.hourly);
           $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visits').textContent = d.today.besok; $('visitors').textContent = d.today.besokende;
           $('clicks').textContent = d.today.klikk_sok; $('sent').textContent = d.today.sendt;
-          var body = $('rows'); body.textContent = '';
-          d.events.forEach(function (e) {
+          latest = d.events;
+          render();
+        }
+        // De nyeste hendelsene kommer fra hver oppdatering. «Hent flere» legger eldre til under, og de blir værende.
+        var latest = [], older = [], exhausted = false;
+        function shown() {
+          var cut = latest.length ? latest[latest.length - 1].created_at : null;
+          return latest.concat(older.filter(function (e) { return !cut || e.created_at < cut; }));
+        }
+        function render() {
+          var list = shown(), body = $('rows'); body.textContent = '';
+          list.forEach(function (e) {
             var tr = document.createElement('tr');
             cell(tr, ago(e.created_at), 't');
-            cell(tr, LABEL[e.event] || e.event, 'ev ' + e.event);
+            cell(tr, (LABEL[e.event] || e.event) + (e.label ? ': ' + e.label : ''), 'ev ' + e.event);
             cell(tr, e.path);
             cell(tr, e.campaign || e.referrer || 'direkte', 'hide-s');
             cell(tr, [e.screen, e.browser].filter(Boolean).join(' · '), 'hide-s');
             body.appendChild(tr);
           });
-          $('tbl').hidden = !d.events.length;
-          $('msg').textContent = d.events.length ? '' : 'Ingen hendelser de siste 30 minuttene.';
+          $('tbl').hidden = !list.length;
+          $('more').hidden = !list.length || exhausted;
+          $('msg').textContent = list.length ? '' : 'Ingen hendelser ennå.';
         }
+        $('more').addEventListener('click', function (e) {
+          var list = shown(), btn = e.target;
+          if (!list.length || !token) return;
+          btn.disabled = true;
+          fetch(API + '?before=' + encodeURIComponent(list[list.length - 1].created_at), { headers: { Authorization: 'Bearer ' + token } })
+            .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function (j) { older = older.concat(j.events); if (j.events.length < 50) exhausted = true; render(); })
+            .catch(function () { $('msg').textContent = 'Kunne ikke hente flere.'; })
+            .then(function () { btn.disabled = false; });
+        });
         // Uinnlogget ser alle bare «404»-siden. Dashbordet og stilene slås på først når innloggingen er godkjent.
         function setMode(auth) {
           $('faux').media = auth ? 'not all' : 'all'; $('appcss').media = auth ? 'all' : 'not all';

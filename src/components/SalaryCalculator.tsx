@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { calculateProvision } from '../utils/salary';
+import { track } from '../utils/track';
 
 export function SalaryCalculator() {
   const [rate, setRate] = useState('1600');
   const [hours, setHours] = useState('1600');
+  const used = useRef(false);
+  const markUsed = () => { if (!used.current) { used.current = true; track('calc_used'); } };
 
   const result = rate && hours 
     ? calculateProvision(Number(rate), Number(hours))
@@ -30,7 +33,7 @@ export function SalaryCalculator() {
             <input
               type="number"
               value={rate}
-              onChange={(e) => setRate(e.target.value)}
+              onChange={(e) => { markUsed(); setRate(e.target.value); }}
               className="w-full px-3 py-2 bg-zinc-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono"
               placeholder="1600"
             />
@@ -40,7 +43,7 @@ export function SalaryCalculator() {
             <input
               type="number"
               value={hours}
-              onChange={(e) => setHours(e.target.value)}
+              onChange={(e) => { markUsed(); setHours(e.target.value); }}
               className="w-full px-3 py-2 bg-zinc-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono"
               placeholder="1600"
             />

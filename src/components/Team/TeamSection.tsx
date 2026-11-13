@@ -6,6 +6,7 @@ import { MemberCvDialogContent } from "./MemberCvDialogContent";
 import { MemberCard } from "./MemberCard";
 import { CustomDialog } from "../CustomDialog";
 import { sessionEmployees } from "./utils";
+import { track } from "../../utils/track";
 
 export function TeamSection() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
@@ -43,7 +44,7 @@ export function TeamSection() {
 
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
           {allMembers.map((member, index) => (
-            <MemberCard member={member} setSelectedMember={setSelectedMember} key={member.name + index} />
+            <MemberCard member={member} setSelectedMember={(m) => { track('team_cv_open', m.name); setSelectedMember(m); }} key={member.name + index} />
           ))}
         </div>
 

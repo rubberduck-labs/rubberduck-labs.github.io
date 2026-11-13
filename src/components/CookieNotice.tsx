@@ -37,7 +37,7 @@ export function CookieNotice() {
       `}
     >
       <Cookie className="w-3 h-3" />
-      <p>Nettsiden bruker ingen cookies eller sporingsverktøy</p>
+      <p>Vi bruker ingen cookies, men samler anonym besøksstatistikk</p>
     </div>
   );
 }
