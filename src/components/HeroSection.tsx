@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { CookieNotice } from './CookieNotice';
 import { Terminal } from './Terminal';
 import { SeasonalBanner } from './SeasonalBanner';
@@ -41,12 +40,12 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               {/* Button group with fixed widths */}
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                <Link
-                  to="/kunder"
-                  className="inline-flex h-11 items-center justify-center w-full sm:w-[160px] px-6 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
+                <a
+                  href="/kode24/"
+                  className="inline-flex h-11 items-center justify-center w-full sm:w-[190px] px-6 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
                 >
-                  Her er vi
-                </Link>
+                  Jobb i Rubberduck
+                </a>
                 <button
                   type="button"
                   onClick={() => setIsContactOpen(true)}
