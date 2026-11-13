@@ -199,7 +199,7 @@
         var token = '', who = '';
         try { token = localStorage.getItem(KEY) || ''; who = localStorage.getItem(WHO) || ''; } catch (e) {}
         var $ = function (id) { return document.getElementById(id); };
-        var LABEL = { pageview: 'Besøk', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn', message_started: 'Begynte på beskrivelsen', calc_used: 'Brukte kalkulatoren', team_cv_open: 'Åpnet CV' };
+        var LABEL = { pageview: 'Besøk', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn', message_started: 'Begynte på beskrivelsen', calc_used: 'Brukte kalkulatoren', team_cv_open: 'Åpnet CV', hiku_open: 'Åpnet Hiku', hiku_play: 'Spilte Hiku' };
         function ago(iso) {
           var s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000));
           return s < 60 ? s + ' s siden' : Math.round(s / 60) + ' min siden';
