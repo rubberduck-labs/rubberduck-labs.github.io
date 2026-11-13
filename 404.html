@@ -254,12 +254,15 @@
         // De nyeste hendelsene kommer fra hver oppdatering. «Hent flere» legger eldre til under, og de blir værende.
         var latest = [], older = [], exhausted = false, visitors = [], view = 'ev', open = {};
         var clock = new Intl.DateTimeFormat('nb-NO', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'Europe/Oslo' });
+        function liveDot(td, last, id) {
+          if (Date.now() - Date.parse(last) < 5 * 60000) { var d = document.createElement('span'); d.className = 'dot live'; d.title = id ? 'Inne nå · #' + id : 'Inne nå'; td.insertBefore(d, td.firstChild); }
+        }
         function renderVisitors() {
           var body = $('vrows'); body.textContent = '';
           visitors.forEach(function (v) {
             var tr = document.createElement('tr'); tr.className = 'v'; tr.tabIndex = 0;
             cell(tr, ago(v.last), 't'); var idc = cell(tr, '#' + v.id);
-            if (Date.now() - Date.parse(v.last) < 5 * 60000) { var d = document.createElement('span'); d.className = 'dot live'; d.title = 'Inne nå'; idc.insertBefore(d, idc.firstChild); } cell(tr, String(v.besok)); cell(tr, String(v.visninger));
+            liveDot(idc, v.last); cell(tr, String(v.besok)); cell(tr, String(v.visninger));
             cell(tr, v.fra || 'direkte', 'hide-s'); cell(tr, [v.screen, v.browser].filter(Boolean).join(' · '), 'hide-s');
             body.appendChild(tr);
             var dr = document.createElement('tr'); dr.className = 'vd'; dr.hidden = !open[v.id];
@@ -293,9 +296,11 @@
         }
         function render() {
           var list = shown(), body = $('rows'); body.textContent = '';
+          var lastSeen = {}; visitors.forEach(function (v) { lastSeen[v.id] = v.last; });
           list.forEach(function (e) {
             var tr = document.createElement('tr');
-            cell(tr, ago(e.created_at), 't');
+            var tc = cell(tr, ago(e.created_at), 't');
+            if (lastSeen[e.v]) liveDot(tc, lastSeen[e.v], e.v);
             cell(tr, (LABEL[e.event] || e.event) + (e.label ? ': ' + e.label : ''), 'ev ' + e.event);
             cell(tr, e.path);
             cell(tr, e.campaign || e.referrer || 'direkte', 'hide-s');
