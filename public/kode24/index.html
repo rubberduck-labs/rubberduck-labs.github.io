@@ -7,6 +7,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>Jobb i Rubberduck</title>
     <script src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js" data-app-id="4951D471-44AC-4A8C-B21E-D1F5CF04B17C"></script>
+    <script src="/t.js" defer></script>
     <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
     <style>
       :root {
@@ -322,6 +323,7 @@
         try { source = new URLSearchParams(location.search).get('kilde') || 'kode24'; } catch (e) {}
         var utm = {};
         try { var q = new URLSearchParams(location.search); utm = { source: q.get('utm_source') || undefined, campaign: q.get('utm_campaign') || undefined }; } catch (e) {}
+        btn.addEventListener('click', function () { if (window.rdTrack) rdTrack('apply_click'); });
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var value = email.value.trim();
@@ -333,7 +335,7 @@
             body: JSON.stringify({ email: value, message: document.getElementById('message').value, source: source, referrer: document.referrer || undefined, utm: utm, website: document.getElementById('website').value })
           }).then(function (r) {
             if (!r.ok) throw new Error(r.status);
-            status.textContent = 'Takk! Vi tar kontakt.'; form.reset();
+            status.textContent = 'Takk! Vi tar kontakt.'; form.reset(); if (window.rdTrack) rdTrack('apply_sent');
           }).catch(function () {
             status.textContent = 'Noe gikk galt. Send oss en e-post på hei@rubberduck.no i stedet.'; btn.disabled = false;
           });

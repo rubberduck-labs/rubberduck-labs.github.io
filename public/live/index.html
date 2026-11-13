@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Intern side. Ingen lenker til den, og noindex holder den unna søkemotorer. Data hentes bare med token. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Live trafikk</title>
+    <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
+    <style>
+      :root { --bg: #f1f3f5; --fg: #1f2937; --box: #fff; --muted: #4b5563; --line: #eceef1; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #111827; --fg: #e5e7eb; --box: #1f2937; --muted: #9ca3af; --line: #374151; } }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--fg); font: 400 15px/1.5 system-ui, -apple-system, sans-serif; padding: 24px 16px 64px; font-variant-numeric: tabular-nums; }
+      .wrap { max-width: 960px; margin: 0 auto; }
+      h1 { font-size: 22px; margin: 0 0 20px; display: flex; align-items: center; gap: 10px; }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: #16a34a; animation: pulse 1.6s ease-in-out infinite; }
+      .dot.off { background: #9ca3af; animation: none; }
+      @keyframes pulse { 50% { opacity: .35; } }
+      @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+      .card { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 14px 16px; }
+      .card b { display: block; font-size: 30px; line-height: 1.1; }
+      .card span { color: var(--muted); font-size: 13px; }
+      table { width: 100%; border-collapse: collapse; background: var(--box); border: 1px solid var(--line); }
+      th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+      td.t { color: var(--muted); white-space: nowrap; }
+      .ev { font-weight: 600; }
+      .ev.apply_sent { color: #16a34a; }
+      .msg { color: var(--muted); padding: 24px 0; }
+      @media (max-width: 640px) { .hide-s { display: none; } }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1><span class="dot off" id="dot"></span>Live trafikk</h1>
+      <div class="cards">
+        <div class="card"><b id="online">–</b><span>inne nå (siste 5 min)</span></div>
+        <div class="card"><b id="views">–</b><span>visninger i dag</span></div>
+        <div class="card"><b id="visitors">–</b><span>besøkende i dag</span></div>
+        <div class="card"><b id="clicks">–</b><span>klikket Søk her</span></div>
+        <div class="card"><b id="sent">–</b><span>sendte søknad</span></div>
+      </div>
+      <div class="msg" id="msg"></div>
+      <table id="tbl" hidden>
+        <thead><tr><th>Tid</th><th>Hendelse</th><th>Side</th><th class="hide-s">Fra</th><th class="hide-s">Enhet</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <script>
+      (function () {
+        var API = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/stats';
+        var KEY = 'rd-stats-token';
+        var token = '';
+        try { token = localStorage.getItem(KEY) || ''; } catch (e) {}
+        var $ = function (id) { return document.getElementById(id); };
+        var LABEL = { pageview: 'Besøk', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn' };
+        function ask() {
+          token = (prompt('Token for statistikk') || '').trim();
+          try { token ? localStorage.setItem(KEY, token) : localStorage.removeItem(KEY); } catch (e) {}
+        }
+        function ago(iso) {
+          var s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000));
+          return s < 60 ? s + ' s siden' : Math.round(s / 60) + ' min siden';
+        }
+        function cell(tr, text, cls) { var td = document.createElement('td'); td.textContent = text || ''; if (cls) td.className = cls; tr.appendChild(td); return td; }
+        function draw(d) {
+          $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visitors').textContent = d.today.besokende;
+          $('clicks').textContent = d.today.klikk_sok; $('sent').textContent = d.today.sendt;
+          var body = $('rows'); body.textContent = '';
+          d.events.forEach(function (e) {
+            var tr = document.createElement('tr');
+            cell(tr, ago(e.created_at), 't');
+            cell(tr, LABEL[e.event] || e.event, 'ev ' + e.event);
+            cell(tr, e.path);
+            cell(tr, e.campaign || e.referrer || 'direkte', 'hide-s');
+            cell(tr, [e.screen, e.browser].filter(Boolean).join(' · '), 'hide-s');
+            body.appendChild(tr);
+          });
+          $('tbl').hidden = !d.events.length;
+          $('msg').textContent = d.events.length ? '' : 'Ingen hendelser de siste 30 minuttene.';
+        }
+        function tick() {
+          if (!token) { $('dot').className = 'dot off'; $('msg').textContent = 'Mangler token. Last siden på nytt.'; return; }
+          fetch(API, { headers: { Authorization: 'Bearer ' + token } }).then(function (r) {
+            if (r.status === 401) { try { localStorage.removeItem(KEY); } catch (e) {} token = ''; throw new Error('Feil token. Last siden på nytt.'); }
+            if (!r.ok) throw new Error('Feil ' + r.status);
+            return r.json();
+          }).then(function (d) { $('dot').className = 'dot'; draw(d); setTimeout(tick, 5000); })
+            .catch(function (e) { $('dot').className = 'dot off'; $('msg').textContent = e.message; if (token) setTimeout(tick, 10000); });
+        }
+        if (!token) ask();
+        tick();
+      })();
+    </script>
+  </body>
+</html>
