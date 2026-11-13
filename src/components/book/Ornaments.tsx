@@ -328,3 +328,217 @@ export function CoffeeStain({ className = "" }: OrnamentProps) {
     </svg>
   );
 }
+
+
+export function CoverArt({
+  title,
+  subtitle,
+  className = "",
+  back = false,
+}: {
+  title: string;
+  subtitle?: string;
+  className?: string;
+  back?: boolean;
+}) {
+  const id = useSvgId("cover");
+  const caps = (t: string) => t.toLocaleUpperCase("nb");
+  const bronze = `url(#${id}-bronze)`;
+  const dark = "#1c1509";
+  const CX = 210;
+  const CY = 218;
+
+  // Stor tittel under, liten linje over: som på en gammel bok.
+  const bigSize = Math.min(44, Math.floor(280 / (title.length * 0.82)));
+  const smallSize = subtitle ? Math.min(22, Math.floor(280 / (subtitle.length * 0.8))) : 0;
+
+  // Messinghjørnene: en plate med skålt kant og utskårne blomster, speilet til alle fire hjørner.
+  const plate = "M2 2 H98 C107 2 110 7 105 14 C99 23 89 25 83 33 C75 43 81 53 73 61 C65 69 55 65 47 73 C39 81 41 93 33 99 C27 103 19 101 13 105 C6 109 2 105 2 97 Z";
+  const cornerShape = (
+    <g>
+      <mask id={`${id}-pierce`} maskUnits="userSpaceOnUse" x="0" y="0" width="115" height="115">
+        <path d={plate} fill="#fff" />
+        <circle cx="35" cy="35" r="17" fill="#000" />
+        <ellipse cx="70" cy="21" rx="9" ry="4.5" transform="rotate(14 70 21)" fill="#000" />
+        <ellipse cx="21" cy="70" rx="9" ry="4.5" transform="rotate(76 21 70)" fill="#000" />
+        <circle cx="62" cy="44" r="4" fill="#000" />
+        <circle cx="44" cy="62" r="4" fill="#000" />
+        <path d="M84 14 q8 3 6 11 q-8 -1 -6 -11z" fill="#000" />
+        <path d="M14 84 q3 8 11 6 q-1 -8 -11 -6z" fill="#000" />
+      </mask>
+      <path d={plate} fill={dark} transform="translate(1.6 2.4)" opacity="0.5" />
+      <rect x="0" y="0" width="115" height="115" fill={bronze} mask={`url(#${id}-pierce)`} />
+      {/* Blomst inne i den store åpningen */}
+      <g fill={bronze} stroke={dark} strokeWidth="1" strokeOpacity="0.7">
+        {[0, 72, 144, 216, 288].map((r) => (
+          <ellipse key={r} cx="35" cy="24.5" rx="4.6" ry="8" transform={`rotate(${r} 35 35)`} />
+        ))}
+        <circle cx="35" cy="35" r="5" />
+      </g>
+      <circle cx="35" cy="35" r="2" fill={dark} fillOpacity="0.7" />
+      {/* Kantlinje og nagler */}
+      <path d={plate} fill="none" stroke={dark} strokeOpacity="0.6" strokeWidth="1.3" />
+      <path d="M8 8 H94 M8 8 V94" fill="none" stroke="#e9d49a" strokeOpacity="0.55" strokeWidth="1" />
+      <circle cx="9" cy="9" r="3.4" fill={dark} fillOpacity="0.6" />
+      <circle cx="9" cy="9" r="2.2" fill={bronze} />
+      <circle cx="96" cy="9" r="2.6" fill={bronze} stroke={dark} strokeOpacity="0.6" strokeWidth="0.8" />
+      <circle cx="9" cy="96" r="2.6" fill={bronze} stroke={dark} strokeOpacity="0.6" strokeWidth="0.8" />
+    </g>
+  );
+  const corners = [
+    { tx: 22, ty: 22, sx: 1, sy: 1 },
+    { tx: 398, ty: 22, sx: -1, sy: 1 },
+    { tx: 22, ty: 578, sx: 1, sy: -1 },
+    { tx: 398, ty: 578, sx: -1, sy: -1 },
+  ];
+
+  // Medaljongen: to slynger i en ring, med en åtte inni der de krysser hverandre over og under.
+  const body = 11;
+  const scales = (w: number) => (
+    <g fill="none" stroke={dark} strokeOpacity="0.55" strokeWidth={w} strokeDasharray="1.5 3.1" />
+  );
+  void scales;
+  const loopTop = { cx: CX, cy: CY - 25, r: 35 };
+  const loopBot = { cx: CX, cy: CY + 25, r: 35 };
+  const crossY = CY;
+  const crossDx = Math.sqrt(35 * 35 - 25 * 25);
+  const strand = (c: { cx: number; cy: number; r: number }, key: string) => (
+    <g key={key} fill="none">
+      <circle cx={c.cx} cy={c.cy} r={c.r} stroke={dark} strokeWidth={body + 4} strokeOpacity="0.9" />
+      <circle cx={c.cx} cy={c.cy} r={c.r} stroke={bronze} strokeWidth={body} />
+      <circle cx={c.cx} cy={c.cy} r={c.r} stroke={dark} strokeWidth={body} strokeOpacity="0.7" strokeDasharray="1.5 3.1" />
+      <circle cx={c.cx - 1.5} cy={c.cy - 1.5} r={c.r} stroke="#e8d49a" strokeWidth="1.4" strokeOpacity="0.32" />
+    </g>
+  );
+
+  return (
+    <svg className={className} viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label={title} focusable="false">
+      <defs>
+        <clipPath id={`${id}-clip`}>
+          <rect width="420" height="600" rx="5" />
+        </clipPath>
+        <linearGradient id={`${id}-base`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#c98d45" />
+          <stop offset="0.5" stopColor="#bb7b36" />
+          <stop offset="1" stopColor="#a8682a" />
+        </linearGradient>
+        <linearGradient id={`${id}-bronze`} gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="420" y2="600">
+          <stop offset="0" stopColor="#a58d57" />
+          <stop offset="0.25" stopColor="#6b5830" />
+          <stop offset="0.5" stopColor="#ad9660" />
+          <stop offset="0.75" stopColor="#4c3d1f" />
+          <stop offset="1" stopColor="#7e6a3b" />
+        </linearGradient>
+        <radialGradient id={`${id}-light`} cx="46%" cy="36%" r="75%">
+          <stop offset="0" stopColor="#ffd9a0" stopOpacity="0.22" />
+          <stop offset="0.6" stopColor="#000" stopOpacity="0" />
+          <stop offset="1" stopColor="#1c0d03" stopOpacity="0.5" />
+        </radialGradient>
+        <linearGradient id={`${id}-spine`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#1c0d03" stopOpacity="0.5" />
+          <stop offset="1" stopColor="#1c0d03" stopOpacity="0" />
+        </linearGradient>
+
+        {/* Skinn: store folder som får lys og skygge, flekker i fargen og fint korn */}
+        <filter id={`${id}-leather`} filterUnits="userSpaceOnUse" x="0" y="0" width="420" height="600" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.0085" numOctaves="3" seed="11" result="wr" />
+          <feDiffuseLighting in="wr" surfaceScale="6.5" diffuseConstant="1.15" lightingColor="#fff3dc" result="folds">
+            <feDistantLight azimuth="238" elevation="48" />
+          </feDiffuseLighting>
+          <feTurbulence type="fractalNoise" baseFrequency="0.02 0.03" numOctaves="2" seed="3" result="mot" />
+          <feColorMatrix in="mot" type="saturate" values="0" result="motg" />
+          <feComponentTransfer in="motg" result="mott">
+            <feFuncR type="linear" slope="0.2" intercept="0.82" />
+            <feFuncG type="linear" slope="0.2" intercept="0.82" />
+            <feFuncB type="linear" slope="0.2" intercept="0.82" />
+          </feComponentTransfer>
+          <feComposite in="SourceGraphic" in2="folds" operator="arithmetic" k1="1.5" k2="0" k3="0" k4="0" result="a" />
+          <feComposite in="a" in2="mott" operator="arithmetic" k1="1.06" k2="0" k3="0" k4="0" result="b" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.6 0.85" numOctaves="1" seed="7" result="gr" />
+          <feDiffuseLighting in="gr" surfaceScale="0.55" diffuseConstant="1" lightingColor="#ffffff" result="grl">
+            <feDistantLight azimuth="225" elevation="58" />
+          </feDiffuseLighting>
+          <feComposite in="b" in2="grl" operator="arithmetic" k1="1.26" k2="0" k3="0" k4="0" />
+        </filter>
+
+        {/* Metall: små utpressede kanter med matt glans og skygge i leveren */}
+        <filter id={`${id}-metal`} x="-10%" y="-10%" width="125%" height="125%" colorInterpolationFilters="sRGB">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="0.9" result="h" />
+          <feSpecularLighting in="h" surfaceScale="2.6" specularConstant="0.4" specularExponent="18" lightingColor="#d9c590" result="spec">
+            <feDistantLight azimuth="235" elevation="46" />
+          </feSpecularLighting>
+          <feComposite in="spec" in2="SourceAlpha" operator="in" result="hl" />
+          <feComposite in="SourceGraphic" in2="hl" operator="arithmetic" k1="0" k2="1" k3="0.45" k4="0" result="m" />
+          <feDropShadow in="SourceAlpha" dx="1.8" dy="3" stdDeviation="1.8" floodColor="#140a02" floodOpacity="0.85" />
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in="m" />
+          </feMerge>
+        </filter>
+
+        {/* Innpreget tekst */}
+        <filter id={`${id}-deboss`} x="-4%" y="-20%" width="108%" height="140%">
+          <feOffset in="SourceAlpha" dx="0.8" dy="1" result="dn" />
+          <feFlood floodColor="#f0b873" floodOpacity="0.5" />
+          <feComposite in2="dn" operator="in" result="rim" />
+          <feMerge>
+            <feMergeNode in="rim" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <clipPath id={`${id}-x1`}>
+          <circle cx={CX - crossDx} cy={crossY} r="13" />
+        </clipPath>
+        <clipPath id={`${id}-x2`}>
+          <circle cx={CX + crossDx} cy={crossY} r="13" />
+        </clipPath>
+      </defs>
+
+      <g clipPath={`url(#${id}-clip)`}>
+        {/* Skinnet */}
+        <rect width="420" height="600" fill={`url(#${id}-base)`} filter={`url(#${id}-leather)`} />
+        <rect width="420" height="600" fill={`url(#${id}-light)`} />
+        {/* Ryggen */}
+        <rect x={back ? 392 : 0} width="28" height="600" fill={`url(#${id}-spine)`} transform={back ? "translate(812 0) scale(-1 1)" : undefined} />
+
+        {/* Hjørner */}
+        {corners.map((c, i) => (
+          <g key={i} filter={`url(#${id}-metal)`}>
+            <g transform={`translate(${c.tx} ${c.ty}) scale(${c.sx} ${c.sy})`}>{cornerShape}</g>
+          </g>
+        ))}
+
+        {/* Medaljong */}
+        <g filter={`url(#${id}-metal)`}>
+          <circle cx={CX} cy={CY} r="60" fill="none" stroke={dark} strokeWidth={body + 5} strokeOpacity="0.9" />
+          <circle cx={CX} cy={CY} r="60" fill="none" stroke={bronze} strokeWidth={body + 1} />
+          <circle cx={CX} cy={CY} r="60" fill="none" stroke={dark} strokeWidth={body + 1} strokeOpacity="0.7" strokeDasharray="1.5 3.1" />
+          {strand(loopTop, "t")}
+          {strand(loopBot, "b")}
+          {/* Over og under: venstre kryss har toppsløyfen øverst, høyre kryss har bunnsløyfen øverst */}
+          <g clipPath={`url(#${id}-x1)`}>{strand(loopTop, "t1")}</g>
+          <g clipPath={`url(#${id}-x2)`}>{strand(loopBot, "b1")}</g>
+          {/* Hoder */}
+          {[
+            { x: CX + 60 * Math.cos((-40 * Math.PI) / 180), y: CY + 60 * Math.sin((-40 * Math.PI) / 180), r: 50 },
+            { x: CX + 60 * Math.cos((140 * Math.PI) / 180), y: CY + 60 * Math.sin((140 * Math.PI) / 180), r: 230 },
+          ].map((h, i) => (
+            <g key={i} transform={`translate(${h.x} ${h.y}) rotate(${h.r})`}>
+              <ellipse cx="0" cy="0" rx="10" ry="7" fill={dark} fillOpacity="0.9" />
+              <ellipse cx="0" cy="0" rx="8.6" ry="5.8" fill={bronze} />
+              <circle cx="3" cy="-2" r="1.4" fill={dark} />
+            </g>
+          ))}
+        </g>
+
+        {/* Tittel */}
+        <g textAnchor="middle" fontFamily="var(--ms-body, Georgia, serif)" filter={`url(#${id}-deboss)`} fill="#0f0a05">
+          {subtitle && (
+            <text x={CX} y="392" fontSize={smallSize} letterSpacing="5" fontWeight="700">{caps(subtitle)}</text>
+          )}
+          <text x={CX} y="438" fontSize={bigSize} letterSpacing="4" fontWeight="700">{caps(title)}</text>
+        </g>
+      </g>
+    </svg>
+  );
+}

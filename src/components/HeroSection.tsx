@@ -67,6 +67,8 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
                 <SeasonalBanner />
               </div>
             </div>
+            {/* Mobil: ligger under teksten (order-7). Større skjermer: fast lapp nede til høyre. */}
+            <CookieNotice className="order-7" />
           </div>
 
           {/* Programmereren: på mobil skaleres scenen ned og står under introen */}
@@ -81,7 +83,6 @@ export function HeroSection({ setBackgroundColor }: HeroSectionProps) {
         setBackgroundColor={setBackgroundColor}
       />
       <ContactDialog open={isContactOpen} onClose={() => setIsContactOpen(false)} />
-      <CookieNotice />
     </section>
   );
 }

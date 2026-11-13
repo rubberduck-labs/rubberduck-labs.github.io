@@ -1,0 +1,291 @@
+.book-shell {
+  --overhang: 7px;
+  --page-width: 50%;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 18px 16px 40px;
+  overflow: visible;
+}
+
+.book-shell[data-layout="single"] {
+  --page-width: 100%;
+}
+
+.book-shell__stage {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+  aspect-ratio: 840 / 600;
+  transform: translateX(var(--book-shift));
+  transition: transform 700ms ease-in-out;
+}
+
+.book-shell[data-layout="single"] .book-shell__stage {
+  max-width: 520px;
+  aspect-ratio: 420 / 600;
+}
+
+.book-shell__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/*
+ * autoSize={false}: this stage owns both dimensions.
+ * Keep these rules scoped; do not override page transforms or positioning.
+ */
+.book-shell__content > .stf__parent {
+  width: 100%;
+  height: 100%;
+}
+
+.book-shell__content .stf__wrapper {
+  height: 100%;
+}
+
+.book-shell__decor {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.book-shell__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--page-width);
+}
+
+.book-shell__panel--left {
+  left: 0;
+  --depth: var(--left-depth);
+}
+
+.book-shell__panel--right {
+  right: 0;
+  --depth: var(--right-depth);
+}
+
+.book-shell__board {
+  position: absolute;
+  inset: calc(-1 * var(--overhang));
+  border: 1px solid #593419;
+  border-radius: 6px 2px 2px 6px;
+  background:
+    linear-gradient(
+      180deg,
+      #e0ac69 0,
+      #ae7239 2px,
+      #845025 5px,
+      #975c2d calc(100% - 3px),
+      #4c2b16 100%
+    );
+  box-shadow:
+    inset 1px 1px 0 #f6cc8b66,
+    inset -1px -2px 1px #321a0b99,
+    0 3px 0 #492b17,
+    0 5px 2px #130b0855;
+}
+
+.book-shell__panel--right .book-shell__board {
+  border-radius: 2px 6px 6px 2px;
+}
+
+.book-shell__edges {
+  position: absolute;
+  top: 2px;
+  bottom: -3px;
+  left: calc(-1 * var(--depth));
+  right: 0;
+  border-radius: 4px 1px 1px 4px;
+  background:
+    linear-gradient(90deg, #856f4b88, transparent 5px),
+    repeating-linear-gradient(
+      to bottom,
+      #eee0ba 0 1px,
+      #b9a67c 1px 1.5px,
+      #f7ebce 1.5px 3px
+    );
+  box-shadow:
+    inset 0 1px 1px #fff5d9,
+    inset 0 -1px 2px #75603e;
+}
+
+.book-shell__panel--right .book-shell__edges {
+  left: 0;
+  right: calc(-1 * var(--depth));
+  border-radius: 1px 4px 4px 1px;
+  background:
+    linear-gradient(270deg, #856f4b88, transparent 5px),
+    repeating-linear-gradient(
+      to bottom,
+      #eee0ba 0 1px,
+      #b9a67c 1px 1.5px,
+      #f7ebce 1.5px 3px
+    );
+}
+
+/* Head-on view: only a small bottom edge can reasonably be visible. */
+.book-shell__edges::after {
+  content: "";
+  position: absolute;
+  inset: auto 1px 0;
+  height: 3px;
+  background:
+    linear-gradient(#f0dfb8, #9c875d),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 2px,
+      #59482d55 2px 2.5px
+    );
+  background-blend-mode: multiply;
+}
+
+.book-shell__footprint {
+  position: absolute;
+  inset: 0;
+}
+
+.book-shell__ambient {
+  position: absolute;
+  inset: 5% -5% -25px;
+  border-radius: 12px;
+  box-shadow: 0 22px 34px 6px #05060bb0, 16px 22px 34px 2px #05060b80;
+}
+
+.book-shell__contact {
+  position: absolute;
+  left: -7%;
+  right: -7%;
+  bottom: -29px;
+  height: 50px;
+  background: radial-gradient(
+    ellipse at center,
+    #05080dcc 0,
+    #05080d66 30%,
+    #05080d00 72%
+  );
+}
+
+.book-shell__gutter {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 18px);
+  width: 36px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #3a24130b 20%,
+    #2b180e38 44%,
+    #160c0759 50%,
+    #2b180e2b 57%,
+    transparent
+  );
+}
+
+/* Front cover is on the right; back cover is on the left. */
+.book-shell[data-layout="spread"][data-pose="front"]
+  .book-shell__panel--left,
+.book-shell[data-layout="spread"][data-pose="back"]
+  .book-shell__panel--right {
+  visibility: hidden;
+}
+
+.book-shell[data-layout="spread"][data-pose="front"]
+  .book-shell__footprint {
+  left: 50%;
+}
+
+.book-shell[data-layout="spread"][data-pose="back"]
+  .book-shell__footprint {
+  right: 50%;
+}
+
+.book-shell[data-layout="single"] .book-shell__panel--left {
+  display: none;
+}
+
+.book-shell[data-layout="single"] .book-shell__panel--right {
+  --depth: 5px;
+}
+
+.book-shell[data-layout="single"][data-pose="back"]
+  .book-shell__panel--right {
+  left: 0;
+  right: auto;
+}
+
+.book-shell[data-layout="single"][data-pose="back"]
+  .book-shell__board {
+  border-radius: 6px 2px 2px 6px;
+}
+
+/* Closed boards should conceal the cream page block. */
+.book-shell:not([data-pose="open"]) .book-shell__edges {
+  visibility: hidden;
+}
+
+.book-shell:not([data-pose="open"]) .book-shell__gutter,
+.book-shell[data-layout="single"] .book-shell__gutter,
+.book-shell[data-resting="false"] .book-shell__gutter {
+  visibility: hidden;
+}
+
+/*
+ * Hide stationary board/stack silhouettes while the library moves the cover.
+ * Otherwise an apparently second, unmoving cover remains underneath it.
+ * Keep the contact/ambient shadows.
+ */
+.book-shell[data-resting="false"] .book-shell__panel {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-shell__stage {
+    transition: none;
+  }
+}
+
+
+/* Scenen rundt boken: mørk fløyel med et varmt lys ovenfra til venstre, og tung skygge. Tones ut i kantene så den ikke blir en boks. */
+.book-stage {
+  position: relative;
+  isolation: isolate;
+  padding: 28px 0 56px;
+}
+.book-stage::before {
+  content: "";
+  position: absolute;
+  inset: -48px -8%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 52% 46% at 40% 26%, rgb(255 205 140 / 0.34), rgb(255 190 120 / 0.1) 55%, transparent 78%),
+    radial-gradient(ellipse at 50% 55%, #2b1d2a 0%, #181019 55%, #0b0709 100%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 72% at 50% 50%, #000 52%, transparent 100%);
+  mask-image: radial-gradient(ellipse 78% 72% at 50% 50%, #000 52%, transparent 100%);
+}
+/* Lyset ligger også over selve boken: en mykt varm flekk øverst til venstre og mørkere mot bunn og høyre */
+.book-stage__light {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 48% at 38% 24%, rgb(255 232 190 / 0.13), transparent 70%),
+    linear-gradient(160deg, transparent 45%, rgb(0 0 0 / 0.3) 100%);
+}
+
+/* Siden som vendes stikker ut under boken. Klipp bare loddrett, rett ved bokens kant. */
+.book-shell__content {
+  overflow-y: clip;
+  overflow-x: visible;
+}

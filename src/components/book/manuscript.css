@@ -415,3 +415,54 @@ h6.ms-title {
 }
 .ms-page--right .ms-coffee { right: 6%; }
 .ms-page--left .ms-coffee { left: 6%; }
+
+/* Coveret er nå én tegning. Den gamle rammen og tittelen i CSS er skjult. */
+.ms-cover::before { display: none; }
+.ms-cover { padding: 0; }
+.ms-cover__art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.ms-cover {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 2px 6px 6px 2px;
+  background: #986638;
+  box-shadow: none;
+}
+
+.ms-cover[data-back="true"] {
+  border-radius: 6px 2px 2px 6px;
+}
+
+.ms-cover__art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Global edge lighting, independent of the detailed SVG artwork. */
+.ms-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 1px 0 #ffe2ad80,
+    inset 1px 0 1px #ecc68e44,
+    inset -2px 0 2px #29170d80,
+    inset 0 -3px 2px #29170d99;
+}
+
+/*
+ * Explicit inexpensive fallback. Add class "book-materials-lite" to an
+ * ancestor if profiling on your target iPhone shows filter repainting.
+ */
+.book-materials-lite .ms-cover__grain {
+  display: none;
+}
+
+.book-materials-lite .ms-cover__metal {
+  filter: none;
+}

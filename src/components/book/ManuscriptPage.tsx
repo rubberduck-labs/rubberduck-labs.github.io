@@ -1,8 +1,7 @@
 import { createElement, forwardRef, type CSSProperties, type ReactNode } from "react";
-import { CoffeeStain, DropCap, Flourish, Shield, VineBorder } from "./Ornaments";
+import { CoffeeStain, CoverArt, DropCap, Shield, VineBorder } from "./Ornaments";
 import "./manuscript.css";
 import type { BookPage } from "./types";
-import { RubberDuckIcon } from "../Icons/RubberDuckIcon";
 
 export interface ManuscriptPageProps {
   children: ReactNode;
@@ -18,6 +17,7 @@ export interface ManuscriptPageProps {
 export interface ManuscriptCoverProps {
   title?: string;
   subtitle?: string;
+  back?: boolean;
 }
 
 export interface BlockRendererProps {
@@ -250,20 +250,23 @@ export const ManuscriptCover = forwardRef<
   HTMLDivElement,
   ManuscriptCoverProps
 >(function ManuscriptCover(
-  { title = "Håndbok", subtitle = "Rubberduck" },
+  { title = "Håndbok", subtitle = "Rubberduck", back = false },
   ref,
 ) {
   return (
-    <div ref={ref} className="ms-cover" data-density="hard" lang="nb">
-      <div className="ms-cover__content">
-        <h1 className="ms-cover__title">{title}</h1>
-
-        <RubberDuckIcon className="ms-cover__duck" aria-hidden="true" focusable="false" />
-
-        <Flourish />
-        {subtitle && <p className="ms-cover__subtitle">{subtitle}</p>}
-      </div>
-      <div className="ms-wear" aria-hidden="true" />
+    <div
+      ref={ref}
+      className="ms-cover"
+      data-back={back ? "true" : "false"}
+      data-density="hard"
+      lang="nb"
+    >
+      <CoverArt
+        className="ms-cover__art"
+        title={title}
+        subtitle={subtitle}
+        back={back}
+      />
     </div>
   );
 });

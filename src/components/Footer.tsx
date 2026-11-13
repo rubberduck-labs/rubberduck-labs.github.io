@@ -22,10 +22,10 @@ export function Footer() {
               Telefon
             </h3>
             <a 
-              href="tel:+4721520196" 
+              href="tel:+4722301010" 
               className="hover:text-white transition-colors"
             >
-              +47 21 52 01 96
+              +47 22 30 10 10
             </a>
           </div>
 
