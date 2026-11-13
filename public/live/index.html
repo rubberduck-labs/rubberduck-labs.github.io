@@ -37,8 +37,9 @@
       <h1><span class="dot off" id="dot"></span>Live trafikk</h1>
       <div class="cards">
         <div class="card"><b id="online">–</b><span>inne nå (siste 5 min)</span></div>
-        <div class="card"><b id="views">–</b><span>visninger i dag</span></div>
-        <div class="card"><b id="visitors">–</b><span>besøkende i dag</span></div>
+        <div class="card"><b id="views">–</b><span>sidevisninger i dag</span></div>
+        <div class="card"><b id="visits">–</b><span>besøk i dag</span></div>
+        <div class="card"><b id="visitors">–</b><span>unike besøkende i dag</span></div>
         <div class="card"><b id="clicks">–</b><span>klikket Søk her</span></div>
         <div class="card"><b id="sent">–</b><span>sendte søknad</span></div>
       </div>
@@ -66,7 +67,7 @@
         }
         function cell(tr, text, cls) { var td = document.createElement('td'); td.textContent = text || ''; if (cls) td.className = cls; tr.appendChild(td); return td; }
         function draw(d) {
-          $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visitors').textContent = d.today.besokende;
+          $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visits').textContent = d.today.besok; $('visitors').textContent = d.today.besokende;
           $('clicks').textContent = d.today.klikk_sok; $('sent').textContent = d.today.sendt;
           var body = $('rows'); body.textContent = '';
           d.events.forEach(function (e) {
