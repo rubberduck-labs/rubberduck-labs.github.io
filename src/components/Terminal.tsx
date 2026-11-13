@@ -279,6 +279,8 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[100]">
       <div 
         ref={terminalRef}
+        role="dialog"
+        aria-label="Terminal"
         className="bg-zinc-900 w-full max-w-4xl rounded-lg shadow-2xl overflow-hidden"
         style={{
           transform: `translate(${position.x}px, ${position.y}px)`,
@@ -298,6 +300,7 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
           </div>
           <button
             onClick={onClose}
+            aria-label="Lukk terminalen"
             className="p-1 hover:bg-zinc-700 rounded-md transition-colors"
           >
             <X className="w-4 h-4 text-zinc-400" />
@@ -307,7 +310,7 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
         {/* Terminal content */}
         <div 
           ref={contentRef}
-          className="p-4 font-mono text-sm h-[500px] overflow-y-auto"
+          className="p-4 font-mono text-sm h-[500px] max-h-[calc(100dvh-8rem)] overflow-y-auto"
           onClick={() => inputRef.current?.focus()}
         >
           {lines.map((line, index) => (
