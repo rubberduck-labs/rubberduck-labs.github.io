@@ -271,7 +271,7 @@
           return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
             .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Noe gikk galt'); return j; }); });
         }
-        $('logo').addEventListener('click', function (e) { e.preventDefault(); $('login').hidden = !$('login').hidden; if (!$('login').hidden) $('email').focus(); });
+        document.querySelectorAll('.logo').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); $('login').hidden = !$('login').hidden; if (!$('login').hidden) $('email').focus(); }); });
         $('login').addEventListener('submit', function (e) {
           e.preventDefault();
           var btn = e.target.querySelector('button'); btn.disabled = true; $('hint').textContent = '';
