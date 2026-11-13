@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { CustomDialog } from './CustomDialog';
+import { track } from '../utils/track';
 
 interface ContactDialogProps {
   open: boolean;
@@ -31,8 +32,10 @@ export function ContactDialog({
   const [message, setMessage] = useState('');
   const [website, setWebsite] = useState(''); // honeypot
   const [status, setStatus] = useState<Status>('idle');
+  const started = useRef(false); // «Begynte å skrive» telles én gang per åpning
 
   const close = () => {
+    started.current = false;
     onClose();
     if (status === 'done') {
       setStatus('idle');
@@ -80,7 +83,13 @@ export function ContactDialog({
                 rows={5}
                 maxLength={1000}
                 value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  if (!started.current && e.target.value.length > 10) {
+                    started.current = true;
+                    track('message_started', kind === 'soknad' ? 'Duck wanted' : 'Kontakt');
+                  }
+                }}
                 className={inputClass}
               />
             </div>

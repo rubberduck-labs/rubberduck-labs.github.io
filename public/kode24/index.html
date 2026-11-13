@@ -309,8 +309,10 @@
           document.getElementById('o-salary').textContent = fmt(salary);
           document.getElementById('o-vac').textContent = fmt(vac);
         }
-        rate.addEventListener('input', calc);
-        hours.addEventListener('input', calc);
+        var calcUsed = false;
+        function trackCalc() { if (!calcUsed) { calcUsed = true; if (window.rdTrack) rdTrack('calc_used'); } }
+        rate.addEventListener('input', function () { trackCalc(); calc(); });
+        hours.addEventListener('input', function () { trackCalc(); calc(); });
         calc();
       })();
     </script>
