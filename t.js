@@ -1,6 +1,8 @@
 // Egen statistikk til Supabase (Edge Function `t`). Ingen cookies, og ingenting skrives i nettleseren.
 (function () {
   if (navigator.doNotTrack === '1') return;
+  // /live/ er intern og skal aldri telles.
+  if (location.pathname.indexOf('/live') === 0) return;
   // Er du innlogget på /live/ i denne nettleseren, telles ikke dine egne besøk.
   try { if (localStorage.getItem('rd-stats-token')) return; } catch (e) {}
   var URL_ = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/t';
