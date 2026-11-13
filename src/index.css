@@ -338,6 +338,8 @@ html {
 
 /* Hiku-brikken på Espens kort: samme utseende som en brikke i spillet, med den gylne rammen som puster. */
 .hiku-tile {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
   border: 0;
   padding: 0;
   border-radius: 16%;

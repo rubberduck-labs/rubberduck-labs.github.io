@@ -63,7 +63,22 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
       className={`group relative  rounded-xl overflow-visible  transition-all duration-300 lg:h-[500px] h-[300px]`}
     >
       <MemberImage member={member} />
-      <MemberNameCard member={member} />
+      <MemberNameCard member={member}>
+        {hasHiku && (
+            <button
+              type="button"
+              onClick={() => setHikuOpen(true)}
+              className="hiku-tile absolute bottom-5 right-6 max-sm:bottom-3 max-sm:right-3 z-10 flex h-9 w-9 max-sm:h-7 max-sm:w-7 items-center justify-center text-lg max-sm:text-sm"
+              aria-label="Dagens hiku"
+              title="Dagens hiku"
+            >
+              {hikuNumber}
+              <span className="hiku-dots" aria-hidden="true">
+                {Array.from({ length: hikuNumber }, (_, i) => <i key={i} />)}
+              </span>
+            </button>
+        )}
+      </MemberNameCard>
 
       {/* Enhanced CV Button */}
       <button
@@ -80,18 +95,7 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
 
       {hasHiku && (
         <>
-          <button
-            type="button"
-            onClick={() => setHikuOpen(true)}
-            className="hiku-tile absolute bottom-5 right-6 z-10 flex h-9 w-9 items-center justify-center text-lg"
-            aria-label="Dagens hiku"
-            title="Dagens hiku"
-          >
-            {hikuNumber}
-            <span className="hiku-dots" aria-hidden="true">
-              {Array.from({ length: hikuNumber }, (_, i) => <i key={i} />)}
-            </span>
-          </button>
+
           <CustomDialog open={hikuOpen} onClose={() => setHikuOpen(false)} widthClass="sm:max-w-[460px]">
             <div className="pt-8">
               {/* key: spillet monteres én gang per element, så et tema-bytte trenger et nytt element */}
