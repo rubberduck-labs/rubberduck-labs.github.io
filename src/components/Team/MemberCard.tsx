@@ -55,7 +55,7 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
             <Grid2x2 className="h-4 w-4" />
           </button>
           <CustomDialog open={hikuOpen} onClose={() => setHikuOpen(false)} widthClass="sm:max-w-[460px]">
-            <div className="pt-8"><div data-hiku data-lang="nb" /></div>
+            <div className="pt-8"><div data-hiku data-lang="nb" data-color="#ffcc14" /></div>
           </CustomDialog>
         </>
       )}
