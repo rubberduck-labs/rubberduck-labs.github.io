@@ -8,8 +8,8 @@
     <title>Live trafikk</title>
     <link rel="icon" type="image/svg+xml" href="/rubberduck-icon.svg" />
     <style>
-      :root { --bg: #f1f3f5; --fg: #1f2937; --box: #fff; --muted: #4b5563; --line: #eceef1; }
-      @media (prefers-color-scheme: dark) { :root { --bg: #111827; --fg: #e5e7eb; --box: #1f2937; --muted: #9ca3af; --line: #374151; } }
+      :root { --bg: #f1f3f5; --fg: #1f2937; --box: #fff; --muted: #4b5563; --line: #eceef1; --bar1: #c7cdd6; --bar2: #1f2937; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #111827; --fg: #e5e7eb; --box: #1f2937; --muted: #9ca3af; --line: #374151; --bar1: #4b5563; --bar2: #e5e7eb; } }
       * { box-sizing: border-box; }
       body { margin: 0; background: var(--bg); color: var(--fg); font: 400 15px/1.5 system-ui, -apple-system, sans-serif; padding: 24px 16px 64px; font-variant-numeric: tabular-nums; }
       .wrap { max-width: 960px; margin: 0 auto; }
@@ -28,6 +28,16 @@
       td.t { color: var(--muted); white-space: nowrap; }
       .ev { font-weight: 600; }
       .ev.apply_sent { color: #16a34a; }
+      .chart { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 14px 16px 8px; margin-bottom: 24px; }
+      .chart h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; }
+      .chart h2 i { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 400; display: inline-flex; align-items: center; gap: 6px; }
+      .chart h2 i::before { content: ""; width: 10px; height: 10px; background: var(--bar1); }
+      .chart h2 i.u::before { background: var(--bar2); }
+      .chart svg { display: block; width: 100%; height: auto; }
+      .chart text { fill: var(--muted); font: 11px system-ui, sans-serif; }
+      .chart .grid { stroke: var(--line); }
+      .chart .bv { fill: var(--bar1); } .chart .bu { fill: var(--bar2); }
+      .msg:empty { display: none; }
       .msg { color: var(--muted); padding: 24px 0; }
       @media (max-width: 640px) { .hide-s { display: none; } }
     </style>
@@ -42,6 +52,10 @@
         <div class="card"><b id="visitors">–</b><span>unike besøkende i dag</span></div>
         <div class="card"><b id="clicks">–</b><span>klikket Søk her</span></div>
         <div class="card"><b id="sent">–</b><span>sendte søknad</span></div>
+      </div>
+      <div class="chart" id="chartbox" hidden>
+        <h2>Siste 48 timer <i>Sidevisninger</i><i class="u">Unike besøkende</i></h2>
+        <svg id="chart" viewBox="0 0 960 220" role="img" aria-label="Sidevisninger og unike besøkende per time, siste 48 timer"></svg>
       </div>
       <div class="msg" id="msg"></div>
       <table id="tbl" hidden>
@@ -66,7 +80,47 @@
           return s < 60 ? s + ' s siden' : Math.round(s / 60) + ' min siden';
         }
         function cell(tr, text, cls) { var td = document.createElement('td'); td.textContent = text || ''; if (cls) td.className = cls; tr.appendChild(td); return td; }
+        // Hendelser som kommer mens fanen ikke er i fokus telles i tittelen: «Live trafikk (12)».
+        var TITLE = 'Live trafikk', seen = null, missed = 0;
+        function setTitle() { document.title = missed ? TITLE + ' (' + missed + ')' : TITLE; }
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) { missed = 0; setTitle(); } });
+        function count(events) {
+          var fresh = 0;
+          events.forEach(function (e) { var k = e.created_at; if (seen && !seen.has(k)) fresh++; });
+          events.forEach(function (e) { (seen = seen || new Set()).add(e.created_at); });
+          if (fresh && document.hidden) { missed += fresh; setTitle(); }
+        }
+        var NS = 'http://www.w3.org/2000/svg';
+        function el(name, attrs, text) { var n = document.createElementNS(NS, name); for (var k in attrs) n.setAttribute(k, attrs[k]); if (text != null) n.textContent = text; return n; }
+        var hourFmt = new Intl.DateTimeFormat('nb-NO', { hour: '2-digit', hourCycle: 'h23', timeZone: 'Europe/Oslo' });
+        var dayFmt = new Intl.DateTimeFormat('nb-NO', { day: 'numeric', month: 'numeric', timeZone: 'Europe/Oslo' });
+        var fullFmt = new Intl.DateTimeFormat('nb-NO', { weekday: 'short', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'Europe/Oslo' });
+        function niceTop(max) { var p = Math.pow(10, Math.floor(Math.log10(Math.max(max, 1)))), m = Math.max(max, 1) / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p; }
+        function drawChart(h) {
+          var svg = $('chart'); svg.textContent = '';
+          if (!h || !h.length) { $('chartbox').hidden = true; return; }
+          $('chartbox').hidden = false;
+          var W = 960, H = 220, L = 34, R = 4, T = 8, B = 26, iw = W - L - R, ih = H - T - B, bw = iw / h.length;
+          var top = niceTop(Math.max.apply(null, h.map(function (x) { return x.visninger; })));
+          var y = function (v) { return T + ih - (v / top) * ih; };
+          [0, top / 2, top].forEach(function (v) {
+            svg.appendChild(el('line', { x1: L, x2: W - R, y1: y(v), y2: y(v), class: 'grid' }));
+            svg.appendChild(el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end' }, String(Math.round(v * 10) / 10)));
+          });
+          h.forEach(function (x, i) {
+            var d = new Date(x.t), g = el('g', {});
+            var x0 = L + i * bw;
+            g.appendChild(el('rect', { x: x0 + 1, y: y(x.visninger), width: Math.max(bw - 2, 1), height: ih - (y(x.visninger) - T), class: 'bv' }));
+            g.appendChild(el('rect', { x: x0 + bw * 0.25, y: y(x.besokende), width: bw * 0.5, height: ih - (y(x.besokende) - T), class: 'bu' }));
+            g.appendChild(el('title', {}, fullFmt.format(d) + ': ' + x.visninger + ' visninger, ' + x.besokende + ' unike'));
+            svg.appendChild(g);
+            var hr = hourFmt.format(d);
+            if (+hr % 6 === 0) svg.appendChild(el('text', { x: x0 + bw / 2, y: H - 8, 'text-anchor': 'middle' }, hr === '00' ? dayFmt.format(d) : hr));
+          });
+        }
         function draw(d) {
+          count(d.events);
+          drawChart(d.hourly);
           $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visits').textContent = d.today.besok; $('visitors').textContent = d.today.besokende;
           $('clicks').textContent = d.today.klikk_sok; $('sent').textContent = d.today.sendt;
           var body = $('rows'); body.textContent = '';
