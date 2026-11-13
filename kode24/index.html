@@ -410,5 +410,60 @@
         });
       })();
     </script>
+    <script>
+      // Hovrer man over en av personene, flyr en av pilene fra knappen bort til personen og peker på hen. Går man av, flyr den hjem igjen.
+      (function () {
+        var btn = document.getElementById('apply-btn');
+        var links = document.querySelectorAll('.crew a');
+        var home = document.querySelector('.btn-arrows svg:nth-child(2)');
+        if (!btn || !home || !links.length || !Element.prototype.animate) return;
+        var mq = function (q) { return window.matchMedia(q).matches; };
+        if (!mq('(hover: hover) and (pointer: fine)') || mq('(prefers-reduced-motion: reduce)')) return;
+        var layer = null, el = null, target = null, p = null, rot = 180, running = false, prev = 0;
+        var center = function (r) { return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+        var homePos = function () { return center(home.getBoundingClientRect()); };
+        function spot(a) {
+          var img = a.querySelector('img'), r = (img || a).getBoundingClientRect();
+          return { x: r.left + r.width / 2 + 42, y: r.top + 2 };
+        }
+        function start() {
+          if (running) return;
+          var hr = home.getBoundingClientRect();
+          if (!hr.width) return;
+          if (!layer) {
+            layer = document.createElement('div');
+            layer.setAttribute('aria-hidden', 'true');
+            layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden;color:#1f2937';
+            el = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            el.setAttribute('viewBox', '0 0 30 50');
+            el.style.cssText = 'position:absolute;left:0;top:0;width:29px;height:48px;fill:none;stroke:currentColor;stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 0 rgba(255,255,255,.5))';
+            el.innerHTML = '<use href="#arr-down"/>';
+            layer.appendChild(el);
+          }
+          if (!layer.parentNode) { document.body.appendChild(layer); p = homePos(); rot = 180; home.style.visibility = 'hidden'; }
+          running = true; prev = performance.now(); requestAnimationFrame(frame);
+        }
+        function frame(now) {
+          var dt = now - prev; prev = now;
+          var away = !!target, goal, goalRot;
+          if (away) { goal = spot(target); goalRot = 45; } else { goal = homePos(); goalRot = 180; }
+          var k = 1 - Math.exp(-dt / (away ? 110 : 90));
+          p.x += (goal.x - p.x) * k; p.y += (goal.y - p.y) * k;
+          var diff = ((goalRot - rot + 540) % 360) - 180; rot += diff * k;
+          var wobble = away ? Math.sin(now / 140) * 3 : 0;
+          el.style.transform = 'translate(' + (p.x - 14 + wobble) + 'px,' + (p.y - 24 - wobble) + 'px) rotate(' + rot + 'deg)';
+          if (!away && Math.abs(goal.x - p.x) < 1.5 && Math.abs(goal.y - p.y) < 1.5) {
+            layer.remove(); home.style.visibility = ''; running = false; return;
+          }
+          requestAnimationFrame(frame);
+        }
+        links.forEach(function (a) {
+          var on = function () { target = a; start(); };
+          var off = function () { if (target === a) target = null; };
+          a.addEventListener('mouseenter', on); a.addEventListener('mouseleave', off);
+          a.addEventListener('focus', on); a.addEventListener('blur', off);
+        });
+      })();
+    </script>
   </body>
 </html>
