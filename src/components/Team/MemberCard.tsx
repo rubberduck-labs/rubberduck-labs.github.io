@@ -12,8 +12,22 @@ interface MemberCardProps {
 }
 
 
+// Nettstedet slår mørk modus av og på med klassen «dark» på <html>. Spillet i rammen følger ellers bare operativsystemet.
+function useSiteDark(): boolean {
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
+  useEffect(() => {
+    const el = document.documentElement;
+    setDark(el.classList.contains('dark')); // klassen kan ha kommet etter første tegning
+    const obs = new MutationObserver(() => setDark(el.classList.contains('dark')));
+    obs.observe(el, { attributes: true, attributeFilter: ['class'] });
+    return () => obs.disconnect();
+  }, []);
+  return dark;
+}
+
 export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
   const [hikuOpen, setHikuOpen] = useState(false);
+  const siteDark = useSiteDark();
   const hasHiku = member.name === 'Espen Schulstad';
   const [hikuNumber] = useState(() => 1 + Math.floor(Math.random() * 5)); // som tallene på brettet, 1 til 5
   // Dagens Hiku lastes først når noen åpner det. Skriptet monterer spillet i alle [data-hiku] på siden.
@@ -79,7 +93,10 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
             </span>
           </button>
           <CustomDialog open={hikuOpen} onClose={() => setHikuOpen(false)} widthClass="sm:max-w-[460px]">
-            <div className="pt-8"><div data-hiku data-lang="nb" data-color="#ffcc14" /></div>
+            <div className="pt-8">
+              {/* key: spillet monteres én gang per element, så et tema-bytte trenger et nytt element */}
+              <div key={siteDark ? 'dark' : 'light'} data-hiku data-lang="nb" data-color="#ffcc14" data-theme={siteDark ? 'dark' : 'light'} />
+            </div>
           </CustomDialog>
         </>
       )}

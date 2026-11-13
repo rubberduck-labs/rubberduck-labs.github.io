@@ -1,0 +1,416 @@
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&display=swap");
+
+.ms-page,
+.ms-cover {
+  --ms-vellum: #f2e4be;
+  --ms-ink: #30271e;
+  --ms-rubric: #922f36;
+  --ms-lapis: #344d83;
+  --ms-gold: #967025;
+  --ms-rose: #b54e7c;
+  --ms-olive: #626044;
+  --ms-display: "UnifrakturMaguntia", Georgia, serif;
+  --ms-body: "IM Fell English", Georgia, serif;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  color-scheme: light;
+}
+
+.ms-page *,
+.ms-cover * {
+  box-sizing: border-box;
+}
+
+.ms-page {
+  isolation: isolate;
+  color: var(--ms-ink);
+  background-color: var(--ms-vellum);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.105'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 16% 24%, #fff9e75c, transparent 48%),
+    radial-gradient(ellipse at 85% 78%, #a7783026, transparent 46%),
+    linear-gradient(90deg, #a17a3529, transparent 9%, transparent 91%, #a17a3529),
+    linear-gradient(#aa803526, transparent 7%, transparent 93%, #aa803530);
+  box-shadow: inset 0 0 24px #78522429;
+  font-family: var(--ms-body);
+  font-size: 16px;
+  line-height: 1.48;
+  text-align: left;
+  -webkit-text-size-adjust: 100%;
+}
+
+.ms-page::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.ms-page--left::after {
+  background: linear-gradient(270deg, #49301526, #49301508 5%, transparent 15%);
+}
+
+.ms-page--right::after {
+  background: linear-gradient(90deg, #49301526, #49301508 5%, transparent 15%);
+}
+
+.ms-border {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ms-text {
+  position: absolute;
+  z-index: 1;
+  inset: 13.5% 14% 13%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 12px;
+  border: 1px solid #96702566;
+  outline-offset: 3px;
+  scrollbar-width: thin;
+  scrollbar-color: #96702599 #ead9af;
+  scrollbar-gutter: stable;
+  overscroll-behavior-y: contain;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.ms-text:focus-visible {
+  outline: 2px solid var(--ms-lapis);
+}
+
+.ms-text::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ms-text::-webkit-scrollbar-track {
+  background: #ead9af;
+}
+
+.ms-text::-webkit-scrollbar-thumb {
+  border: 1px solid #ead9af;
+  border-radius: 8px;
+  background: #a38950;
+}
+
+.ms-title {
+  margin: 0 0 0.55em;
+  color: var(--ms-rubric);
+  font-family: var(--ms-display);
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.ms-title--page {
+  margin-bottom: 0.65em;
+  font-size: 2rem;
+  text-align: center;
+}
+
+h3.ms-title,
+h4.ms-title,
+h5.ms-title,
+h6.ms-title {
+  font-size: 1.4rem;
+}
+
+.ms-text p {
+  margin: 0 0 0.8em;
+}
+
+.ms-text .ms-centered {
+  text-align: center;
+}
+
+.ms-paragraph--initial::after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+.ms-initial {
+  display: block;
+  float: left;
+  width: 4.8em;
+  height: 4.8em;
+  margin: 0.12em 0.65em 0.12em 0;
+  shape-outside: margin-box;
+}
+
+.ms-initial svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ms-quote {
+  clear: both;
+  margin: 1em 0;
+  padding: 0.15em 0 0.15em 0.85em;
+  border-left: 3px solid var(--ms-gold);
+  font-style: italic;
+}
+
+.ms-text .ms-quote p {
+  margin: 0;
+}
+
+.ms-list {
+  margin: 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+
+.ms-list li {
+  position: relative;
+  margin-bottom: 0.4em;
+  padding-left: 1.15em;
+}
+
+.ms-list li::before {
+  position: absolute;
+  top: 0.55em;
+  left: 0.15em;
+  width: 0.35em;
+  height: 0.35em;
+  border: 1px solid #6b501e;
+  background: var(--ms-gold);
+  content: "";
+  transform: rotate(45deg);
+}
+
+.ms-size-small {
+  font-size: 15px;
+}
+
+.ms-size-large {
+  font-size: 17px;
+}
+
+.ms-folio {
+  position: absolute;
+  z-index: 1;
+  right: 20%;
+  bottom: 3.5%;
+  left: 20%;
+  color: var(--ms-ink);
+  font-size: 14px;
+  font-variant-numeric: lining-nums;
+  letter-spacing: 0.12em;
+  text-align: center;
+  pointer-events: none;
+}
+
+.ms-shield {
+  position: absolute;
+  z-index: 1;
+  width: 10%;
+  height: 9%;
+  pointer-events: none;
+}
+
+.ms-shield--top {
+  top: 2.5%;
+  left: 45%;
+}
+
+.ms-shield--bottom {
+  bottom: 6%;
+  left: 45%;
+}
+
+.ms-shield--left {
+  top: 45%;
+  left: 2.5%;
+}
+
+.ms-shield--right {
+  top: 45%;
+  right: 2.5%;
+}
+
+.ms-flourish {
+  display: block;
+  clear: both;
+  width: 90px;
+  height: 22px;
+  margin: 0.8em auto;
+}
+
+.ms-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ms-cover {
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  padding: 12%;
+  color: #fde047;
+  background:
+    radial-gradient(ellipse at 30% 20%, #67442a44, transparent 65%),
+    repeating-linear-gradient(12deg, #ffffff03 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(103deg, #00000018 0 1px, transparent 1px 7px),
+    #241b16;
+  box-shadow: inset 0 0 12px #000b, inset 12px 0 18px #0005;
+  font-family: var(--ms-body);
+}
+
+.ms-cover::before,
+.ms-cover::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.ms-cover::before {
+  inset: 5%;
+  border: 2px solid #b69a4d;
+  outline: 1px solid #b69a4d77;
+  outline-offset: 5px;
+  box-shadow: inset 0 0 0 4px #241b16, inset 0 0 0 5px #b69a4d66;
+}
+
+.ms-cover::after {
+  inset: 10%;
+  border: 1px solid #b69a4d66;
+  background: radial-gradient(ellipse, #b69a4d0d, transparent 70%);
+}
+
+.ms-cover {
+  container-type: inline-size;
+}
+
+.ms-cover__content {
+  width: 100%;
+  text-align: center;
+}
+
+.ms-cover__title {
+  margin: 0;
+  color: #fde047;
+  font-family: var(--ms-display);
+  /* Størrelsen følger bredden på selve omslaget (ikke vinduet), så «Rubberduck» ikke brytes midt i ordet. */
+  font-size: clamp(1.6rem, 12cqw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.ms-cover__duck {
+  display: block;
+  width: 52%;
+  max-width: 160px;
+  height: auto;
+  margin: 2rem auto;
+  color: #fde047;
+}
+
+.ms-cover__subtitle {
+  margin: 0;
+  color: #e5cd8b;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-page,
+  .ms-page *,
+  .ms-cover,
+  .ms-cover * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Innholdet har linjeskift (kolofon, vers) som skal bli stående. */
+.ms-text p { white-space: pre-line; }
+
+/* ---- Slitasje og støv ---- */
+.ms-wear {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.ms-wear { --dust-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.36  0 0 0 0 0.28  0 0 0 0 0.18  22 0 0 0 -17.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"); --fox-img: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.011' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.52  0 0 0 0 0.36  0 0 0 0 0.14  3 0 0 0 -1.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"); }
+
+/* Sidene: brune flekker, litt støv, mørkere kanter, en tommelflekk i nedre ytre hjørne og noen ganger en gammel vannrand.
+   Posisjon, størrelse og styrke varierer per side (variablene settes i ManuscriptPage). */
+.ms-page .ms-wear {
+  mix-blend-mode: multiply;
+  background-image:
+    var(--dust-img),
+    var(--fox-img),
+    radial-gradient(circle at var(--ring-x, 82%) var(--ring-y, 22%), transparent 0 8.5%, rgb(122 79 31 / calc(.12 * var(--ring-a, 1))) 9% 10.2%, rgb(122 79 31 / calc(.05 * var(--ring-a, 1))) 10.6% 12%, transparent 12.6%),
+    radial-gradient(circle at 100% 100%, rgb(90 58 26 / calc(.35 * var(--thumb, .8))), transparent 24%),
+    radial-gradient(ellipse at 50% 50%, transparent 52%, rgb(109 68 26 / calc(.25 * var(--age, 1))) 100%),
+    linear-gradient(0deg, rgb(90 58 26 / calc(.13 * var(--age, 1))), transparent 6%),
+    linear-gradient(180deg, rgb(90 58 26 / calc(.11 * var(--age, 1))), transparent 5%);
+  background-size: var(--dust-s, 320px) var(--dust-s, 320px), var(--fox-s, 600px) var(--fox-s, 600px), auto, auto, auto, auto, auto;
+  background-position: var(--dust-x, 0) var(--dust-y, 0), var(--fox-x, 0) var(--fox-y, 0), 0 0, 0 0, 0 0, 0 0, 0 0;
+  opacity: .75;
+}
+.ms-page--left .ms-wear {
+  background-image:
+    var(--dust-img),
+    var(--fox-img),
+    radial-gradient(circle at var(--ring-x, 20%) var(--ring-y, 70%), transparent 0 7%, rgb(122 79 31 / calc(.12 * var(--ring-a, 1))) 7.5% 8.6%, rgb(122 79 31 / calc(.05 * var(--ring-a, 1))) 9% 10.4%, transparent 11%),
+    radial-gradient(circle at 0% 100%, rgb(90 58 26 / calc(.35 * var(--thumb, .8))), transparent 24%),
+    radial-gradient(ellipse at 50% 50%, transparent 52%, rgb(109 68 26 / calc(.25 * var(--age, 1))) 100%),
+    linear-gradient(0deg, rgb(90 58 26 / calc(.13 * var(--age, 1))), transparent 6%),
+    linear-gradient(180deg, rgb(90 58 26 / calc(.11 * var(--age, 1))), transparent 5%);
+}
+
+/* Omslaget: hjørner og kanter som er gnidd lyse, noen riper, en tynn støvfilm og gull som har flasset av her og der. */
+.ms-cover .ms-wear {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='360'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='21' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12  0 0 0 0 0.09  0 0 0 0 0.07  24 0 0 0 -19.0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='600' viewBox='0 0 420 600' fill='none' stroke='%2523f1dcb0' stroke-linecap='round'%3E%3Cg stroke-opacity='.22' stroke-width='.7'%3E%3Cpath d='M40 90 L168 63'/%3E%3Cpath d='M52 104 L131 91'/%3E%3Cpath d='M300 470 L400 520'/%3E%3Cpath d='M310 455 L360 480'/%3E%3Cpath d='M120 540 L205 528'/%3E%3Cpath d='M350 60 L372 140' stroke-opacity='.16'/%3E%3Cpath d='M80 300 L96 360' stroke-opacity='.14'/%3E%3C/g%3E%3Cg stroke-opacity='.10' stroke-width='1.6'%3E%3Cpath d='M30 210 L190 180'/%3E%3Cpath d='M250 330 L395 300'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='5' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.8  0 0 0 0 0.74  0 0 0 0 0.64  22 0 0 0 -17.4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 0 0, #c8a26a55, transparent 13%),
+    radial-gradient(circle at 100% 0, #c8a26a40, transparent 11%),
+    radial-gradient(circle at 0 100%, #c8a26a4d, transparent 12%),
+    radial-gradient(circle at 100% 100%, #c8a26a66, transparent 15%),
+    linear-gradient(90deg, #c8a26a26, transparent 2.5%, transparent 97.5%, #c8a26a26),
+    radial-gradient(ellipse at 68% 74%, #00000040, transparent 36%),
+    linear-gradient(180deg, #d8c9a814, #d8c9a80a 40%, #d8c9a81c);
+  background-size: 360px 360px, 100% 100%, 420px 420px, auto, auto, auto, auto, auto, auto, auto;
+  background-repeat: repeat, no-repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+}
+
+/* Kaffekoppflekken ligger nederst på siden, over teksten som en ekte flekk. */
+.ms-coffee {
+  position: absolute;
+  z-index: 5;
+  bottom: 9%;
+  width: 40%;
+  height: auto;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transform: rotate(-14deg);
+}
+.ms-page--right .ms-coffee { right: 6%; }
+.ms-page--left .ms-coffee { left: 6%; }
