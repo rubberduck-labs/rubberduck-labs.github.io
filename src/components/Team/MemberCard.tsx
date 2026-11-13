@@ -4,6 +4,7 @@ import { FileText, Grid2x2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TeamMember } from "./types";
 import { CustomDialog } from "../CustomDialog";
+import { track } from "../../utils/track";
 
 interface MemberCardProps {
   member: TeamMember;
@@ -22,6 +23,25 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
     script.async = true;
     script.dataset.hikuEmbed = '1';
     document.head.appendChild(script);
+  }, [hikuOpen]);
+
+  // Åpnet: telles når modalen vises. Spilte: spillet står i en ramme vi ikke kan se inn i, men når noen trykker i den
+  // mister siden fokus og rammen blir aktivt element. Det telles én gang per åpning.
+  useEffect(() => {
+    if (!hikuOpen) return;
+    track('hiku_open');
+    let played = false;
+    const onBlur = () => {
+      setTimeout(() => {
+        const active = document.activeElement;
+        if (!played && active instanceof HTMLIFrameElement && active.closest('[data-hiku]')) {
+          played = true;
+          track('hiku_play');
+        }
+      }, 0);
+    };
+    window.addEventListener('blur', onBlur);
+    return () => window.removeEventListener('blur', onBlur);
   }, [hikuOpen]);
   return (
     <div
