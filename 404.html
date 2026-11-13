@@ -99,6 +99,16 @@
       .more button:disabled { opacity: .6; cursor: default; }
       .more button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
       .msg { color: var(--muted); padding: 24px 0; }
+      .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+      .tabs button { font: inherit; padding: 6px 12px; border: 1px solid var(--line); border-radius: 2px; background: var(--box); color: var(--muted); cursor: pointer; }
+      .tabs button[aria-selected="true"] { color: var(--fg); border-color: var(--fg); font-weight: 600; }
+      .tabs button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+      tr.v { cursor: pointer; }
+      tr.v:hover td { background: var(--bg); }
+      tr.vd td { background: var(--bg); padding: 0 12px 10px 28px; }
+      tr.vd ul { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+      tr.vd li { display: flex; gap: 12px; padding: 2px 0; }
+      tr.vd li time { color: var(--muted); min-width: 48px; }
       @media (max-width: 640px) { .hide-s { display: none; } }
     </style>
   </head>
@@ -160,7 +170,15 @@
         <h2>Siste 48 timer <i>Sidevisninger</i><i class="u">Unike besøkende</i></h2>
         <svg id="chart" viewBox="0 0 960 220" role="img" aria-label="Sidevisninger og unike besøkende per time, siste 48 timer"></svg>
       </div>
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tab-ev" aria-selected="true">Hendelser</button>
+        <button type="button" role="tab" id="tab-vis" aria-selected="false">Besøkende i dag</button>
+      </div>
       <div class="msg" id="msg"></div>
+      <table id="vtbl" hidden>
+        <thead><tr><th>Sist sett</th><th>Besøkende</th><th>Besøk</th><th>Visninger</th><th class="hide-s">Fra</th><th class="hide-s">Enhet</th></tr></thead>
+        <tbody id="vrows"></tbody>
+      </table>
       <table id="tbl" hidden>
         <thead><tr><th>Tid</th><th>Hendelse</th><th>Side</th><th class="hide-s">Fra</th><th class="hide-s">Enhet</th></tr></thead>
         <tbody id="rows"></tbody>
@@ -229,11 +247,44 @@
           drawChart(d.hourly);
           $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visits').textContent = d.today.besok; $('visitors').textContent = d.today.besokende;
           $('clicks').textContent = d.today.klikk_sok; $('sent').textContent = d.today.sendt;
-          latest = d.events;
-          render();
+          latest = d.events; visitors = d.visitors || [];
+          render(); renderVisitors();
         }
         // De nyeste hendelsene kommer fra hver oppdatering. «Hent flere» legger eldre til under, og de blir værende.
-        var latest = [], older = [], exhausted = false;
+        var latest = [], older = [], exhausted = false, visitors = [], view = 'ev', open = {};
+        var clock = new Intl.DateTimeFormat('nb-NO', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'Europe/Oslo' });
+        function renderVisitors() {
+          var body = $('vrows'); body.textContent = '';
+          visitors.forEach(function (v) {
+            var tr = document.createElement('tr'); tr.className = 'v'; tr.tabIndex = 0;
+            cell(tr, ago(v.last), 't'); cell(tr, '#' + v.id); cell(tr, String(v.besok)); cell(tr, String(v.visninger));
+            cell(tr, v.fra || 'direkte', 'hide-s'); cell(tr, [v.screen, v.browser].filter(Boolean).join(' · '), 'hide-s');
+            body.appendChild(tr);
+            var dr = document.createElement('tr'); dr.className = 'vd'; dr.hidden = !open[v.id];
+            var td = document.createElement('td'); td.colSpan = 6;
+            var ul = document.createElement('ul');
+            v.events.forEach(function (e) {
+              var li = document.createElement('li'), t = document.createElement('time');
+              t.textContent = clock.format(new Date(e.created_at)); li.appendChild(t);
+              var sp = document.createElement('span'); sp.textContent = (LABEL[e.event] || e.event) + (e.label ? ': ' + e.label : '') + ' · ' + (e.path || ''); li.appendChild(sp);
+              ul.appendChild(li);
+            });
+            td.appendChild(ul); dr.appendChild(td); body.appendChild(dr);
+            var toggle = function () { open[v.id] = !open[v.id]; dr.hidden = !open[v.id]; };
+            tr.addEventListener('click', toggle);
+            tr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+          });
+          showView();
+        }
+        function showView() {
+          var vis = view === 'vis';
+          $('tab-ev').setAttribute('aria-selected', String(!vis)); $('tab-vis').setAttribute('aria-selected', String(vis));
+          $('tbl').hidden = vis || !shown().length; $('more').hidden = vis || !shown().length || exhausted;
+          $('vtbl').hidden = !vis || !visitors.length;
+          $('msg').textContent = vis ? (visitors.length ? '' : 'Ingen besøkende i dag ennå.') : (shown().length ? '' : 'Ingen hendelser ennå.');
+        }
+        $('tab-ev').addEventListener('click', function () { view = 'ev'; showView(); });
+        $('tab-vis').addEventListener('click', function () { view = 'vis'; showView(); });
         function shown() {
           var cut = latest.length ? latest[latest.length - 1].created_at : null;
           return latest.concat(older.filter(function (e) { return !cut || e.created_at < cut; }));
@@ -249,9 +300,7 @@
             cell(tr, [e.screen, e.browser].filter(Boolean).join(' · '), 'hide-s');
             body.appendChild(tr);
           });
-          $('tbl').hidden = !list.length;
-          $('more').hidden = !list.length || exhausted;
-          $('msg').textContent = list.length ? '' : 'Ingen hendelser ennå.';
+          showView();
         }
         $('more').addEventListener('click', function (e) {
           var list = shown(), btn = e.target;
