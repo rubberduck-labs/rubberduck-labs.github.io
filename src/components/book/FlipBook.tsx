@@ -83,12 +83,7 @@ export default function FlipBook() {
   }
 
   children.push(
-    <ManuscriptCover
-      key="back"
-      back
-      title="Rubberduck"
-      subtitle="Ring oss +47 22 30 10 10"
-    />,
+    <ManuscriptCover key="back" back />,
   );
 
   const last = children.length - 1;

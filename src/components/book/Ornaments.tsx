@@ -475,17 +475,20 @@ export function CoverArt({
         ))}
 
         {/* Hodet til rubberducken vår: flat strek, samme stil som resten av coveret */}
-        <g transform={`translate(${CX} ${CY}) scale(1.4)`}>
+        {/* Baksiden: bare anda, midt på coveret, uten tekst */}
+        <g transform={back ? `translate(${CX} 300) scale(1.75)` : `translate(${CX} ${CY}) scale(1.4)`}>
           <DuckHeadArt ink="#0f0a05" />
         </g>
 
         {/* Tittel */}
+        {!back && (
         <g textAnchor="middle" fontFamily="var(--ms-body, Georgia, serif)" filter={`url(#${id}-deboss)`} fill="#0f0a05">
           {subtitle && (
             <text x={CX} y="392" fontSize={smallSize} letterSpacing="5" fontWeight="700">{caps(subtitle)}</text>
           )}
           <text x={CX} y="438" fontSize={bigSize} letterSpacing="4" fontWeight="700">{caps(title)}</text>
         </g>
+        )}
       </g>
     </svg>
   );
