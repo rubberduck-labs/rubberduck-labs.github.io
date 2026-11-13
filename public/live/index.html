@@ -37,6 +37,16 @@
       .chart text { fill: var(--muted); font: 11px system-ui, sans-serif; }
       .chart .grid { stroke: var(--line); }
       .chart .bv { fill: var(--bar1); } .chart .bu { fill: var(--bar2); }
+      .login { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 16px; max-width: 460px; margin-bottom: 24px; }
+      .login p { margin: 0 0 12px; }
+      .login label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+      .login .row { display: flex; gap: 8px; }
+      .login input { flex: 1; min-width: 0; font: inherit; padding: 8px 10px; border: 1px solid #c9cfd8; border-radius: 2px; background: #fff; color: #111827; }
+      .login button { font: inherit; font-weight: 600; padding: 8px 14px; border: 0; border-radius: 2px; background: #111827; color: #fff; cursor: pointer; }
+      .login button:disabled { opacity: .6; cursor: default; }
+      .login input:focus-visible, .login button:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+      .who { margin-left: auto; font-size: 13px; font-weight: 400; color: var(--muted); }
+      .who a { color: inherit; }
       .msg:empty { display: none; }
       .msg { color: var(--muted); padding: 24px 0; }
       @media (max-width: 640px) { .hide-s { display: none; } }
@@ -44,7 +54,7 @@
   </head>
   <body>
     <div class="wrap">
-      <h1><span class="dot off" id="dot"></span>Live trafikk</h1>
+      <h1><span class="dot off" id="dot"></span>Live trafikk<span class="who" id="who" hidden></span></h1>
       <div class="cards">
         <div class="card"><b id="online">–</b><span>inne nå (siste 5 min)</span></div>
         <div class="card"><b id="views">–</b><span>sidevisninger i dag</span></div>
@@ -53,6 +63,11 @@
         <div class="card"><b id="clicks">–</b><span>klikket Søk her</span></div>
         <div class="card"><b id="sent">–</b><span>sendte søknad</span></div>
       </div>
+      <form class="login" id="login" hidden>
+        <p>Logg inn med din @rubberduck.no-adresse. Vi sender en engangslenke til deg på Slack.</p>
+        <label for="email">E-post</label>
+        <div class="row"><input id="email" type="email" autocomplete="email" placeholder="navn@rubberduck.no" required /><button type="submit">Send lenke</button></div>
+      </form>
       <div class="chart" id="chartbox" hidden>
         <h2>Siste 48 timer <i>Sidevisninger</i><i class="u">Unike besøkende</i></h2>
         <svg id="chart" viewBox="0 0 960 220" role="img" aria-label="Sidevisninger og unike besøkende per time, siste 48 timer"></svg>
@@ -66,15 +81,12 @@
     <script>
       (function () {
         var API = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/stats';
-        var KEY = 'rd-stats-token';
-        var token = '';
-        try { token = localStorage.getItem(KEY) || ''; } catch (e) {}
+        var LOGIN = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/stats-login';
+        var KEY = 'rd-stats-token', WHO = 'rd-stats-who';
+        var token = '', who = '';
+        try { token = localStorage.getItem(KEY) || ''; who = localStorage.getItem(WHO) || ''; } catch (e) {}
         var $ = function (id) { return document.getElementById(id); };
         var LABEL = { pageview: 'Besøk', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn' };
-        function ask() {
-          token = (prompt('Token for statistikk') || '').trim();
-          try { token ? localStorage.setItem(KEY, token) : localStorage.removeItem(KEY); } catch (e) {}
-        }
         function ago(iso) {
           var s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000));
           return s < 60 ? s + ' s siden' : Math.round(s / 60) + ' min siden';
@@ -136,17 +148,55 @@
           $('tbl').hidden = !d.events.length;
           $('msg').textContent = d.events.length ? '' : 'Ingen hendelser de siste 30 minuttene.';
         }
+        function signedOut(text) {
+          token = '';
+          try { localStorage.removeItem(KEY); localStorage.removeItem(WHO); } catch (e) {}
+          $('dot').className = 'dot off'; $('who').hidden = true; $('chartbox').hidden = true; $('tbl').hidden = true;
+          $('login').hidden = false; $('msg').textContent = text || '';
+        }
+        function showWho() {
+          var w = $('who'); w.textContent = '';
+          w.appendChild(document.createTextNode(who ? who + ' · ' : ''));
+          var a = document.createElement('a'); a.href = '#'; a.textContent = 'Logg ut';
+          a.addEventListener('click', function (e) { e.preventDefault(); signedOut(''); });
+          w.appendChild(a); w.hidden = false;
+        }
         function tick() {
-          if (!token) { $('dot').className = 'dot off'; $('msg').textContent = 'Mangler token. Last siden på nytt.'; return; }
+          if (!token) return;
+          $('login').hidden = true; showWho();
           fetch(API, { headers: { Authorization: 'Bearer ' + token } }).then(function (r) {
-            if (r.status === 401) { try { localStorage.removeItem(KEY); } catch (e) {} token = ''; throw new Error('Feil token. Last siden på nytt.'); }
+            if (r.status === 401) throw new Error('401');
             if (!r.ok) throw new Error('Feil ' + r.status);
             return r.json();
           }).then(function (d) { $('dot').className = 'dot'; draw(d); setTimeout(tick, 5000); })
-            .catch(function (e) { $('dot').className = 'dot off'; $('msg').textContent = e.message; if (token) setTimeout(tick, 10000); });
+            .catch(function (e) {
+              if (e.message === '401') return signedOut('Innloggingen er utløpt. Be om en ny lenke.');
+              $('dot').className = 'dot off'; $('msg').textContent = e.message; setTimeout(tick, 10000);
+            });
         }
-        if (!token) ask();
-        tick();
+        function post(url, body) {
+          return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+            .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Noe gikk galt'); return j; }); });
+        }
+        $('login').addEventListener('submit', function (e) {
+          e.preventDefault();
+          var btn = e.target.querySelector('button'); btn.disabled = true; $('msg').textContent = '';
+          post(LOGIN, { email: $('email').value }).then(function () {
+            $('msg').textContent = 'Sjekk Slack. Hvis adressen din finnes der, har du fått en lenke (gyldig i 10 minutter).';
+          }).catch(function (err) { $('msg').textContent = err.message; }).then(function () { btn.disabled = false; });
+        });
+        // Lenken fra Slack har engangstokenet i #-delen. Det byttes mot et innloggingsbevis, og #-delen fjernes fra adressen.
+        var m = /^#t=([0-9a-f]{64})$/.exec(location.hash);
+        if (m) {
+          history.replaceState(null, '', location.pathname);
+          $('msg').textContent = 'Logger inn …';
+          post(LOGIN, { token: m[1] }).then(function (j) {
+            token = j.session; who = j.email;
+            try { localStorage.setItem(KEY, token); localStorage.setItem(WHO, who); } catch (e) {}
+            $('msg').textContent = ''; tick();
+          }).catch(function (err) { signedOut(err.message); });
+        } else if (token) tick();
+        else signedOut('');
       })();
     </script>
   </body>
