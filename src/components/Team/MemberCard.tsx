@@ -1,6 +1,6 @@
 import { MemberImage } from "./MemberImage";
 import { MemberNameCard } from "./MemberNameCard";
-import { FileText, Grid2x2 } from "lucide-react";
+import { FileText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TeamMember } from "./types";
 import { CustomDialog } from "../CustomDialog";
@@ -15,6 +15,7 @@ interface MemberCardProps {
 export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
   const [hikuOpen, setHikuOpen] = useState(false);
   const hasHiku = member.name === 'Espen Schulstad';
+  const [hikuNumber] = useState(() => 1 + Math.floor(Math.random() * 5)); // som tallene på brettet, 1 til 5
   // Dagens Hiku lastes først når noen åpner det. Skriptet monterer spillet i alle [data-hiku] på siden.
   useEffect(() => {
     if (!hikuOpen || document.querySelector('script[data-hiku-embed]')) return;
@@ -68,11 +69,14 @@ export const MemberCard = ({ member, setSelectedMember }: MemberCardProps) => {
           <button
             type="button"
             onClick={() => setHikuOpen(true)}
-            className="absolute bottom-4 right-5 z-10 flex h-8 w-8 items-center justify-center rounded-full text-custom-dark/80 hover:bg-custom-dark/10 hover:text-custom-dark transition-colors"
+            className="hiku-tile absolute bottom-5 right-6 z-10 flex h-9 w-9 items-center justify-center text-lg"
             aria-label="Dagens hiku"
             title="Dagens hiku"
           >
-            <Grid2x2 className="h-4 w-4" />
+            {hikuNumber}
+            <span className="hiku-dots" aria-hidden="true">
+              {Array.from({ length: hikuNumber }, (_, i) => <i key={i} />)}
+            </span>
           </button>
           <CustomDialog open={hikuOpen} onClose={() => setHikuOpen(false)} widthClass="sm:max-w-[460px]">
             <div className="pt-8"><div data-hiku data-lang="nb" data-color="#ffcc14" /></div>

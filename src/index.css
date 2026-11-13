@@ -335,3 +335,49 @@ html {
     transform: translateX(-50vw) scale(0.8);
   }
 }
+
+/* Hiku-brikken på Espens kort: samme utseende som en brikke i spillet, med den gylne rammen som puster. */
+.hiku-tile {
+  border: 0;
+  padding: 0;
+  border-radius: 16%;
+  background: #fffaf2;
+  color: #2b2f45;
+  box-shadow: 0 3px 0 #cbc2b3;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.hiku-tile .hiku-dots {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  opacity: 0.35;
+}
+.hiku-tile .hiku-dots i {
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.hiku-tile::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 3px solid #e0a43a;
+  border-radius: 20%;
+  pointer-events: none;
+  animation: hiku-breathe 1.4s ease-in-out infinite alternate;
+}
+@keyframes hiku-breathe {
+  from { opacity: 0.55; box-shadow: 0 0 3px #e0a43a; }
+  to { opacity: 1; box-shadow: 0 0 12px #e0a43a; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hiku-tile::after { animation: none; opacity: 1; }
+}
