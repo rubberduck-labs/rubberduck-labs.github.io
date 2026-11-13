@@ -7,7 +7,7 @@ export const frontMatterChapter: BookPage[] = [
         type: 'centeredParagraph',
         text: `© 2025 Rubberduck Dev AS
                 Første utgave, første opplag
-                ISBN: 978-82-02-77391-4
+                ISBN: 978-82-6283185-3
 
                 Alle rettigheter forbeholdt.
                 Ingen deler av denne boken kan kopieres eller distribueres uten skriftlig tillatelse.

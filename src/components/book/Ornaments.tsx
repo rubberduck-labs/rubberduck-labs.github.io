@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { DuckHeadArt } from "./DuckHeadArt";
 import { RubberDuckIcon } from "../Icons/RubberDuckIcon";
 
 export interface OrnamentProps {
@@ -346,43 +347,33 @@ export function CoverArt({
   const bronze = `url(#${id}-bronze)`;
   const dark = "#1c1509";
   const CX = 210;
-  const CY = 218;
+  const CY = 214;
 
   // Stor tittel under, liten linje over: som på en gammel bok.
   const bigSize = Math.min(44, Math.floor(280 / (title.length * 0.82)));
   const smallSize = subtitle ? Math.min(22, Math.floor(280 / (subtitle.length * 0.8))) : 0;
 
-  // Messinghjørnene: en plate med skålt kant og utskårne blomster, speilet til alle fire hjørner.
-  const plate = "M2 2 H98 C107 2 110 7 105 14 C99 23 89 25 83 33 C75 43 81 53 73 61 C65 69 55 65 47 73 C39 81 41 93 33 99 C27 103 19 101 13 105 C6 109 2 105 2 97 Z";
+  // Hjørnene er andeføtter i messing: svømmehud med tre tær og små klør, med anklen i hjørnet og tærne mot midten.
+  const tips: [number, number][] = [[106, 24], [78, 78], [24, 106]];
   const cornerShape = (
     <g>
-      <mask id={`${id}-pierce`} maskUnits="userSpaceOnUse" x="0" y="0" width="115" height="115">
-        <path d={plate} fill="#fff" />
-        <circle cx="35" cy="35" r="17" fill="#000" />
-        <ellipse cx="70" cy="21" rx="9" ry="4.5" transform="rotate(14 70 21)" fill="#000" />
-        <ellipse cx="21" cy="70" rx="9" ry="4.5" transform="rotate(76 21 70)" fill="#000" />
-        <circle cx="62" cy="44" r="4" fill="#000" />
-        <circle cx="44" cy="62" r="4" fill="#000" />
-        <path d="M84 14 q8 3 6 11 q-8 -1 -6 -11z" fill="#000" />
-        <path d="M14 84 q3 8 11 6 q-1 -8 -11 -6z" fill="#000" />
-      </mask>
-      <path d={plate} fill={dark} transform="translate(1.6 2.4)" opacity="0.5" />
-      <rect x="0" y="0" width="115" height="115" fill={bronze} mask={`url(#${id}-pierce)`} />
-      {/* Blomst inne i den store åpningen */}
-      <g fill={bronze} stroke={dark} strokeWidth="1" strokeOpacity="0.7">
-        {[0, 72, 144, 216, 288].map((r) => (
-          <ellipse key={r} cx="35" cy="24.5" rx="4.6" ry="8" transform={`rotate(${r} 35 35)`} />
-        ))}
-        <circle cx="35" cy="35" r="5" />
-      </g>
-      <circle cx="35" cy="35" r="2" fill={dark} fillOpacity="0.7" />
-      {/* Kantlinje og nagler */}
-      <path d={plate} fill="none" stroke={dark} strokeOpacity="0.6" strokeWidth="1.3" />
-      <path d="M8 8 H94 M8 8 V94" fill="none" stroke="#e9d49a" strokeOpacity="0.55" strokeWidth="1" />
-      <circle cx="9" cy="9" r="3.4" fill={dark} fillOpacity="0.6" />
-      <circle cx="9" cy="9" r="2.2" fill={bronze} />
-      <circle cx="96" cy="9" r="2.6" fill={bronze} stroke={dark} strokeOpacity="0.6" strokeWidth="0.8" />
-      <circle cx="9" cy="96" r="2.6" fill={bronze} stroke={dark} strokeOpacity="0.6" strokeWidth="0.8" />
+      {/* Svømmehuden */}
+      <path d="M12 12 L106 24 Q84 46 78 78 Q46 84 24 106 Z" fill={bronze} stroke={dark} strokeOpacity="0.7" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M12 12 L86 46 M12 12 L46 86" fill="none" stroke={dark} strokeOpacity="0.45" strokeWidth="1.2" strokeLinecap="round" />
+      <path d="M30 14 Q60 20 84 26 M14 30 Q20 60 26 84" fill="none" stroke="#e9d49a" strokeOpacity="0.35" strokeWidth="1" strokeLinecap="round" />
+      {/* Tærne */}
+      {tips.map(([x, y], i) => (
+        <g key={i}>
+          <path d={`M12 12 L${x} ${y}`} stroke={dark} strokeOpacity="0.85" strokeWidth="15" strokeLinecap="round" fill="none" />
+          <path d={`M12 12 L${x} ${y}`} stroke={bronze} strokeWidth="12.5" strokeLinecap="round" fill="none" />
+          <path d={`M14 12 L${x - 1} ${y - 1}`} stroke="#e9d49a" strokeOpacity="0.4" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+          <circle cx={x} cy={y} r="3.2" fill={dark} fillOpacity="0.55" />
+        </g>
+      ))}
+      {/* Ankelen med nagle */}
+      <circle cx="14" cy="14" r="12" fill={bronze} stroke={dark} strokeOpacity="0.75" strokeWidth="1.6" />
+      <circle cx="14" cy="14" r="7" fill="none" stroke={dark} strokeOpacity="0.45" strokeWidth="1.2" />
+      <circle cx="14" cy="14" r="3.2" fill={dark} fillOpacity="0.6" />
     </g>
   );
   const corners = [
@@ -391,25 +382,6 @@ export function CoverArt({
     { tx: 22, ty: 578, sx: 1, sy: -1 },
     { tx: 398, ty: 578, sx: -1, sy: -1 },
   ];
-
-  // Medaljongen: to slynger i en ring, med en åtte inni der de krysser hverandre over og under.
-  const body = 11;
-  const scales = (w: number) => (
-    <g fill="none" stroke={dark} strokeOpacity="0.55" strokeWidth={w} strokeDasharray="1.5 3.1" />
-  );
-  void scales;
-  const loopTop = { cx: CX, cy: CY - 25, r: 35 };
-  const loopBot = { cx: CX, cy: CY + 25, r: 35 };
-  const crossY = CY;
-  const crossDx = Math.sqrt(35 * 35 - 25 * 25);
-  const strand = (c: { cx: number; cy: number; r: number }, key: string) => (
-    <g key={key} fill="none">
-      <circle cx={c.cx} cy={c.cy} r={c.r} stroke={dark} strokeWidth={body + 4} strokeOpacity="0.9" />
-      <circle cx={c.cx} cy={c.cy} r={c.r} stroke={bronze} strokeWidth={body} />
-      <circle cx={c.cx} cy={c.cy} r={c.r} stroke={dark} strokeWidth={body} strokeOpacity="0.7" strokeDasharray="1.5 3.1" />
-      <circle cx={c.cx - 1.5} cy={c.cy - 1.5} r={c.r} stroke="#e8d49a" strokeWidth="1.4" strokeOpacity="0.32" />
-    </g>
-  );
 
   return (
     <svg className={className} viewBox="0 0 420 600" preserveAspectRatio="xMidYMid slice" role="img" aria-label={title} focusable="false">
@@ -486,12 +458,6 @@ export function CoverArt({
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <clipPath id={`${id}-x1`}>
-          <circle cx={CX - crossDx} cy={crossY} r="13" />
-        </clipPath>
-        <clipPath id={`${id}-x2`}>
-          <circle cx={CX + crossDx} cy={crossY} r="13" />
-        </clipPath>
       </defs>
 
       <g clipPath={`url(#${id}-clip)`}>
@@ -508,27 +474,9 @@ export function CoverArt({
           </g>
         ))}
 
-        {/* Medaljong */}
-        <g filter={`url(#${id}-metal)`}>
-          <circle cx={CX} cy={CY} r="60" fill="none" stroke={dark} strokeWidth={body + 5} strokeOpacity="0.9" />
-          <circle cx={CX} cy={CY} r="60" fill="none" stroke={bronze} strokeWidth={body + 1} />
-          <circle cx={CX} cy={CY} r="60" fill="none" stroke={dark} strokeWidth={body + 1} strokeOpacity="0.7" strokeDasharray="1.5 3.1" />
-          {strand(loopTop, "t")}
-          {strand(loopBot, "b")}
-          {/* Over og under: venstre kryss har toppsløyfen øverst, høyre kryss har bunnsløyfen øverst */}
-          <g clipPath={`url(#${id}-x1)`}>{strand(loopTop, "t1")}</g>
-          <g clipPath={`url(#${id}-x2)`}>{strand(loopBot, "b1")}</g>
-          {/* Hoder */}
-          {[
-            { x: CX + 60 * Math.cos((-40 * Math.PI) / 180), y: CY + 60 * Math.sin((-40 * Math.PI) / 180), r: 50 },
-            { x: CX + 60 * Math.cos((140 * Math.PI) / 180), y: CY + 60 * Math.sin((140 * Math.PI) / 180), r: 230 },
-          ].map((h, i) => (
-            <g key={i} transform={`translate(${h.x} ${h.y}) rotate(${h.r})`}>
-              <ellipse cx="0" cy="0" rx="10" ry="7" fill={dark} fillOpacity="0.9" />
-              <ellipse cx="0" cy="0" rx="8.6" ry="5.8" fill={bronze} />
-              <circle cx="3" cy="-2" r="1.4" fill={dark} />
-            </g>
-          ))}
+        {/* Hodet til rubberducken vår: flat strek, samme stil som resten av coveret */}
+        <g transform={`translate(${CX} ${CY}) scale(1.4)`}>
+          <DuckHeadArt ink="#0f0a05" />
         </g>
 
         {/* Tittel */}
