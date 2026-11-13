@@ -288,7 +288,7 @@
           </div>
         </div>
         <div class="bottom">
-          <p>På denne siden samler vi inn anonyme data om besøk.</p>
+          <p>Vi bruker ingen cookies, men samler anonym statistikk om besøk på denne siden.</p>
           <p>© 2026 Rubberduck Dev AS. Org.nr 988 353 612</p>
         </div>
       </div>
@@ -324,6 +324,18 @@
         var utm = {};
         try { var q = new URLSearchParams(location.search); utm = { source: q.get('utm_source') || undefined, campaign: q.get('utm_campaign') || undefined }; } catch (e) {}
         btn.addEventListener('click', function () { if (window.rdTrack) rdTrack('apply_click'); });
+        // Én gang per sidevisning: når beskrivelsen går over 10 tegn.
+        var started = false;
+        document.getElementById('message').addEventListener('input', function (e) {
+          if (!started && e.target.value.length > 10) { started = true; if (window.rdTrack) rdTrack('message_started'); }
+        });
+        // Klikk på en av oss (LinkedIn). Navnet står i alt-teksten på bildet.
+        document.querySelectorAll('.crew a').forEach(function (a) {
+          a.addEventListener('click', function () {
+            var img = a.querySelector('img');
+            if (window.rdTrack) rdTrack('linkedin_click', img ? img.alt : '');
+          });
+        });
         form.addEventListener('submit', function (e) {
           e.preventDefault();
           var value = email.value.trim();
