@@ -1,7 +1,10 @@
 import { SalaryCalculator } from './SalaryCalculator';
 import { Mail } from 'lucide-react';
+import { useState } from 'react';
+import { ContactDialog } from './ContactDialog';
 
 export function JobSection() {
+  const [applyOpen, setApplyOpen] = useState(false);
   return (
     <section id="jobbe" className="min-h-screen py-24">
       <div className="container mx-auto px-4">
@@ -24,26 +27,38 @@ export function JobSection() {
                 </h2>
                 <div className="prose prose-lg dark:prose-invert">
                   <p className="text-custom-dark/80 dark:text-white/80 mb-6">
-                    Vi ser etter seniorutviklere, gjerne med erfaring fra Java, Kotlin, Python, Go eller JavaScript.
-                    Du er faglig dyktig, positiv og utadvendt, og du er sulten etter å lære mer.
-                    Som person er du selvdreven og nysgjerrig og du tar initiativ til å dele din kunnskap med kolleger.
+                    Vi er et koselig lite konsulenthus med seniorutviklere som finner på mye sammen, både faglig og sosialt.
+                    Og flere av oss har faktisk liv utenom jobben også.
                   </p>
                   <p className="text-custom-dark/80 dark:text-white/80 mb-6">
-                    Vi ønsker deg med minimum 7 år erfaring og relevant utdannelse fra høyskole eller universitet.
+                    Filosofien vår er enkel. Det er du som skaper verdiene. Da skal du også ha det største kakestykket.
+                    Samtidig har du verdens beste gjeng i ryggen, med tryggheten, nettverket og alle godene vi har bygget opp
+                    gjennom over 20 år i bransjen. Sammenlign oss med hvem som helst. Fordelene våre står under.
                   </p>
                   <p className="text-custom-dark/80 dark:text-white/80">
-                    Interessert? Send oss noen linjer om deg selv, så tar vi kontakt
+                    Nå ser vi etter noen nye nebb. Derfor har vi veldig lyst til å snakke med deg som har minst 7 års erfaring,
+                    henger med i tiden og elsker jobben som utvikler. Send oss et lite pip, så kan vi ta en kaffe og bli litt bedre kjent!
                   </p>
                 </div>
 
                 <div className="mt-8">
-                  <a
-                    href="mailto:hei@rubberduck.no"
+                  <button
+                    type="button"
+                    onClick={() => setApplyOpen(true)}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full font-semibold hover:opacity-90 transition-opacity"
                   >
                     <Mail className="w-4 h-4" />
-                    Send oss en e-post
-                  </a>
+                    Send oss et pip
+                  </button>
+                  <ContactDialog
+                    open={applyOpen}
+                    onClose={() => setApplyOpen(false)}
+                    kind="soknad"
+                    source="jobb"
+                    title="Duck wanted"
+                    messageLabel="Litt om deg selv"
+                    thanks="Takk for søknaden! Vi tar kontakt så snart vi kan."
+                  />
                 </div>
               </div>
             </div>

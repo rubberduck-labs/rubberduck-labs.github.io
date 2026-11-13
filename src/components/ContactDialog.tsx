@@ -4,6 +4,13 @@ import { CustomDialog } from './CustomDialog';
 interface ContactDialogProps {
   open: boolean;
   onClose: () => void;
+  /** «kontakt» er en henvendelse, «soknad» en jobbsøknad. De går til hver sin Slack-kanal. */
+  kind?: 'kontakt' | 'soknad';
+  /** Hvor skjemaet står, så vi ser det i Slack-meldingen. */
+  source?: string;
+  title?: string;
+  messageLabel?: string;
+  thanks?: string;
 }
 
 const ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/soknad`;
@@ -11,7 +18,15 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type Status = 'idle' | 'sending' | 'done' | 'invalid' | 'error';
 
-export function ContactDialog({ open, onClose }: ContactDialogProps) {
+export function ContactDialog({
+  open,
+  onClose,
+  kind = 'kontakt',
+  source = 'forsiden',
+  title = 'Kontakt oss',
+  messageLabel = 'Hva kan vi hjelpe deg med?',
+  thanks = 'Takk! Vi tar kontakt så snart vi kan.',
+}: ContactDialogProps) {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [website, setWebsite] = useState(''); // honeypot
@@ -37,7 +52,7 @@ export function ContactDialog({ open, onClose }: ContactDialogProps) {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'kontakt', source: 'forsiden', email: email.trim(), message, website }),
+        body: JSON.stringify({ type: kind, source, email: email.trim(), message, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus('done');
@@ -50,15 +65,15 @@ export function ContactDialog({ open, onClose }: ContactDialogProps) {
     'w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 py-2 text-custom-dark dark:text-white focus:outline-none focus:ring-2 focus:ring-custom-dark dark:focus:ring-white';
 
   return (
-    <CustomDialog open={open} onClose={close} title="Kontakt oss">
+    <CustomDialog open={open} onClose={close} title={title}>
       <div className="p-4 sm:p-6">
         {status === 'done' ? (
-          <p className="text-custom-dark dark:text-white">Takk! Vi tar kontakt så snart vi kan.</p>
+          <p className="text-custom-dark dark:text-white">{thanks}</p>
         ) : (
           <form onSubmit={submit} noValidate className="space-y-4">
             <div>
               <label htmlFor="contact-message" className="block font-semibold mb-1 text-custom-dark dark:text-white">
-                Hva kan vi hjelpe deg med?
+                {messageLabel}
               </label>
               <textarea
                 id="contact-message"
