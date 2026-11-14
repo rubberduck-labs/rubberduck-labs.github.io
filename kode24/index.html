@@ -86,7 +86,8 @@
       @media (prefers-reduced-motion: reduce) { .crew a img { transition: none; } .crew a:hover img, .crew a:focus-visible img { transform: none; } }
       @media (min-width: 760px) { .crew { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
       .apply .box { padding: 24px 28px; }
-      .apply p { margin: 0 0 16px; color: var(--box-muted); max-width: 60ch; }
+      .apply p { margin: 0 0 16px; color: var(--box-muted); }
+      .nowrap { white-space: nowrap; }
       .apply label { display: block; font-weight: 600; color: var(--box-ink); margin-bottom: 8px; }
       .apply .field { display: flex; flex-wrap: wrap; gap: 10px; }
       .apply textarea { display: block; width: 100%; font: inherit; padding: 10px 12px; margin-bottom: 18px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; resize: vertical; }
@@ -184,7 +185,7 @@
       <section class="cat apply" id="sok">
         <h2>La oss ta en prat</h2>
         <div class="box">
-          <p>Nysgjerrig på Rubberduck? Du trenger verken CV eller søknadsbrev. Legg igjen e-posten din, så tar vi kontakt for en uforpliktende prat.</p>
+          <p>Nysgjerrig på Rubberduck? Du trenger verken CV eller søknadsbrev.<br>Legg igjen <span class="nowrap">e-posten</span> din, så tar vi kontakt for en uforpliktende prat.</p>
           <form id="apply-form" novalidate>
             <label for="message">Noe du vil fortelle? (valgfritt)</label>
             <textarea id="message" name="message" rows="4" maxlength="1000" placeholder="For eksempel hva du liker å jobbe med. Et par setninger holder."></textarea>
