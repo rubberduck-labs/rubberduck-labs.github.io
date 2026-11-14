@@ -285,7 +285,7 @@ export function OppdragPage() {
   const [selected, setSelected] = useState<Assignment | null>(null);
 
   useEffect(() => {
-    const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/Assignments?isDirect=eq.true&status=eq.ACTIVE&order=publishedDate.desc`;
+    const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/Assignments?featuredOnWebsite=eq.true&status=eq.ACTIVE&order=publishedDate.desc`;
     fetch(url, {
       headers: {
         apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
