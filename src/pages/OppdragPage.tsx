@@ -5,10 +5,7 @@ interface Assignment {
   id: string;
   title: string;
   company: string;
-  llmDescription: string;
-  websiteDescription: string | null;
-  link: string | null;
-  source: string;
+  description: string;
   applicationDeadlineDate: string | null;
   expectedDuration: string | null;
   location: string | null;
@@ -89,9 +86,9 @@ function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onCl
             )}
           </div>
 
-          {(assignment.websiteDescription || assignment.llmDescription) ? (
+          {assignment.description ? (
             <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">
-              {assignment.websiteDescription ?? assignment.llmDescription}
+              {assignment.description}
             </p>
           ) : (
             <p className="text-custom-dark/60 dark:text-white/60 leading-relaxed">
@@ -163,9 +160,9 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
         )}
       </div>
 
-      {(assignment.websiteDescription || assignment.llmDescription) ? (
+      {assignment.description ? (
         <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed line-clamp-3">
-          {assignment.websiteDescription ?? assignment.llmDescription}
+          {assignment.description}
         </p>
       ) : (
         <p className="text-custom-dark/50 dark:text-white/50 text-sm leading-relaxed">
@@ -286,7 +283,7 @@ export function OppdragPage() {
   const [selected, setSelected] = useState<Assignment | null>(null);
 
   useEffect(() => {
-    const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/Assignments?featuredOnWebsite=eq.true&status=eq.ACTIVE&order=publishedDate.desc`;
+    const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/WebsiteListings?published=eq.true&order=createdAt.desc`;
     fetch(url, {
       headers: {
         apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
