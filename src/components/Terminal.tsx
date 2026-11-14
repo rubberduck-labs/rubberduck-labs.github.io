@@ -3,6 +3,8 @@ import { Terminal as TerminalIcon, X } from 'lucide-react';
 import { commands } from '../commands';
 import { FileSystemManager } from '../utils/filesystem';
 import terminalConfig from '../terminal.json';
+import { track } from '../utils/track';
+import { trackTerminalCommand } from '../utils/terminalTracking';
 
 interface TerminalProps {
   isOpen: boolean;
@@ -50,6 +52,7 @@ function useVisualViewport(active: boolean): { top: number; height: number } | n
 
 // Snarveier på smale skjermer, der det er tungt å skrive.
 const QUICK_COMMANDS = ['help', 'ls', 'whoami', 'quack', 'joke', 'weather', 'clear', 'exit'];
+const TRACKED_COMMANDS = ['cd', 'ls', 'cat', ...Object.keys(commands)];
 
 export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps) {
   const narrow = useIsNarrow();
@@ -69,6 +72,7 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
   const contentRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fsRef = useRef<FileSystemManager>(new FileSystemManager(terminalConfig));
+  const openTrackedRef = useRef(false);
 
   const initialLines = [
     'Welcome to RubberDuck OS v2.0.25',
@@ -78,12 +82,18 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
 
   useEffect(() => {
     if (!isOpen) {
+      openTrackedRef.current = false;
       setLines([]);
       setCurrentInput('');
       setIsInitializing(true);
       // Reset position when terminal is closed
       setPosition({ x: 0, y: 0 });
       return;
+    }
+
+    if (!openTrackedRef.current) {
+      track('terminal_open');
+      openTrackedRef.current = true;
     }
 
     let currentLine = 0;
@@ -197,6 +207,8 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
 
     const args = input.trim().split(/\s+/);
     const cmd = args[0].toLowerCase();
+    const executableCommand = cmd && fs.isExecutable(cmd) ? fs.getCommandForExecutable(cmd) : null;
+    trackTerminalCommand(cmd, TRACKED_COMMANDS, executableCommand);
 
     // Handle built-in commands first
     switch (cmd) {

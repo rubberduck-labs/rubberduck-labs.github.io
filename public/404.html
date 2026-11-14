@@ -279,7 +279,7 @@
           if (e.event === 'pageview') return 'Besøkte' + (name ? ' ' + name : '');
           return (LABEL[e.event] || e.event) + (e.label ? ': ' + e.label : '') + (name ? ' · ' + name : '');
         }
-        var LABEL = { pageview: 'Besøkte', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn', message_started: 'Begynte på beskrivelsen', calc_used: 'Brukte kalkulatoren', team_cv_open: 'Åpnet CV', hiku_open: 'Åpnet Hiku', hiku_play: 'Spilte Hiku' };
+        var LABEL = { pageview: 'Besøkte', apply_click: 'Klikket Søk her', apply_sent: 'Sendte søknad', contact_sent: 'Sendte henvendelse', linkedin_click: 'Klikket LinkedIn', message_started: 'Begynte på beskrivelsen', calc_used: 'Brukte kalkulatoren', team_cv_open: 'Åpnet CV', hiku_open: 'Åpnet Hiku', hiku_play: 'Spilte Hiku', terminal_open: 'Åpnet terminalen', terminal_command: 'Kjørte terminalkommando' };
         // Under en time: «12 min siden». Eldre enn en time: bare klokkeslettet, med dato foran hvis det er en annen dag.
         var agoClock = new Intl.DateTimeFormat('nb-NO', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'Europe/Oslo' });
         var agoDay = new Intl.DateTimeFormat('nb-NO', { day: 'numeric', month: 'numeric', timeZone: 'Europe/Oslo' });
