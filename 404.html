@@ -100,10 +100,12 @@
       .pie-card h3 { margin: 0 0 5px; font-size: 12px; font-weight: 600; }
       .pie-content { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: 10px; }
       .pie-card svg { display: block; width: 56px; height: 56px; }
-      .pie-key { display: grid; gap: 2px; font-size: 11px; }
-      .pie-key-row { display: flex; align-items: center; gap: 5px; }
+      .pie-key { display: grid; grid-template-columns: minmax(0, 1fr) max-content max-content; gap: 3px 10px; align-items: center; font-size: 11px; }
+      .pie-key-row { display: contents; }
+      .pie-label { display: flex; align-items: center; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+      .pie-key-head { color: var(--muted); font-size: 10px; padding-bottom: 3px; border-bottom: 1px solid var(--line); }
       .pie-swatch { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
-      .pie-value { margin-left: auto; white-space: nowrap; color: var(--muted); }
+      .pie-value { text-align: right; white-space: nowrap; color: var(--muted); }
       .pie-empty { color: var(--muted); font-size: 12px; margin: 0; grid-column: 1 / -1; }
       @media (max-width: 640px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .pies { grid-template-columns: 1fr; } }
       .login { max-width: 360px; margin-bottom: 16px; }
@@ -427,7 +429,7 @@
         // Oversikten teller hver id én gang, uavhengig av antall besøk og hendelser.
         var audienceVisitors = new Map(), audienceCursor = null, audienceDone = false, audienceLoading = false, audienceError = false;
         var PIE_COLORS = ['#3b82f6', '#f59e0b', '#10b981', '#a78bfa', '#f472b6', '#06b6d4', '#f97316', '#94a3b8'];
-        var percentFmt = new Intl.NumberFormat('nb-NO', { style: 'percent', maximumFractionDigits: 1 });
+        var percentFmt = new Intl.NumberFormat('nb-NO', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
         function audienceGroups(list, classify) {
           var counts = new Map();
           list.forEach(function (v) { var key = classify(v) || 'Ukjent'; counts.set(key, (counts.get(key) || 0) + 1); });
@@ -439,6 +441,9 @@
           var svg = el('svg', { viewBox: '0 0 120 120', role: 'img' });
           svg.setAttribute('aria-label', groups.map(function (g) { return g[0] + ': ' + g[1] + ' (' + percentFmt.format(g[1] / total) + ')'; }).join(', '));
           var key = document.createElement('div'); key.className = 'pie-key';
+          ['Type', 'Antall', 'Andel'].forEach(function (text, i) {
+            var head = document.createElement('span'); head.className = 'pie-key-head' + (i ? ' pie-value' : ''); head.textContent = text; key.appendChild(head);
+          });
           var angle = -Math.PI / 2;
           groups.forEach(function (g, i) {
             var color = PIE_COLORS[i % PIE_COLORS.length], end = angle + g[1] / total * 2 * Math.PI, slice;
@@ -446,9 +451,10 @@
             else slice = el('path', { d: 'M60 60 L' + (60 + 55 * Math.cos(angle)) + ' ' + (60 + 55 * Math.sin(angle)) + ' A55 55 0 ' + (g[1] / total > 0.5 ? 1 : 0) + ' 1 ' + (60 + 55 * Math.cos(end)) + ' ' + (60 + 55 * Math.sin(end)) + ' Z', fill: color });
             slice.appendChild(el('title', {}, g[0] + ': ' + g[1] + ' (' + percentFmt.format(g[1] / total) + ')')); svg.appendChild(slice); angle = end;
             var row = document.createElement('div'); row.className = 'pie-key-row';
-            var swatch = document.createElement('span'); swatch.className = 'pie-swatch'; swatch.style.background = color; swatch.setAttribute('aria-hidden', 'true'); row.appendChild(swatch);
-            var label = document.createElement('span'); label.textContent = g[0]; row.appendChild(label);
-            var value = document.createElement('span'); value.className = 'pie-value'; value.textContent = g[1] + ' · ' + percentFmt.format(g[1] / total); row.appendChild(value); key.appendChild(row);
+            var swatch = document.createElement('span'); swatch.className = 'pie-swatch'; swatch.style.background = color; swatch.setAttribute('aria-hidden', 'true'); var label = document.createElement('span'); label.className = 'pie-label'; label.appendChild(swatch);
+            var name = document.createElement('span'); name.textContent = g[0]; label.appendChild(name); row.appendChild(label);
+            var value = document.createElement('span'); value.className = 'pie-value'; value.textContent = String(g[1]); row.appendChild(value);
+            var share = document.createElement('span'); share.className = 'pie-value'; share.textContent = percentFmt.format(g[1] / total); row.appendChild(share); key.appendChild(row);
           });
           root.appendChild(svg); root.appendChild(key);
         }
