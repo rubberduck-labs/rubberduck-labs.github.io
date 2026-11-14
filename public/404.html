@@ -89,7 +89,7 @@
       .lineup-person { flex: 0 1 30px; min-width: 0; aspect-ratio: 30 / 34; container-type: inline-size; }
       .lineup-person .facewrap, .lineup-person .face { display: block; width: 100%; height: 100%; margin: 0; }
       .lineup-person .face { border-radius: 0; overflow: visible; }
-      .lineup-person .face svg { width: 100%; height: 100%; }
+      .lineup-person .face svg, .lineup-person .face img { width: 100%; height: 100%; }
       .lineup-person .face-placeholder { color: var(--muted); line-height: 1; text-align: center; font-size: 100cqw; }
       .lineup-person > .dot.live { display: none; }
       .lineup-person .facewrap .dot.live { width: 20%; height: 18%; right: 0; bottom: 3%; border: 0; }
@@ -128,7 +128,7 @@
       .dot.live { display: inline-block; width: 8px; height: 8px; margin-right: 8px; vertical-align: middle; }
       .facewrap { position: relative; display: inline-block; width: 38px; height: 38px; margin-right: 10px; vertical-align: middle; }
       .face { display: block; width: 38px; height: 38px; border-radius: 50%; overflow: hidden; }
-      .face svg { display: block; width: 100%; height: 100%; }
+      .face svg, .face img { display: block; width: 100%; height: 100%; }
       .facewrap .dot.live { position: absolute; right: -2px; bottom: -2px; margin: 0; width: 11px; height: 11px; box-sizing: border-box; border: 2px solid var(--box); }
       td.idc { white-space: nowrap; font-weight: 600; }
       .visitor-label { display: inline-block; vertical-align: middle; }
@@ -400,19 +400,20 @@
           if (isNaN(n)) return id;
           return ADJ[(n >>> 12) % ADJ.length] + ' ' + ANI[n % ANI.length];
         }
-        // Ansikter: et sett på 40 tegnede personer (Open Peeps, CC0) i /faces.json. Hentes først etter innlogging.
-        // Id-en velger ansikt og bakgrunnsfarge, så samme besøkende ser likt ut hele dagen.
-        var faces = null, facesLoading = false;
+        // Open Peeps (CC0) kombineres lokalt med DiceBear. Biblioteket lastes først etter innlogging.
+        // Besøks-id-en velger delene, så samme id alltid får samme figur.
+        var avatarFor = null, facesLoading = false;
         function loadFaces() {
-          if (faces || facesLoading) return; facesLoading = true;
-          fetch('/faces.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })
-            .then(function (j) { faces = j; renderVisitors(); render(); renderAudience(); }).catch(function () { facesLoading = false; });
+          if (avatarFor || facesLoading) return; facesLoading = true;
+          import('/live-avatars.js')
+            .then(function (module) { avatarFor = module.avatarFor; renderVisitors(); render(); renderAudience(); }).catch(function () { facesLoading = false; });
         }
         function faceFor(id) {
-          if (!faces || !id || !/^[0-9a-f]{6}$/.test(id)) return null;
+          if (!avatarFor || !id || !/^[0-9a-f]{6}$/.test(id)) return null;
+          var uri = avatarFor(id); if (!uri) return null;
           var f = document.createElement('span'); f.className = 'face';
           f.style.background = 'hsl(' + Math.round(parseInt(id.slice(4, 6), 16) / 255 * 360) + ' 55% 82%)';
-          f.innerHTML = faces[parseInt(id.slice(0, 4), 16) % faces.length];
+          var img = document.createElement('img'); img.src = uri; img.alt = ''; img.width = 38; img.height = 38; f.appendChild(img);
           return f;
         }
         function liveDot(td, last, id) {

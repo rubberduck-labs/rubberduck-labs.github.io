@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:avatars": "node --experimental-strip-types --test tests/live-avatars.test.mjs"
   },
   "dependencies": {
+    "@dicebear/core": "10.6.0",
+    "@dicebear/styles": "10.6.0",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",

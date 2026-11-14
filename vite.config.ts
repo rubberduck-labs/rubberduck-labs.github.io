@@ -11,6 +11,10 @@ function liveDevPage(): Plugin {
     apply: 'serve',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
+        if (req.url?.split('?')[0] === '/live-avatars.js') {
+          req.url = '/src/live/avatars.ts';
+          return next();
+        }
         if (!req.url || !/^\/live(\/|\?|$)/.test(req.url)) return next();
         try {
           const html = readFileSync(resolve(server.config.root, 'public/404.html'), 'utf-8');
@@ -34,5 +38,12 @@ export default defineConfig({
   base: "/",
   build: {
     outDir: "docs",
+    rollupOptions: {
+      preserveEntrySignatures: 'strict',
+      input: [resolve('index.html'), resolve('src/live/avatars.ts')],
+      output: {
+        entryFileNames: (chunk) => chunk.name === 'avatars' ? 'live-avatars.js' : 'assets/[name]-[hash].js',
+      },
+    },
   }
 });
