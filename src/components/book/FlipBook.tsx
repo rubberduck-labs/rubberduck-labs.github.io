@@ -214,7 +214,7 @@ export default function FlipBook() {
         </div>
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+      <div className="relative z-10 mt-2 flex flex-wrap items-center justify-center gap-3">
         <button
           type="button"
           className={btn}

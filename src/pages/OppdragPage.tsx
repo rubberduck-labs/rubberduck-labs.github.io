@@ -21,6 +21,21 @@ function formatDate(dateStr: string | null): string | null {
 }
 
 
+// Titlene kommer rett fra anbudene: «Konkurranse - … - DPS» og referansenumre foran. Vi rydder bare i visningen, ikke i dataene.
+function cleanTitle(raw: string): { title: string; ref: string | null } {
+  let t = raw.trim();
+  let ref: string | null = null;
+  const m = t.match(/^(E-\d+-\d+|\d{2}-\d{3}-\d{3})\s*[:\-–]?\s*/i);
+  if (m) {
+    ref = m[1];
+    t = t.slice(m[0].length);
+  }
+  t = t.replace(/^Konkurranse\s*[-–]\s*/i, '').replace(/\s*[-–]\s*DPS$/i, '').trim();
+  return { title: t || raw.trim(), ref };
+}
+
+const hasDuration = (d: string | null) => !!d && d.trim().toLowerCase() !== 'ukjent';
+
 function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onClose: () => void }) {
   return (
     <div
@@ -34,10 +49,13 @@ function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onCl
         <div className="flex items-start justify-between p-6 pb-0">
           <div>
             <h2 className="text-2xl font-bold text-custom-dark dark:text-white mb-1">
-              {assignment.title}
+              {cleanTitle(assignment.title).title}
             </h2>
             <p className="text-custom-dark/70 dark:text-white/70 font-medium">
               {assignment.company}
+              {cleanTitle(assignment.title).ref && (
+                <span className="ml-2 text-xs font-normal text-custom-dark/50 dark:text-white/50">Ref. {cleanTitle(assignment.title).ref}</span>
+              )}
             </p>
           </div>
           <button
@@ -62,7 +80,7 @@ function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onCl
                 Frist: {formatDate(assignment.applicationDeadlineDate)}
               </span>
             )}
-            {assignment.expectedDuration && (
+            {hasDuration(assignment.expectedDuration) && (
               <span className="flex items-center gap-1">
                 <Clock className="w-4 h-4 shrink-0" />
                 {assignment.expectedDuration}
@@ -70,9 +88,13 @@ function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onCl
             )}
           </div>
 
-          {assignment.llmDescription && (
+          {assignment.llmDescription ? (
             <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">
               {assignment.llmDescription}
+            </p>
+          ) : (
+            <p className="text-custom-dark/60 dark:text-white/60 leading-relaxed">
+              Vi har ikke en kort beskrivelse av dette oppdraget ennå. Ta kontakt, så sender vi deg det vi har.
             </p>
           )}
 
@@ -106,13 +128,16 @@ function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onCl
 
 function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onClick: () => void }) {
   return (
-    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
+    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4 h-full">
       <div>
         <h2 className="text-xl font-bold text-custom-dark dark:text-white mb-1">
-          {assignment.title}
+          {cleanTitle(assignment.title).title}
         </h2>
         <p className="text-custom-dark/70 dark:text-white/70 font-medium">
           {assignment.company}
+          {cleanTitle(assignment.title).ref && (
+            <span className="ml-2 text-xs font-normal text-custom-dark/50 dark:text-white/50">Ref. {cleanTitle(assignment.title).ref}</span>
+          )}
         </p>
       </div>
 
@@ -129,7 +154,7 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
             Frist: {formatDate(assignment.applicationDeadlineDate)}
           </span>
         )}
-        {assignment.expectedDuration && (
+        {hasDuration(assignment.expectedDuration) && (
           <span className="flex items-center gap-1">
             <Clock className="w-4 h-4 shrink-0" />
             {assignment.expectedDuration}
@@ -137,9 +162,13 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
         )}
       </div>
 
-      {assignment.llmDescription && (
+      {assignment.llmDescription ? (
         <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed line-clamp-3">
           {assignment.llmDescription}
+        </p>
+      ) : (
+        <p className="text-custom-dark/50 dark:text-white/50 text-sm leading-relaxed">
+          Ingen beskrivelse ennå. Åpne oppdraget for å ta kontakt.
         </p>
       )}
 
@@ -198,7 +227,7 @@ function SubscribeSection() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
+    <div className="mb-12 md:max-w-md">
       <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -245,27 +274,6 @@ function SubscribeSection() {
         )}
       </div>
 
-      <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <svg className="w-5 h-5 text-custom-dark dark:text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/>
-            </svg>
-            <h2 className="text-lg font-bold text-custom-dark dark:text-white">Slack-app</h2>
-          </div>
-          <p className="text-sm text-custom-dark/70 dark:text-white/70">
-            Installer Slack-appen vår og få nye oppdrag rett i din Slack-workspace.
-          </p>
-        </div>
-        <div className="mt-auto">
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 px-5 py-2.5 border border-gray-200 dark:border-zinc-600 text-custom-dark dark:text-white rounded-full text-sm font-semibold hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors"
-          >
-            Installer Slack-appen
-          </a>
-        </div>
-      </div>
     </div>
   );
 }
@@ -296,7 +304,7 @@ export function OppdragPage() {
   return (
     <section className="min-h-screen py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-custom-dark dark:text-white mb-4">
               Ledige oppdrag
@@ -304,6 +312,11 @@ export function OppdragPage() {
             <p className="text-lg text-custom-dark/80 dark:text-white/80">
               Freelance? Dette er oppdrag vi har ledig akkurat nå.
             </p>
+            {!loading && !error && assignments.length > 0 && (
+              <p className="mt-2 text-sm font-medium text-custom-dark/60 dark:text-white/60">
+                {assignments.length} {assignments.length === 1 ? 'ledig oppdrag' : 'ledige oppdrag'}
+              </p>
+            )}
           </div>
 
           <SubscribeSection />
@@ -335,7 +348,7 @@ export function OppdragPage() {
           )}
 
           {!loading && !error && assignments.length > 0 && (
-            <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {assignments.map((assignment) => (
                 <AssignmentCard
                   key={assignment.id}
