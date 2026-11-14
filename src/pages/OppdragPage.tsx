@@ -6,6 +6,7 @@ interface Assignment {
   title: string;
   company: string;
   llmDescription: string;
+  websiteDescription: string | null;
   link: string | null;
   source: string;
   applicationDeadlineDate: string | null;
@@ -88,9 +89,9 @@ function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onCl
             )}
           </div>
 
-          {assignment.llmDescription ? (
+          {(assignment.websiteDescription || assignment.llmDescription) ? (
             <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">
-              {assignment.llmDescription}
+              {assignment.websiteDescription ?? assignment.llmDescription}
             </p>
           ) : (
             <p className="text-custom-dark/60 dark:text-white/60 leading-relaxed">
@@ -162,9 +163,9 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
         )}
       </div>
 
-      {assignment.llmDescription ? (
+      {(assignment.websiteDescription || assignment.llmDescription) ? (
         <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed line-clamp-3">
-          {assignment.llmDescription}
+          {assignment.websiteDescription ?? assignment.llmDescription}
         </p>
       ) : (
         <p className="text-custom-dark/50 dark:text-white/50 text-sm leading-relaxed">
