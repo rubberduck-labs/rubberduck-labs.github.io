@@ -65,9 +65,9 @@
       .dot.off { background: #9ca3af; animation: none; }
       @keyframes pulse { 50% { opacity: .35; } }
       @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
-      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
-      .card { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 14px 16px; }
-      .card b { display: block; font-size: 30px; line-height: 1.1; }
+      .cards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+      .card { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 10px 12px; }
+      .card b { display: block; font-size: 24px; line-height: 1.1; }
       .card span { color: var(--muted); font-size: 13px; }
       table { width: 100%; border-collapse: collapse; background: var(--box); border: 1px solid var(--line); }
       th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -75,7 +75,7 @@
       td.t { color: var(--muted); white-space: nowrap; }
       .ev { font-weight: 600; }
       .ev.apply_sent { color: #16a34a; }
-      .chart { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 14px 16px 8px; margin-bottom: 24px; }
+      .chart { background: var(--box); border: 1px solid var(--line); border-radius: 2px; padding: 14px 16px 8px; margin-bottom: 8px; }
       .chart h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; }
       .chart h2 i { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 400; display: inline-flex; align-items: center; gap: 6px; }
       .chart h2 i::before { content: ""; width: 10px; height: 10px; background: var(--bar1); }
@@ -84,6 +84,28 @@
       .chart text { fill: var(--muted); font: 11px system-ui, sans-serif; }
       .chart .grid { stroke: var(--line); }
       .chart .bv { fill: var(--bar1); } .chart .bu { fill: var(--bar2); }
+      .audience { margin: 0 16px -2px; position: relative; z-index: 1; }
+      .lineup { display: flex; flex-wrap: nowrap; align-items: flex-end; }
+      .lineup-person { flex: 0 1 30px; min-width: 0; aspect-ratio: 30 / 34; container-type: inline-size; }
+      .lineup-person .facewrap, .lineup-person .face { display: block; width: 100%; height: 100%; margin: 0; }
+      .lineup-person .face { border-radius: 0; overflow: visible; }
+      .lineup-person .face svg { width: 100%; height: 100%; }
+      .lineup-person .face-placeholder { color: var(--muted); line-height: 1; text-align: center; font-size: 100cqw; }
+      .lineup-person > .dot.live { display: none; }
+      .lineup-person .facewrap .dot.live { width: 20%; height: 18%; right: 0; bottom: 3%; border: 0; }
+      .audience-note { color: var(--muted); font-size: 11px; margin: 0 0 4px; }
+      .audience-note:empty { display: none; }
+      .pies { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+      .pie-card { min-width: 0; background: var(--box); border: 1px solid var(--line); padding: 8px 10px; }
+      .pie-card h3 { margin: 0 0 5px; font-size: 12px; font-weight: 600; }
+      .pie-content { display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: center; gap: 10px; }
+      .pie-card svg { display: block; width: 56px; height: 56px; }
+      .pie-key { display: grid; gap: 2px; font-size: 11px; }
+      .pie-key-row { display: flex; align-items: center; gap: 5px; }
+      .pie-swatch { width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto; }
+      .pie-value { margin-left: auto; white-space: nowrap; color: var(--muted); }
+      .pie-empty { color: var(--muted); font-size: 12px; margin: 0; grid-column: 1 / -1; }
+      @media (max-width: 640px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .pies { grid-template-columns: 1fr; } }
       .login { max-width: 360px; margin-bottom: 16px; }
             .login label { display: block; font-weight: 600; margin-bottom: 6px; }
       .login .row { display: flex; gap: 8px; }
@@ -109,21 +131,37 @@
       .face svg { display: block; width: 100%; height: 100%; }
       .facewrap .dot.live { position: absolute; right: -2px; bottom: -2px; margin: 0; width: 11px; height: 11px; box-sizing: border-box; border: 2px solid var(--box); }
       td.idc { white-space: nowrap; font-weight: 600; }
+      .visitor-label { display: inline-block; vertical-align: middle; }
       td.dev { white-space: nowrap; }
       .ico { width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px; color: var(--muted); }
       .devt { color: var(--muted); font-size: 13px; }
       .dev-ill { display: inline-block; width: 34px; height: 26px; margin-right: 12px; vertical-align: middle; }
       .dev-ill svg { display: block; width: 100%; height: 100%; }
       .nick { margin: 2px 0 0 48px; font-size: 12px; color: var(--muted); }
-      .back { margin-left: 8px; padding: 1px 8px; font-size: 11px; font-weight: 600; border-radius: 999px; background: #fde68a; color: #78350f; vertical-align: middle; }
+      .back { display: block; width: fit-content; margin: 2px 0 0; padding: 1px 8px; font-size: 11px; font-weight: 600; border-radius: 999px; background: #fde68a; color: #78350f; vertical-align: middle; }
+      .activity { white-space: nowrap; }
+      .activity svg { display: block; width: 28px; height: 20px; }
       td.now.off { color: var(--muted); }
-      tr.vd p.route { margin: 8px 0 6px; font-size: 13px; color: var(--muted); }
       tr.v { cursor: pointer; }
+      tr.v td { vertical-align: middle; }
       tr.v:hover td { background: var(--bg); }
-      tr.vd td { background: var(--bg); padding: 0 12px 10px 28px; }
-      tr.vd ul { list-style: none; margin: 0; padding: 0; font-size: 13px; }
-      tr.vd li { display: flex; gap: 12px; padding: 2px 0; }
-      tr.vd li time { color: var(--muted); min-width: 48px; }
+      tr.v.online td { background: rgb(22 163 74 / 7%); }
+      tr.v.online:hover td { background: rgb(22 163 74 / 12%); }
+      tr.vd td { background: var(--bg); padding: 8px 12px 14px; }
+      .journey { width: 100%; padding: 16px 20px; background: var(--box); border: 1px solid var(--line); }
+      .journey-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 12px; }
+      .journey-head h3 { margin: 0; font-size: 13px; }
+      .journey-head span, .journey-empty { color: var(--muted); font-size: 12px; }
+      .journey h4 { margin: 12px 0 8px; font-size: 12px; color: var(--muted); font-weight: 500; }
+      .journey ol { list-style: none; margin: 0; padding: 0; }
+      .journey li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; position: relative; padding: 0 0 12px; font-size: 13px; font-weight: 400; width: auto; }
+      .journey li::before { content: ''; position: absolute; left: 52px; top: 9px; bottom: -9px; border-left: 1px solid var(--line); }
+      .journey li:last-child::before { display: none; }
+      .journey li::after { content: ''; position: absolute; left: 49px; top: 7px; width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; }
+      .journey li.action::after { background: #16a34a; }
+      .journey time { color: var(--muted); font-size: 12px; }
+      .journey-title { display: block; font-weight: 600; overflow-wrap: anywhere; }
+      .journey-meta { display: block; color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
       @media (max-width: 640px) { .hide-s { display: none; } }
     </style>
   </head>
@@ -181,9 +219,20 @@
         <div class="card"><b id="clicks">–</b><span>klikket Søk her</span></div>
         <div class="card"><b id="sent">–</b><span>sendte søknad</span></div>
       </div>
-      <div class="chart" id="chartbox" hidden>
-        <h2>Siste 48 timer <i>Sidevisninger</i><i class="u">Unike besøkende</i></h2>
-        <svg id="chart" viewBox="0 0 960 220" role="img" aria-label="Sidevisninger og unike besøkende per time, siste 48 timer"></svg>
+      <div class="chart-shell">
+        <div id="audience" class="audience" hidden>
+          <div id="lineup" class="lineup" aria-hidden="true"></div>
+          <p id="audience-note" class="audience-note"></p>
+        </div>
+        <div class="chart" id="chartbox" hidden>
+          <h2>Siste 48 timer <i>Sidevisninger</i><i class="u">Unike besøkende</i></h2>
+        <svg id="chart" viewBox="0 0 960 150" role="img" aria-label="Sidevisninger og unike besøkende per time, siste 48 timer"></svg>
+        </div>
+      </div>
+      <div id="pies" class="pies" hidden>
+        <section id="pie-device" class="pie-card" aria-labelledby="device-title"><h3 id="device-title">Enheter</h3><div class="pie-content"></div></section>
+        <section id="pie-browser" class="pie-card" aria-labelledby="browser-title"><h3 id="browser-title">Nettlesere</h3><div class="pie-content"></div></section>
+        <section id="pie-os" class="pie-card" aria-labelledby="os-title"><h3 id="os-title">Operativsystemer</h3><div class="pie-content"></div></section>
       </div>
       <div class="tabs" role="tablist">
         <button type="button" role="tab" id="tab-vis" aria-selected="true">Besøkende</button>
@@ -191,7 +240,7 @@
       </div>
       <div class="msg" id="msg"></div>
       <table id="vtbl" hidden>
-        <thead><tr><th>Sist sett</th><th>Besøkende</th><th>Sist</th><th class="hide-s">Besøk</th><th class="hide-s">Visninger</th><th class="hide-s">Fra</th><th class="hide-s">Enhet</th></tr></thead>
+        <thead><tr><th>Sist sett</th><th>Besøkende</th><th class="hide-s" title="Sidevisninger og andre registrerte hendelser. Flere stolper betyr mer aktivitet.">Aktivitet</th><th>Sist</th><th class="hide-s">Besøk</th><th class="hide-s">Visninger</th><th class="hide-s">Fra</th><th class="hide-s">Enhet</th></tr></thead>
         <tbody id="vrows"></tbody>
       </table>
       <table id="tbl" hidden>
@@ -259,7 +308,7 @@
           var svg = $('chart'); svg.textContent = '';
           if (!h || !h.length) { $('chartbox').hidden = true; return; }
           $('chartbox').hidden = false;
-          var W = 960, H = 220, L = 34, R = 4, T = 8, B = 26, iw = W - L - R, ih = H - T - B, bw = iw / h.length;
+          var W = 960, H = 150, L = 34, R = 4, T = 8, B = 26, iw = W - L - R, ih = H - T - B, bw = iw / h.length;
           var top = niceTop(Math.max.apply(null, h.map(function (x) { return x.visninger; })));
           var y = function (v) { return T + ih - (v / top) * ih; };
           [0, top / 2, top].forEach(function (v) {
@@ -284,7 +333,8 @@
           $('online').textContent = d.online; $('views').textContent = d.today.visninger; $('visits').textContent = d.today.besok; $('visitors').textContent = d.uke ? d.uke.besokende : d.today.besokende;
           $('clicks').textContent = d.today.klikk_sok; $('sent').textContent = d.today.sendt;
           latest = d.events; visitors = d.visitors || []; visitorsMore = !!d.visitorsMore;
-          render(); renderVisitors();
+          visitors.forEach(function (v) { audienceVisitors.set(v.id, v); });
+          render(); renderVisitors(); renderAudience(); loadAudience();
         }
         // De nyeste hendelsene kommer fra hver oppdatering. «Hent flere» legger eldre til under, og de blir værende.
         var latest = [], older = [], exhausted = false, visitors = [], olderV = [], visitorsMore = false, vExhausted = false, view = 'vis', open = {};
@@ -300,6 +350,14 @@
         var ICONS = {"firefox":[512,512,"M130.2 127.5l0 0zm351.4 45.4c-10.6-25.5-32.1-53-48.9-61.7 13.7 26.9 21.7 53.9 24.7 74 0 .1 0 .3 .1 .4-27.6-68.8-74.4-96.5-112.6-156.8-15-23.7-10.9-25.2-13.1-24.7l-.1 .1c-46.7 26-75.3 78.4-82.6 122.7-16.6 .9-32.9 5-47.9 12.1-1.4 .6-2.5 1.7-3.1 3s-.9 2.8-.6 4.3c.2 .8 .6 1.6 1.1 2.3s1.2 1.3 1.9 1.7 1.6 .7 2.4 .8 1.7 0 2.5-.3l.5-.2c15.5-7.3 32.4-11.2 49.5-11.3 62.8-.6 97.2 44 107.6 62.3-13-9.2-36.4-18.2-58.8-14.3 87.7 43.9 64.2 194.5-57.4 189.2-59.5-2.6-97.1-51-100.5-90.8 0 0 11.2-41.9 80.6-41.9 7.5 0 28.9-20.9 29.3-27-.1-2-42.5-18.9-59.1-35.2-8.8-8.7-13.1-12.9-16.8-16.1-2-1.7-4.1-3.3-6.3-4.8-5.6-19.5-5.8-40-.7-59.6-25.1 11.4-44.6 29.4-58.7 45.4l-.1 0c-9.7-12.2-9-52.6-8.4-61.1-.1-.5-7.2 3.7-8.2 4.3-8.6 6.1-16.5 12.9-23.8 20.4-16.3 16.6-44.1 50.2-55.5 101.2-4.5 20.4-6.8 44.4-6.8 52.3 0 134.7 109.2 243.9 243.9 243.9 120.6 0 223-87.2 240.4-202.6 11.6-76.7-14.7-131.1-14.7-132z"],"chrome":[512,512,"M0 256c0-46.6 12.5-90.4 34.3-128.9L144.1 318.3c21.9 39.2 63.8 65.7 111.9 65.7 14.3 0 27.1-2.3 40.8-6.6L220.5 509.6C95.9 492.3 0 385.3 0 256zm365.1 65.6c12.3-19.2 18.9-42.5 18.9-65.6 0-38.2-16.8-72.5-43.3-96l152.7 0c12 29.6 18.6 62.1 18.6 96 0 141.4-114.6 255.1-256 256L365.1 321.6zM477.8 128L256 128c-62.9 0-113.7 44.1-125.5 102.7L54.2 98.5C101 38.5 174 0 256 0 350.8 0 433.5 51.5 477.8 128zM344 256a88 88 0 1 1 -176 0 88 88 0 1 1 176 0z"],"safari":[512,512,"M274.7 274.7L237.3 237.3 166 346 274.7 274.7zM256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM411.8 182.8l14.8-6.1c1-.4 2-.6 3.1-.6s2.1 .2 3.1 .6 1.8 1 2.6 1.7 1.3 1.6 1.7 2.6 .6 2 .6 3.1-.2 2.1-.6 3.1-1 1.9-1.7 2.6-1.6 1.3-2.6 1.7L418 197.6c-2 .8-4.2 .8-6.1 0s-3.5-2.4-4.3-4.3-.8-4.2 0-6.1 2.4-3.5 4.3-4.3zM314.4 94l6.1-14.8c.8-2 2.4-3.5 4.3-4.3s4.2-.8 6.1 0 3.5 2.4 4.3 4.3 .8 4.2 0 6.1l-6.1 14.8c-.8 2-2.4 3.5-4.3 4.3s-4.2 .8-6.1 0c-1-.4-1.9-1-2.6-1.7s-1.3-1.6-1.7-2.6-.6-2-.6-3.1 .2-2.1 .6-3.1zM256 60c2.1 0 4.2 .8 5.7 2.3S264 65.9 264 68l0 16c0 2.1-.8 4.2-2.3 5.7s-3.5 2.3-5.7 2.3-4.2-.8-5.7-2.3-2.3-3.5-2.3-5.7l0-16c0-2.1 .8-4.2 2.3-5.7S253.9 60 256 60zM181 74.9c1-.4 2-.6 3.1-.6s2.1 .2 3.1 .6 1.9 1 2.6 1.7 1.3 1.6 1.7 2.6L197.6 94c.4 1 .7 2 .7 3.1s-.2 2.1-.6 3.1-1 1.9-1.7 2.6-1.6 1.4-2.6 1.8-2 .6-3.1 .6-2.1-.2-3.1-.6-1.9-1-2.6-1.8-1.3-1.7-1.7-2.7l-6.1-14.8c-.8-2-.8-4.2 0-6.1s2.4-3.5 4.3-4.3zm-63.6 42.5c1.5-1.5 3.5-2.3 5.7-2.3s4.2 .8 5.7 2.3L140 128.7c1.5 1.5 2.3 3.5 2.3 5.6s-.8 4.1-2.3 5.6c-1.5 1.5-3.5 2.3-5.7 2.3s-4.2-.8-5.7-2.3l-11.3-11.3c-1.5-1.5-2.3-3.5-2.3-5.6s.8-4.1 2.3-5.6l0 0zM60 256c0-2.1 .8-4.2 2.3-5.7S65.9 248 68 248l16 0c2.1 0 4.2 .8 5.7 2.3s2.3 3.5 2.3 5.7-.8 4.2-2.3 5.7-3.5 2.3-5.7 2.3l-16 0c-2.1 0-4.2-.8-5.7-2.3S60 258.1 60 256zm40.2 73.2l-14.8 6.1c-1 .4-2 .6-3.1 .6s-2.1-.2-3.1-.6-1.9-1-2.6-1.7-1.3-1.6-1.7-2.6-.6-2-.6-3.1 .2-2.1 .6-3.1 1-1.9 1.7-2.6 1.6-1.3 2.6-1.7L94 314.4c2-.8 4.2-.8 6.1 0s3.5 2.4 4.3 4.3 .8 4.2 0 6.1-2.4 3.5-4.3 4.3zm4.3-136c-.4 1-1 1.9-1.7 2.6s-1.6 1.3-2.6 1.7-2 .6-3.1 .6-2.1-.2-3.1-.6l-14.8-6.1c-2-.8-3.5-2.4-4.3-4.3s-.8-4.2 0-6.1 2.4-3.5 4.3-4.3 4.2-.8 6.1 0l14.8 6.1c2 .8 3.5 2.4 4.3 4.3s.8 4.2 0 6.1l0 0zM197.6 418l-6.1 14.8c-.4 1-1 1.9-1.7 2.6s-1.6 1.3-2.6 1.7-2 .6-3.1 .6-2.1-.2-3.1-.6-1.9-1-2.6-1.7-1.3-1.6-1.7-2.6-.6-2-.6-3.1 .2-2.1 .6-3.1l6.1-14.8c.4-1 1-1.9 1.7-2.7s1.6-1.4 2.6-1.8 2-.6 3.1-.6 2.1 .2 3.1 .6 1.9 1 2.6 1.8 1.3 1.7 1.7 2.6 .6 2 .6 3.1-.2 2.1-.7 3.1zM264 444c0 2.1-.8 4.2-2.3 5.7s-3.5 2.3-5.7 2.3-4.2-.8-5.7-2.3-2.3-3.5-2.3-5.7l0-16c0-2.1 .8-4.2 2.3-5.7s3.5-2.3 5.7-2.3 4.2 .8 5.7 2.3 2.3 3.5 2.3 5.7l0 16zm67-6.9c-1 .4-2 .6-3.1 .6s-2.1-.2-3.1-.6-1.9-1-2.6-1.7-1.3-1.6-1.7-2.6L314.4 418c-.8-2-.8-4.2 0-6.1s2.4-3.5 4.3-4.3 4.2-.8 6.1 0 3.5 2.4 4.3 4.3l6.1 14.8c.8 2 .8 4.2 0 6.1s-2.4 3.5-4.3 4.3zm63.6-42.5c-1.5 1.5-3.5 2.3-5.7 2.3s-4.2-.8-5.7-2.3L372 383.3c-1.5-1.5-2.3-3.5-2.3-5.6s.8-4.1 2.3-5.6 3.5-2.3 5.7-2.3 4.2 .8 5.7 2.3l11.3 11.3c1.5 1.5 2.3 3.5 2.3 5.6s-.8 4.1-2.3 5.6l0 0zM286.2 286.2L110.3 401.7 225.8 225.8 401.7 110.3 286.2 286.2zM437.1 331c-.8 2-2.4 3.5-4.3 4.3s-4.2 .8-6.1 0l-14.8-6.1c-2-.8-3.5-2.4-4.3-4.3s-.8-4.2 0-6.1c.4-1 1-1.9 1.7-2.6s1.6-1.3 2.6-1.7 2-.6 3.1-.6 2.1 .2 3.1 .6l14.8 6.1c2 .8 3.5 2.4 4.3 4.3s.8 4.2 0 6.1zm6.9-67l-16 0c-2.1 0-4.2-.8-5.7-2.3s-2.3-3.5-2.3-5.7 .8-4.2 2.3-5.7 3.5-2.3 5.7-2.3l16 0c2.1 0 4.2 .8 5.7 2.3s2.3 3.5 2.3 5.7-.8 4.2-2.3 5.7-3.5 2.3-5.7 2.3z"],"edge":[512,512,"M120.1 37.4c41-25.2 87.6-38.2 134.9-37.4 168 0 257 123.8 257 219.5-.1 32.7-13 63.9-35.9 87.2-22.9 23.2-54 36.5-86.7 37-75.2 0-91.5-23.1-91.5-32 0-3.8 1.2-6.2 4.8-9.4l1-1.2 .4-1.6c10.5-11.5 15.9-26.2 15.9-41.6 0-78.7-82.2-142.7-184-142.7-37.5-.3-74.5 8.9-107.5 26.9 27-57.5 82.7-97.6 91.3-103.8 .8-.6 .3-.8 .3-.8zm15.6 318.1c-1.4 30 4.6 60 16.4 87.2 13.6 26.4 32.7 51 56.5 69.3-59.5-11.5-111.5-43.9-149.4-89.3-38.1-46.4-59.2-104.3-59.2-164.8 0-51.2 62.4-94.4 136-94.4 36.6-.6 72.4 10.9 101.8 32.7l-3.6 1.2c-51.5 17.6-98.5 90.7-98.5 158.1zM469.8 400l-.7 .1c-11.8 18.8-25.9 35.1-42.2 49.5-30.8 28-68.1 45.5-108.8 49.9-18.6 .3-36.8-3.2-53.8-11.4-25.6-10.3-47.1-30-61.6-53-14.4-23.9-21.1-51.7-19-79.6-.6-20.1 5.4-40.3 15-58.2 13.9 33.1 37.5 61.3 67.6 80.8s65.5 29.5 101.4 28.6c31 .3 62.1-6.7 90.2-20.5l1.9-.9c3.9-2.3 7.7-3.9 11.6 0 4.5 4.9 1.8 9.2-1.2 14-.2 .2-.3 .5-.4 .7z"],"opera":[512,512,"M321.9 32.7c-170.2 0-252.6 223.8-147.5 355.1 36.5 45.4 88.6 75.6 147.5 75.6 36.3 0 70.3-11.1 99.4-30.4-43.8 39.2-101.9 63-165.3 63-3.9 0-8 0-11.9-.3-131.5-6.1-236.1-114.6-236.1-247.7 0-137 111-248 248-248l.8 0c63.1 .3 120.7 24.1 164.4 63.1-29-19.4-63.1-30.4-99.3-30.4zM423.7 430.4c-40.9 24.7-90.7 23.6-132-5.8 56.2-20.5 97.7-91.6 97.7-176.6 0-84.7-41.2-155.8-97.4-176.6 41.8-29.2 91.2-30.3 132.9-5 105.9 98.7 105.5 265.7-1.2 364z"],"android":[640,512,"M131.2 61.9c5.3-.5 10.6 .6 15.3 3s8.6 6.2 11.3 10.8c17 29.5 34.2 58.9 51.2 88.4 3.5-1.4 7-2.7 10.5-3.9 31.3-10.9 64.2-16.6 97.4-16.9 1 0 2.1 0 3.2 0 38.1 0 76.2 7 111.6 21.1L483 75.7c1.8-3.2 4.3-6 7.2-8.2s6.2-3.9 9.8-4.8c3.1-.8 6.4-1.1 9.6-.8 4.2 .4 8.3 1.7 11.9 3.8 4 2.4 7.3 5.7 9.7 9.7 2 3.4 3.3 7.2 3.8 11.2s.1 8-1.2 11.7c-.6 1.9-1.4 3.7-2.4 5.5l-49.7 85.8c19.5 12.2 37.6 26.5 53.9 42.8 12.3 12.2 23.5 25.4 33.5 39.5 8.2 11.5 15.6 23.6 22.2 36.2 17.5 33.6 28.6 70.5 32.7 108.1l-608 0c4.1-37.7 15.2-74.5 32.7-108.1 14.5-27.9 33.4-53.5 55.7-75.7 16.5-16.4 34.7-30.9 54.5-43.1l-49.5-85.4c-3.7-6.4-4.7-14.1-2.8-21.2 1.9-7.1 6.4-13.1 12.7-16.8 3.6-2.2 7.7-3.5 11.9-3.8zm67.3 215.8c-12.2-8.1-30.1-2.5-40.1 12.5s-8.2 33.8 3.9 41.9 30.1 2.5 40.1-12.5 8.2-33.8-3.9-41.9zm283.6 12.5c-10-15-27.9-20.6-40.1-12.5s-13.9 26.9-3.9 41.9c10 15 27.9 20.6 40.1 12.5s13.9-26.9 3.9-41.9z"],"apple":[384,512,"M319.1 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7-55.8 .9-115.1 44.5-115.1 133.2 0 26.2 4.8 53.3 14.4 81.2 12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM262.5 104.5c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"],"windows":[448,512,"M0 93.7l183.6-25.3 0 177.4-183.6 0 0-152.1zM0 418.3l183.6 25.3 0-175.2-183.6 0 0 149.9zm203.8 28l244.2 33.7 0-211.6-244.2 0 0 177.9zm0-380.6l0 180.1 244.2 0 0-213.8-244.2 33.7z"],"linux":[448,512,"M220.9 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5 .2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4 .2-.8 .7-.6 1.1 .3 1.3 2.3 1.1 3.4 1.7zM199 125c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6 .2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5 .1-1.3 .6-3.4 1.5-3.2 2.9 .1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72 .5-45.9 5.1-131.2-75.8-131.3-102.4-.2-76.8 103.4-77.9 135.2-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9 .6 7.9 1.2 11.8 1.2 8.1 2.5 15.7 .8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1 .6 2.3 1.4 4.6 2.5 6.7l0 .1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3 .4-8.2-4.4-17.3-15.5-29.7zM223.8 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183.1 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4 .7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4l0-.2c2.4-7.6 .6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7 .8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4 .6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1 .8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7 .4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6 .8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1 .3-.2 .7-.3 1-.5 .8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.4 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"]};
         var BRAND = { firefox: '#e66000', chrome: '#4285f4', safari: '#0b6cff', edge: '#0f7bd6', opera: '#e4182c' };
         function icon(name, color) {
+          if (name === 'chrome') {
+            var chrome = el('svg', { viewBox: '0 0 24 24', class: 'ico', 'aria-hidden': 'true' });
+            chrome.appendChild(el('path', { fill: '#ea4335', d: 'M12 2a10 10 0 0 1 8.66 5H12l-4.33 7.5L3.34 7A10 10 0 0 1 12 2Z' }));
+            chrome.appendChild(el('path', { fill: '#34a853', d: 'm3.34 7 4.33 7.5h8.66L12 22A10 10 0 0 1 3.34 7Z' }));
+            chrome.appendChild(el('path', { fill: '#fbbc05', d: 'M20.66 7H12l4.33 7.5L12 22A10 10 0 0 0 20.66 7Z' }));
+            chrome.appendChild(el('circle', { cx: 12, cy: 12, r: 4.5, fill: '#4285f4', stroke: '#fff', 'stroke-width': 0.7 }));
+            return chrome;
+          }
           var i = ICONS[name]; if (!i) return null;
           var NS2 = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS2, 'svg'), p = document.createElementNS(NS2, 'path');
           svg.setAttribute('viewBox', '0 0 ' + i[0] + ' ' + i[1]); svg.setAttribute('class', 'ico'); svg.setAttribute('aria-hidden', 'true');
@@ -348,7 +406,7 @@
         function loadFaces() {
           if (faces || facesLoading) return; facesLoading = true;
           fetch('/faces.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })
-            .then(function (j) { faces = j; renderVisitors(); render(); }).catch(function () { facesLoading = false; });
+            .then(function (j) { faces = j; renderVisitors(); render(); renderAudience(); }).catch(function () { facesLoading = false; });
         }
         function faceFor(id) {
           if (!faces || !id || !/^[0-9a-f]{6}$/.test(id)) return null;
@@ -365,35 +423,137 @@
             td.insertBefore(w, td.firstChild);
           } else if (on) { var d = document.createElement('span'); d.className = 'dot live'; d.title = id ? 'Inne nå · ' + nick(id) : 'Inne nå'; td.insertBefore(d, td.firstChild); }
         }
+        // Oversikten teller hver id én gang, uavhengig av antall besøk og hendelser.
+        var audienceVisitors = new Map(), audienceCursor = null, audienceDone = false, audienceLoading = false, audienceError = false;
+        var PIE_COLORS = ['#3b82f6', '#f59e0b', '#10b981', '#a78bfa', '#f472b6', '#06b6d4', '#f97316', '#94a3b8'];
+        var percentFmt = new Intl.NumberFormat('nb-NO', { style: 'percent', maximumFractionDigits: 1 });
+        function audienceGroups(list, classify) {
+          var counts = new Map();
+          list.forEach(function (v) { var key = classify(v) || 'Ukjent'; counts.set(key, (counts.get(key) || 0) + 1); });
+          return Array.from(counts).sort(function (a, b) { return b[1] - a[1] || a[0].localeCompare(b[0]); });
+        }
+        function drawPie(id, groups, total) {
+          var root = $(id).querySelector('.pie-content'); root.textContent = '';
+          if (!total) { var empty = document.createElement('p'); empty.className = 'pie-empty'; empty.textContent = 'Ingen besøkende ennå.'; root.appendChild(empty); return; }
+          var svg = el('svg', { viewBox: '0 0 120 120', role: 'img' });
+          svg.setAttribute('aria-label', groups.map(function (g) { return g[0] + ': ' + g[1] + ' (' + percentFmt.format(g[1] / total) + ')'; }).join(', '));
+          var key = document.createElement('div'); key.className = 'pie-key';
+          var angle = -Math.PI / 2;
+          groups.forEach(function (g, i) {
+            var color = PIE_COLORS[i % PIE_COLORS.length], end = angle + g[1] / total * 2 * Math.PI, slice;
+            if (g[1] === total) slice = el('circle', { cx: 60, cy: 60, r: 55, fill: color });
+            else slice = el('path', { d: 'M60 60 L' + (60 + 55 * Math.cos(angle)) + ' ' + (60 + 55 * Math.sin(angle)) + ' A55 55 0 ' + (g[1] / total > 0.5 ? 1 : 0) + ' 1 ' + (60 + 55 * Math.cos(end)) + ' ' + (60 + 55 * Math.sin(end)) + ' Z', fill: color });
+            slice.appendChild(el('title', {}, g[0] + ': ' + g[1] + ' (' + percentFmt.format(g[1] / total) + ')')); svg.appendChild(slice); angle = end;
+            var row = document.createElement('div'); row.className = 'pie-key-row';
+            var swatch = document.createElement('span'); swatch.className = 'pie-swatch'; swatch.style.background = color; swatch.setAttribute('aria-hidden', 'true'); row.appendChild(swatch);
+            var label = document.createElement('span'); label.textContent = g[0]; row.appendChild(label);
+            var value = document.createElement('span'); value.className = 'pie-value'; value.textContent = g[1] + ' · ' + percentFmt.format(g[1] / total); row.appendChild(value); key.appendChild(row);
+          });
+          root.appendChild(svg); root.appendChild(key);
+        }
+        function renderAudience() {
+          var list = Array.from(audienceVisitors.values()).sort(function (a, b) { return Date.parse(b.last) - Date.parse(a.last) || String(a.id).localeCompare(String(b.id)); });
+          $('audience').hidden = false; $('pies').hidden = false; $('chartbox').hidden = false;
+          $('audience-note').textContent = audienceError ? 'Kunne ikke hente alle besøkende. Prøver igjen.' : !audienceDone ? 'Henter besøkende …' : '';
+          $('pies').setAttribute('aria-label', 'Fordeling av ' + list.length + ' unike besøkende');
+          var lineup = $('lineup'); lineup.textContent = '';
+          list.forEach(function (v) {
+            var person = document.createElement('div'); person.className = 'lineup-person';
+            liveDot(person, v.last, v.id);
+            var face = person.querySelector('.face'); if (face) face.style.background = 'none';
+            if (!person.querySelector('.facewrap')) {
+              var fallback = document.createElement('span'); fallback.className = 'facewrap face-placeholder'; fallback.textContent = '☺'; fallback.setAttribute('aria-hidden', 'true'); person.insertBefore(fallback, person.firstChild);
+            }
+            person.title = nick(v.id) + ' · Sist sett ' + ago(v.last); lineup.appendChild(person);
+          });
+          drawPie('pie-device', audienceGroups(list, function (v) { return v.screen === 'pc' ? 'PC' : v.screen === 'mobil' ? 'Mobil' : v.screen === 'nettbrett' ? 'Nettbrett' : 'Ukjent'; }), list.length);
+          drawPie('pie-browser', audienceGroups(list, function (v) { var b = parseBrowser(v.browser).b; return b ? b.charAt(0).toUpperCase() + b.slice(1) : 'Ukjent'; }), list.length);
+          drawPie('pie-os', audienceGroups(list, function (v) { return parseBrowser(v.browser).o; }), list.length);
+        }
+        function loadAudience() {
+          if (!token || audienceDone || audienceLoading) return;
+          if (!audienceCursor) {
+            if (!visitorsMore || !visitors.length) { audienceDone = true; renderAudience(); return; }
+            audienceCursor = visitors[visitors.length - 1].last;
+          }
+          var session = token, cursor = audienceCursor;
+          audienceLoading = true;
+          fetch(API + '?vbefore=' + encodeURIComponent(cursor), { headers: { Authorization: 'Bearer ' + session } })
+            .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(function (j) {
+              if (token !== session) return;
+              var page = j.visitors || [], next = page.length ? page[page.length - 1].last : null;
+              if (j.more && (!next || next >= cursor)) throw new Error('Ugyldig side');
+              page.forEach(function (v) { var current = audienceVisitors.get(v.id); if (!current || v.last > current.last) audienceVisitors.set(v.id, v); });
+              audienceCursor = next; audienceDone = !j.more; audienceError = false; audienceLoading = false;
+              renderAudience(); loadAudience();
+            }).catch(function () { if (token !== session) return; audienceLoading = false; audienceError = true; renderAudience(); });
+        }
+        var historyDay = new Intl.DateTimeFormat('nb-NO', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Oslo' });
+        function renderHistory(v) {
+          var box = document.createElement('section'); box.className = 'journey'; box.setAttribute('aria-label', 'Besøkshistorikk for ' + nick(v.id));
+          var head = document.createElement('div'); head.className = 'journey-head';
+          var heading = document.createElement('h3'); heading.textContent = 'Besøkshistorikk'; head.appendChild(heading);
+          var order = document.createElement('span'); order.textContent = 'Nyeste først'; head.appendChild(order); box.appendChild(head);
+          var events = v.events.slice().sort(function (a, b) { return Date.parse(b.created_at) - Date.parse(a.created_at); });
+          if (!events.length) { var empty = document.createElement('span'); empty.className = 'journey-empty'; empty.textContent = 'Ingen registrerte hendelser.'; box.appendChild(empty); }
+          var lastDay = null, list;
+          events.forEach(function (e) {
+            var at = new Date(e.created_at), day = historyDay.format(at);
+            if (day !== lastDay) {
+              var label = document.createElement('h4'); label.textContent = day === historyDay.format(new Date()) ? 'I dag' : day; box.appendChild(label);
+              list = document.createElement('ol'); box.appendChild(list); lastDay = day;
+            }
+            var li = document.createElement('li'); if (e.event !== 'pageview') li.className = 'action';
+            var time = document.createElement('time'); time.dateTime = e.created_at; time.textContent = clock.format(at); li.appendChild(time);
+            var content = document.createElement('div'), title = document.createElement('span'); title.className = 'journey-title';
+            var page = pageName(e.path);
+            title.textContent = e.event === 'pageview' ? (page ? page.charAt(0).toUpperCase() + page.slice(1) : 'Ukjent side') : (LABEL[e.event] || e.event);
+            content.appendChild(title);
+            var meta = document.createElement('span'); meta.className = 'journey-meta';
+            meta.textContent = e.event === 'pageview' ? 'Sidevisning' : [page, e.label].filter(Boolean).join(' · ');
+            if (meta.textContent) content.appendChild(meta);
+            li.appendChild(content); list.appendChild(li);
+          });
+          return box;
+        }
+        function visitorActivity(v) {
+          var count = (v.events || []).length;
+          return { events: count, level: count >= 8 ? 4 : count >= 4 ? 3 : count >= 2 ? 2 : count === 1 ? 1 : 0 };
+        }
+        function activityCell(tr, v) {
+          var activity = visitorActivity(v);
+          var td = cell(tr, '', 'activity hide-s');
+          td.title = 'Aktivitetsnivå ' + activity.level + ' av 4 · ' + activity.events + ' registrerte hendelser, inkludert sidevisninger';
+          td.setAttribute('aria-label', td.title);
+          var svg = el('svg', { viewBox: '0 0 28 20', 'aria-hidden': 'true' });
+          for (var i = 0; i < 4; i++) {
+            var height = 5 + i * 5;
+            svg.appendChild(el('rect', { x: i * 7, y: 20 - height, width: 5, height: height, rx: 1, fill: i < activity.level ? 'currentColor' : 'var(--line)' }));
+          }
+          td.appendChild(svg);
+        }
         function renderVisitors() {
           var body = $('vrows'); body.textContent = '';
           shownVisitors().forEach(function (v) {
             var tr = document.createElement('tr'); tr.className = 'v'; tr.tabIndex = 0;
-            cell(tr, ago(v.last), 't'); var idc = cell(tr, nick(v.id), 'idc');
+            cell(tr, ago(v.last), 't'); var idc = cell(tr, '', 'idc');
+            var visitorLabel = document.createElement('span'); visitorLabel.className = 'visitor-label'; visitorLabel.textContent = nick(v.id); idc.appendChild(visitorLabel);
             liveDot(idc, v.last, v.id);
-            if (v.besok > 1) { var rb = document.createElement('span'); rb.className = 'back'; rb.textContent = 'kom tilbake'; rb.title = v.besok + ' besøk'; idc.appendChild(rb); }
-            // Siste hendelse. Skjer det nå (siste 5 min), står det et grønt blinkende lys foran.
+            if (v.besok > 1) { var rb = document.createElement('span'); rb.className = 'back'; rb.textContent = 'kom tilbake'; rb.title = v.besok + ' besøk'; visitorLabel.appendChild(rb); }
+            activityCell(tr, v);
+            // Hele raden markeres svakt grønt når besøkende har vært aktiv siste fem minutter.
             var lastEv = v.events[v.events.length - 1], online = Date.now() - Date.parse(v.last) < 5 * 60000;
-            var lc = cell(tr, lastEv ? describe(lastEv) : '', online ? 'now' : 'now off');
-            if (online) { var nd = document.createElement('span'); nd.className = 'dot live'; nd.title = 'Skjer nå'; lc.insertBefore(nd, lc.firstChild); }
+            if (online) tr.classList.add('online');
+            cell(tr, lastEv ? describe(lastEv) : '', online ? 'now' : 'now off');
             cell(tr, String(v.besok), 'hide-s'); cell(tr, String(v.visninger), 'hide-s');
             cell(tr, v.fra || 'direkte', 'hide-s'); deviceCell(tr, v);
             body.appendChild(tr);
             var dr = document.createElement('tr'); dr.className = 'vd'; dr.hidden = !open[v.id];
-            var td = document.createElement('td'); td.colSpan = 7;
-            // Hvor de har vært: sidene i rekkefølge, så hver hendelse med klokkeslett.
-            var route = [];
-            v.events.forEach(function (e) { if (e.path && route[route.length - 1] !== e.path) route.push(e.path); });
-            if (route.length) { var rp = document.createElement('p'); rp.className = 'route'; rp.textContent = 'Har vært på: ' + route.join(' → '); td.appendChild(rp); }
-            var ul = document.createElement('ul');
-            v.events.forEach(function (e) {
-              var li = document.createElement('li'), t = document.createElement('time');
-              t.textContent = clock.format(new Date(e.created_at)); li.appendChild(t);
-              var sp = document.createElement('span'); sp.textContent = describe(e); li.appendChild(sp);
-              ul.appendChild(li);
-            });
-            td.appendChild(ul); dr.appendChild(td); body.appendChild(dr);
-            var toggle = function () { open[v.id] = !open[v.id]; dr.hidden = !open[v.id]; };
+            var td = document.createElement('td'); td.colSpan = 8;
+            td.appendChild(renderHistory(v)); dr.appendChild(td); body.appendChild(dr);
+            dr.id = 'history-' + v.id; tr.setAttribute('aria-controls', dr.id); tr.setAttribute('aria-expanded', String(!!open[v.id]));
+            var toggle = function () { open[v.id] = !open[v.id]; dr.hidden = !open[v.id]; tr.setAttribute('aria-expanded', String(!!open[v.id])); };
             tr.addEventListener('click', toggle);
             tr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
           });
@@ -459,6 +619,8 @@
         }
         function signedOut() {
           token = '';
+          audienceVisitors.clear(); audienceCursor = null; audienceDone = false; audienceLoading = false; audienceError = false;
+          $('lineup').textContent = ''; $('audience').hidden = true; $('pies').hidden = true;
           try { localStorage.removeItem(KEY); localStorage.removeItem(WHO); } catch (e) {}
           setMode(false); $('dot').className = 'dot off'; $('who').hidden = true; $('hint').textContent = '';
         }
