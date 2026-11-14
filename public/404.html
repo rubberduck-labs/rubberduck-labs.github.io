@@ -112,6 +112,8 @@
       td.dev { white-space: nowrap; }
       .ico { width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px; color: var(--muted); }
       .devt { color: var(--muted); font-size: 13px; }
+      .dev-ill { display: inline-block; width: 34px; height: 26px; margin-right: 12px; vertical-align: middle; }
+      .dev-ill svg { display: block; width: 100%; height: 100%; }
       .nick { margin: 2px 0 0 48px; font-size: 12px; color: var(--muted); }
       .back { margin-left: 8px; padding: 1px 8px; font-size: 11px; font-weight: 600; border-radius: 999px; background: #fde68a; color: #78350f; vertical-align: middle; }
       td.now.off { color: var(--muted); }
@@ -311,16 +313,25 @@
           var o = (/(iOS|Android|Windows|macOS|ChromeOS|Linux)/.exec(label || '') || [])[1];
           return { b: b ? b.toLowerCase() : null, o: o || null };
         }
+        // Små tegninger av enheten i stedet for tekst: en retro PC (som en IBM 5150), en mobil og et nettbrett.
+        var DEVICE = {
+          pc: '<svg viewBox="0 0 36 28"><rect x="7" y="1" width="22" height="16" rx="2.5" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="10" y="4" width="16" height="9.5" rx="1" fill="#394150"/><path d="M12 6l5-1" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" stroke-linecap="round"/><circle cx="27" cy="15" r=".7" fill="#7d786a"/><rect x="3" y="17" width="30" height="7" rx="1.5" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="17" y="19.4" width="6" height="1.6" rx=".4" fill="#394150"/><rect x="25" y="19.4" width="6" height="1.6" rx=".4" fill="#394150"/><path d="M5 27.2h26l-1.6-2.6H6.6z" fill="#cdc7b4" stroke="#7d786a" stroke-width="1" stroke-linejoin="round"/></svg>',
+          mobil: '<svg viewBox="0 0 36 28"><rect x="12" y="1" width="12" height="26" rx="2.8" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="14" y="4" width="8" height="17.5" rx="1" fill="#394150"/><circle cx="18" cy="24.3" r="1" fill="#7d786a"/></svg>',
+          nettbrett: '<svg viewBox="0 0 36 28"><rect x="3.5" y="3" width="29" height="22" rx="2.8" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="6" y="5.5" width="24" height="17" rx="1" fill="#394150"/><circle cx="31.2" cy="14" r=".8" fill="#7d786a"/></svg>'
+        };
         function deviceCell(tr, v) {
           var td = document.createElement('td'); td.className = 'hide-s dev'; tr.appendChild(td);
           var pb = parseBrowser(v.browser), osIcon = { iOS: 'apple', macOS: 'apple', Android: 'android', Windows: 'windows', Linux: 'linux' }[pb.o];
           var bi = pb.b && icon(pb.b, BRAND[pb.b]), oi = osIcon && icon(osIcon);
-          td.title = v.browser || '';
+          td.title = [v.screen, v.browser].filter(Boolean).join(' · ');
+          td.setAttribute('aria-label', td.title);
+          var device = Object.prototype.hasOwnProperty.call(DEVICE, v.screen) ? DEVICE[v.screen] : null;
+          if (device) { var dv = document.createElement('span'); dv.className = 'dev-ill'; dv.setAttribute('aria-hidden', 'true'); dv.innerHTML = device; td.appendChild(dv); }
           if (bi) td.appendChild(bi);
           if (oi) td.appendChild(oi);
           var t = document.createElement('span'); t.className = 'devt';
-          // Ikonene viser hva det er. Teksten viser bare det ikonene ikke sier: type enhet, og navnet hvis vi ikke har ikon.
-          t.textContent = [v.screen, (!bi && !oi) ? v.browser : null].filter(Boolean).join(' · ');
+          // Vis tekst for ukjente enheter og nettlesere uten ikoner.
+          t.textContent = [device ? null : v.screen, (!bi && !oi) ? v.browser : null].filter(Boolean).join(' · ');
           td.appendChild(t);
         }
         // Kallenavn («Blid Elg») i stedet for hash. Lages av id-en, så samme besøkende har samme navn hele uka.
