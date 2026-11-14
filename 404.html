@@ -141,7 +141,7 @@
       .dev-ill svg { display: block; width: 100%; height: 100%; }
       .nick { margin: 2px 0 0 48px; font-size: 12px; color: var(--muted); }
       .back { display: block; width: fit-content; margin: 2px 0 0; padding: 1px 8px; font-size: 11px; font-weight: 600; border-radius: 999px; background: #fde68a; color: #78350f; vertical-align: middle; }
-      .back-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px; margin-left: 4px; border: 1px solid currentColor; border-radius: 999px; line-height: 1; }
+      .back-count { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px; margin-right: 4px; border: 1px solid currentColor; border-radius: 999px; line-height: 1; }
       .activity { white-space: nowrap; }
       .activity svg { display: block; width: 28px; height: 20px; }
       td.now.off { color: var(--muted); }
@@ -549,9 +549,10 @@
             var visitorLabel = document.createElement('span'); visitorLabel.className = 'visitor-label'; visitorLabel.textContent = nick(v.id); idc.appendChild(visitorLabel);
             liveDot(idc, v.last, v.id);
             if (v.besok > 1) {
-              var returns = v.besok - 1, rb = document.createElement('span'); rb.className = 'back'; rb.textContent = 'kom tilbake';
-              var returnCount = document.createElement('span'); returnCount.className = 'back-count'; returnCount.textContent = String(returns); rb.appendChild(returnCount);
-              rb.title = 'Kommet tilbake ' + returns + (returns === 1 ? ' gang' : ' ganger'); rb.setAttribute('aria-label', rb.title); visitorLabel.appendChild(rb);
+              var rb = document.createElement('span'); rb.className = 'back';
+              var visitCount = document.createElement('span'); visitCount.className = 'back-count'; visitCount.textContent = String(v.besok); rb.appendChild(visitCount);
+              rb.appendChild(document.createTextNode(' besøk'));
+              rb.title = v.besok + ' besøk totalt'; rb.setAttribute('aria-label', rb.title); visitorLabel.appendChild(rb);
             }
             activityCell(tr, v);
             // Hele raden markeres svakt grønt når besøkende har vært aktiv siste fem minutter.
