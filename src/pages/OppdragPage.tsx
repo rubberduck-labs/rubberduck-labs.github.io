@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ContactDialog } from '../components/ContactDialog';
-import { MapPin, Calendar, Clock, Linkedin, Mail, Phone } from 'lucide-react';
+import { MapPin, Calendar, Check, Clock, Linkedin, Mail, Phone, X } from 'lucide-react';
 
 interface Assignment {
   id: string;
@@ -211,6 +211,165 @@ function SubscribeSection() {
   );
 }
 
+const FRI_GODER = [
+  { title: 'Oppdrag', text: 'Vi finner oppdrag til deg.', frilanser: 'Du må finne oppdragene selv.' },
+  { title: 'Lønn mellom oppdrag', text: 'Vi har ordninger for lønn mellom oppdrag.', frilanser: 'Ingen lønn mellom oppdrag.' },
+  { title: 'Pensjon på toppen av lønnen', text: '5 % av lønn frem til 7 G og 10 % mellom 7 og 12 G.', frilanser: 'Pensjon må du ordne og spare selv.' },
+  { title: 'Forsikringer', text: 'Blant annet fritidsulykke, yrkesskade, gruppeliv, behandling og sykdom.', frilanser: 'Forsikringer må du ordne selv.' },
+  { title: 'Utstyr og bredbånd', text: 'Laptop og mobil fra øverste hylle, 10 000 kr per år til annet utstyr, bredbånd og månedskort.', frilanser: 'Utstyr og bredbånd betaler du selv.' },
+  { title: 'Claude, ChatGPT Pro og annen programvare', text: 'Dekkes i tillegg til utstyrsbudsjettet.', frilanser: 'Programvare betaler du selv.' },
+  { title: 'Regnskapsfører og AS', text: 'Vi tar oss av det.', frilanser: 'Du må ha egen regnskapsfører og eget AS.' },
+  { title: 'Årlig tur', text: 'Du er med hele gjengen på årlig tur.', frilanser: 'Du er invitert på sosiale ting, men ikke på den årlige turen.' },
+  { title: 'Hytta', text: 'Du har tilgang til hytta.', frilanser: 'Ingen tilgang til hytta.' },
+];
+
+function FreelanceVsFast() {
+  const [pct, setPct] = useState<70 | 90>(70);
+  const fast = pct === 70;
+  const goder = 90 - pct;
+
+  const pil = ((pct + goder / 2) / 90) * 100;
+
+  return (
+    <section
+      aria-labelledby="fri-tittel"
+      className="mt-12 min-w-0 rounded-xl bg-white p-6 text-custom-dark shadow-sm dark:bg-zinc-800 dark:text-white md:p-8"
+    >
+      <h2 id="fri-tittel" className="text-xl font-bold">
+        Freelance eller fast ansatt?
+      </h2>
+      <p className="mt-1 text-sm text-custom-dark/70 dark:text-white/70">
+        Du er enten freelance eller fast ansatt, og du velger selv. Er du god nok til å bli videreformidlet av oss, er du også god nok til å jobbe hos oss.
+      </p>
+
+      <fieldset className="mt-5 inline-block">
+        <legend className="sr-only">Fast ansatt eller freelance</legend>
+        <div className="inline-flex rounded-full bg-custom-dark/10 p-1 dark:bg-white/10">
+          {([70, 90] as const).map((value) => (
+            <label key={value} className="relative cursor-pointer">
+              <input
+                type="radio"
+                name="fri-ansettelsesform"
+                value={value}
+                checked={pct === value}
+                onChange={() => setPct(value)}
+                aria-controls="fri-fordeling"
+                className="peer sr-only"
+              />
+              <span className="block rounded-full px-4 py-1.5 text-sm font-semibold text-custom-dark/70 peer-checked:bg-custom-dark peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-custom-dark dark:text-white/70 dark:peer-checked:bg-custom-yellow dark:peer-checked:text-custom-dark dark:peer-focus-visible:outline-custom-yellow">
+                {value === 70 ? 'Fast ansatt' : 'Freelance'}
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div id="fri-fordeling" className="mt-6">
+        <div aria-live="polite" aria-atomic="true" className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span className="text-3xl font-bold leading-none tabular-nums">{pct}&nbsp;%</span>
+          <p className="max-w-xl text-sm leading-relaxed text-custom-dark/70 dark:text-white/70">
+            {fast
+              ? 'av fakturert. Av det går arbeidsgiveravgift, og resten er lønn og feriepenger.'
+              : 'av det som faktureres er ditt. De siste 10 % er vår formidlingsfee.'}
+          </p>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-[7rem_minmax(0,1fr)]">
+          <div
+            role="img"
+            aria-label={
+              fast
+                ? 'Fast ansatt: 70 prosent er ditt, og 20 prosentpoeng går til godene i listen.'
+                : 'Freelance: 90 prosent av fakturert er ditt. De siste 10 prosentene er vår formidlingsfee. Godene i listen ordner du selv.'
+            }
+            className="relative h-10 md:h-auto md:min-h-80"
+          >
+            <div aria-hidden="true" className="flex h-full overflow-hidden rounded-md text-xs font-semibold md:flex-col">
+              <div
+                style={{ flex: `${pct} 1 0%` }}
+                className="flex min-h-0 min-w-0 items-center justify-center bg-custom-dark text-white transition-[flex] duration-300 dark:bg-white dark:text-custom-dark"
+              >
+                Ditt
+              </div>
+              {fast && (
+                <div
+                  style={{ flex: `${goder} 1 0%` }}
+                  className="flex min-h-0 min-w-0 items-center justify-center bg-custom-yellow text-custom-dark"
+                >
+                  Goder
+                </div>
+              )}
+            </div>
+
+            {fast && (
+              <>
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  viewBox="0 0 12 32"
+                  preserveAspectRatio="none"
+                  className="absolute top-full h-8 w-3 -translate-x-1/2 text-custom-dark/50 dark:text-white/50 md:hidden"
+                  style={{ left: `${pil}%` }}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path d="M6 0v30m-4-5 4 5 4-5" />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  focusable="false"
+                  viewBox="0 0 32 12"
+                  preserveAspectRatio="none"
+                  className="absolute left-full hidden h-3 w-8 -translate-y-1/2 text-custom-dark/50 dark:text-white/50 md:block"
+                  style={{ top: `${pil}%` }}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <path d="M0 6h30m-5-4 5 4-5 4" />
+                </svg>
+              </>
+            )}
+          </div>
+
+          <div className="relative min-w-0 pt-6 md:pl-6 md:pt-0">
+            {fast && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-2 border-x border-t border-custom-dark/40 dark:border-white/40 md:inset-y-0 md:left-0 md:right-auto md:h-auto md:w-2 md:border-x-0 md:border-b md:border-l"
+              />
+            )}
+            <h3 className="text-base font-semibold">
+              {fast ? 'De 20 prosentene dekker:' : 'Som freelance ordner du alt dette selv:'}
+            </h3>
+            <ul className="mt-5 grid gap-x-8 gap-y-5 lg:grid-cols-2">
+              {FRI_GODER.map((benefit) => (
+                <li key={benefit.title} className="flex items-start gap-3">
+                  <span
+                    aria-hidden="true"
+                    className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${
+                      fast ? 'bg-custom-yellow text-custom-dark' : 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300'
+                    }`}
+                  >
+                    {fast ? <Check className="h-3 w-3" strokeWidth={2.5} /> : <X className="h-3 w-3" strokeWidth={2.5} />}
+                  </span>
+                  <div className="min-w-0">
+                    <h4 className="text-sm font-semibold leading-snug">{benefit.title}</h4>
+                    <p className="mt-1 text-sm leading-relaxed text-custom-dark/75 dark:text-white/75">
+                      {fast ? benefit.text : benefit.frilanser}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function OppdragPage() {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -300,7 +459,8 @@ export function OppdragPage() {
             <dl className="mt-5 divide-y divide-custom-dark/10 dark:divide-white/15">
               {[
                 { title: 'må du ha gode referanser eller kjenne oss personlig', text: '' },
-                { title: 'tar vi 10 % i formidlingsfee', text: 'Vi er åpne om hva vi fakturerer kunden, og du kan se vår andel også.' },
+                { title: 'forventer vi at du er hyggelig og grei, empatisk og konstruktiv, og har god arbeidsmoral', text: '' },
+                { title: 'tar vi 10 % formidlingsfee', text: 'Vi er åpne om hva vi fakturerer kunden, og du kan se vår andel også.' },
                 { title: 'er vi din støttespiller', text: 'Vi hjelper deg også med CV-en din, og er din champion.' },
                 { title: 'får du tilgang til vår Slack', text: 'Du blir også invitert med på sosiale ting til tider.' },
               ].map((term) => (
@@ -318,6 +478,8 @@ export function OppdragPage() {
             </dl>
             <p className="mt-5 border-t border-custom-dark/10 pt-5 text-sm text-custom-dark/70 dark:border-white/15 dark:text-white/70">Vi er opptatt av ryddighet og transparens.</p>
           </section>
+
+          <FreelanceVsFast />
         </div>
       </div>
 
