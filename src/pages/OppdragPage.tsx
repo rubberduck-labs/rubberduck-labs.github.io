@@ -298,11 +298,11 @@ export function OppdragPage() {
         kind="kontakt"
         source="oppdrag"
         title="Jeg vil gjerne høre mer"
-        messageLabel="Noe du lurer på? (valgfritt)"
-        context={
+        messageLabel="Melding"
+        defaultMessage={
           selected
-            ? `Gjelder oppdraget: ${cleanTitle(selected.title).title}${selected.company ? ` (${selected.company})` : ''}`
-            : undefined
+            ? `Hei! Jeg vil gjerne høre mer om oppdraget «${cleanTitle(selected.title).title}»${selected.company ? ` hos ${selected.company}` : ''}.`
+            : ''
         }
         thanks="Takk! Vi tar kontakt så snart vi kan."
       />

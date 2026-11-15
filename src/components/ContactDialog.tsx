@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CustomDialog } from './CustomDialog';
 import { track } from '../utils/track';
 
@@ -12,8 +12,8 @@ interface ContactDialogProps {
   title?: string;
   messageLabel?: string;
   thanks?: string;
-  /** Fast linje som settes foran teksten i Slack-meldingen, f.eks. hvilket oppdrag det gjelder. */
-  context?: string;
+  /** Ferdig utfylt tekst i meldingsfeltet hver gang dialogen åpnes. */
+  defaultMessage?: string;
 }
 
 const ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/soknad`;
@@ -29,10 +29,15 @@ export function ContactDialog({
   title = 'Kontakt oss',
   messageLabel = 'Hva kan vi hjelpe deg med?',
   thanks = 'Takk! Vi tar kontakt så snart vi kan.',
-  context,
+  defaultMessage = '',
 }: ContactDialogProps) {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(defaultMessage);
+
+  // Hver gang dialogen åpnes starter feltet med den ferdige teksten.
+  useEffect(() => {
+    if (open) setMessage(defaultMessage);
+  }, [open, defaultMessage]);
   const [website, setWebsite] = useState(''); // honeypot
   const [status, setStatus] = useState<Status>('idle');
   const started = useRef(false); // «Begynte å skrive» telles én gang per åpning
@@ -43,7 +48,7 @@ export function ContactDialog({
     if (status === 'done') {
       setStatus('idle');
       setEmail('');
-      setMessage('');
+      setMessage(defaultMessage);
     }
   };
 
@@ -58,7 +63,7 @@ export function ContactDialog({
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: kind, source, email: email.trim(), message: context ? `${context.slice(0, 200)}\n\n${message}`.trim() : message, website }),
+        body: JSON.stringify({ type: kind, source, email: email.trim(), message, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus('done');
