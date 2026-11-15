@@ -375,7 +375,9 @@
           return { b: b ? b.toLowerCase() : null, o: o || null };
         }
         // Små tegninger av enheten i stedet for tekst: en retro PC (som en IBM 5150), en mobil og et nettbrett.
+        var ROBOT_SVG = '<svg viewBox="0 0 36 36"><line x1="18" y1="3.5" x2="18" y2="8" stroke="#6b7280" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="3.2" r="1.9" fill="#ef4444"/><rect x="6" y="8" width="24" height="19" rx="4.5" fill="#cbd5e1" stroke="#64748b" stroke-width="1.4"/><rect x="3" y="14" width="3" height="7" rx="1.2" fill="#94a3b8"/><rect x="30" y="14" width="3" height="7" rx="1.2" fill="#94a3b8"/><circle cx="13" cy="16" r="3.2" fill="#0f172a"/><circle cx="23" cy="16" r="3.2" fill="#0f172a"/><circle cx="13.9" cy="15.1" r="1" fill="#67e8f9"/><circle cx="23.9" cy="15.1" r="1" fill="#67e8f9"/><rect x="11" y="21.2" width="14" height="3" rx="1.2" fill="#0f172a"/><path d="M14.5 21.4v2.6M18 21.4v2.6M21.5 21.4v2.6" stroke="#94a3b8" stroke-width=".9"/><rect x="12" y="27" width="12" height="4" rx="1.5" fill="#94a3b8"/></svg>';
         var DEVICE = {
+          robot: ROBOT_SVG,
           pc: '<svg viewBox="0 0 36 28"><rect x="7" y="1" width="22" height="16" rx="2.5" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="10" y="4" width="16" height="9.5" rx="1" fill="#394150"/><path d="M12 6l5-1" stroke="#fff" stroke-opacity=".35" stroke-width="1.2" stroke-linecap="round"/><circle cx="27" cy="15" r=".7" fill="#7d786a"/><rect x="3" y="17" width="30" height="7" rx="1.5" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="17" y="19.4" width="6" height="1.6" rx=".4" fill="#394150"/><rect x="25" y="19.4" width="6" height="1.6" rx=".4" fill="#394150"/><path d="M5 27.2h26l-1.6-2.6H6.6z" fill="#cdc7b4" stroke="#7d786a" stroke-width="1" stroke-linejoin="round"/></svg>',
           mobil: '<svg viewBox="0 0 36 28"><rect x="12" y="1" width="12" height="26" rx="2.8" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="14" y="4" width="8" height="17.5" rx="1" fill="#394150"/><circle cx="18" cy="24.3" r="1" fill="#7d786a"/></svg>',
           nettbrett: '<svg viewBox="0 0 36 28"><rect x="3.5" y="3" width="29" height="22" rx="2.8" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="6" y="5.5" width="24" height="17" rx="1" fill="#394150"/><circle cx="31.2" cy="14" r=".8" fill="#7d786a"/></svg>'
@@ -411,7 +413,11 @@
           import('/live-avatars.js')
             .then(function (module) { avatarFor = module.avatarFor; renderVisitors(); render(); renderAudience(); }).catch(function () { facesLoading = false; });
         }
-        function faceFor(id) {
+        function robotFace() {
+          var f = document.createElement('span'); f.className = 'face'; f.style.background = 'hsl(215 25% 88%)'; f.innerHTML = ROBOT_SVG; return f;
+        }
+        function faceFor(id, robot) {
+          if (robot) return robotFace();
           if (!avatarFor || !id || !/^[0-9a-f]{6}$/.test(id)) return null;
           var uri = avatarFor(id); if (!uri) return null;
           var f = document.createElement('span'); f.className = 'face';
@@ -419,8 +425,8 @@
           var img = document.createElement('img'); img.src = uri; img.alt = ''; img.width = 38; img.height = 38; f.appendChild(img);
           return f;
         }
-        function liveDot(td, last, id) {
-          var on = Date.now() - Date.parse(last) < 5 * 60000, f = faceFor(id);
+        function liveDot(td, last, id, robot) {
+          var on = Date.now() - Date.parse(last) < 5 * 60000, f = faceFor(id, robot);
           if (f) {
             var w = document.createElement('span'); w.className = 'facewrap'; w.title = nick(id) + (on ? ' · inne nå' : ''); w.appendChild(f);
             if (on) { var b = document.createElement('span'); b.className = 'dot live'; w.appendChild(b); }
@@ -467,14 +473,14 @@
           var lineup = $('lineup'); lineup.textContent = '';
           list.forEach(function (v) {
             var person = document.createElement('div'); person.className = 'lineup-person';
-            liveDot(person, v.last, v.id);
+            liveDot(person, v.last, v.id, v.screen === 'robot');
             var face = person.querySelector('.face'); if (face) face.style.background = 'none';
             if (!person.querySelector('.facewrap')) {
               var fallback = document.createElement('span'); fallback.className = 'facewrap face-placeholder'; fallback.textContent = '☺'; fallback.setAttribute('aria-hidden', 'true'); person.insertBefore(fallback, person.firstChild);
             }
             person.title = nick(v.id) + ' · Sist sett ' + ago(v.last); lineup.appendChild(person);
           });
-          drawPie('pie-device', audienceGroups(list, function (v) { return v.screen === 'pc' ? 'PC' : v.screen === 'mobil' ? 'Mobil' : v.screen === 'nettbrett' ? 'Nettbrett' : 'Ukjent'; }), list.length);
+          drawPie('pie-device', audienceGroups(list, function (v) { return v.screen === 'pc' ? 'PC' : v.screen === 'mobil' ? 'Mobil' : v.screen === 'nettbrett' ? 'Nettbrett' : v.screen === 'robot' ? 'Robot' : 'Ukjent'; }), list.length);
           drawPie('pie-browser', audienceGroups(list, function (v) { var b = parseBrowser(v.browser).b; return b ? b.charAt(0).toUpperCase() + b.slice(1) : 'Ukjent'; }), list.length);
           drawPie('pie-os', audienceGroups(list, function (v) { return parseBrowser(v.browser).o; }), list.length);
         }
@@ -547,7 +553,7 @@
             var tr = document.createElement('tr'); tr.className = 'v'; tr.tabIndex = 0;
             cell(tr, ago(v.last), 't'); var idc = cell(tr, '', 'idc');
             var visitorLabel = document.createElement('span'); visitorLabel.className = 'visitor-label'; visitorLabel.textContent = nick(v.id); idc.appendChild(visitorLabel);
-            liveDot(idc, v.last, v.id);
+            liveDot(idc, v.last, v.id, v.screen === 'robot');
             if (v.besok > 1) {
               var rb = document.createElement('span'); rb.className = 'back';
               var visitCount = document.createElement('span'); visitCount.className = 'back-count'; visitCount.textContent = String(v.besok); rb.appendChild(visitCount);
@@ -592,7 +598,7 @@
           list.forEach(function (e) {
             var tr = document.createElement('tr');
             var tc = cell(tr, ago(e.created_at), 't');
-            liveDot(tc, lastSeen[e.v] || e.created_at, e.v);
+            liveDot(tc, lastSeen[e.v] || e.created_at, e.v, e.screen === 'robot');
             if (e.v) { var nk = document.createElement('div'); nk.className = 'nick'; nk.textContent = nick(e.v); tc.appendChild(nk); }
             cell(tr, (LABEL[e.event] || e.event) + (e.label ? ': ' + e.label : ''), 'ev ' + e.event);
             cell(tr, pageName(e.path));
