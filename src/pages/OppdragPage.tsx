@@ -212,7 +212,7 @@ function SubscribeSection() {
 }
 
 const FRI_GODER = [
-  { title: 'Oppdrag', text: 'Vi finner oppdrag til deg.', frilanser: 'Du må finne oppdragene selv.' },
+  { title: 'Oppdrag', text: 'Vi finner oppdrag til deg gjennom vårt nettverk av samarbeidspartnere og anbud vi har vunnet.', frilanser: 'Du må finne oppdragene selv.' },
   { title: 'Lønn mellom oppdrag', text: 'Vi har ordninger for lønn mellom oppdrag.', frilanser: 'Ingen lønn mellom oppdrag.' },
   { title: 'Pensjon på toppen av lønnen', text: '5 % av lønn frem til 7 G og 10 % mellom 7 og 12 G.', frilanser: 'Pensjon må du ordne og spare selv.' },
   { title: 'Forsikringer', text: 'Blant annet fritidsulykke, yrkesskade, gruppeliv, behandling og sykdom.', frilanser: 'Forsikringer må du ordne selv.' },
