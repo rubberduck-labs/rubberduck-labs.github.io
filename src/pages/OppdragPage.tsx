@@ -289,6 +289,35 @@ export function OppdragPage() {
               ))}
             </div>
           )}
+
+          <section
+            aria-labelledby="vilkar-tittel"
+            className="mt-12 min-w-0 rounded-xl bg-white p-6 shadow-sm dark:bg-zinc-800 md:p-8"
+          >
+            <h2 id="vilkar-tittel" className="text-xl font-bold text-custom-dark dark:text-white">
+              Når du går via Rubberduck
+            </h2>
+            <dl className="mt-5 divide-y divide-custom-dark/10 dark:divide-white/15">
+              {[
+                { title: 'må du ha gode referanser eller kjenne oss personlig', text: '' },
+                { title: 'tar vi 10 % i formidlingsfee', text: 'Vi er åpne om hva vi fakturerer kunden, og du kan se vår andel også.' },
+                { title: 'er vi din støttespiller', text: 'Vi hjelper deg også med CV-en din, og er din champion.' },
+                { title: 'får du tilgang til vår Slack', text: 'Du blir også invitert med på sosiale ting til tider.' },
+              ].map((term) => (
+                <div key={term.title} className="grid min-w-0 gap-2 py-5 first:pt-0 last:pb-0 md:grid-cols-5 md:gap-8">
+                  <dt className={`min-w-0 break-words text-base font-semibold leading-snug text-custom-dark dark:text-white ${term.text ? 'md:col-span-2' : 'md:col-span-5'}`}>
+                    {term.title}
+                  </dt>
+                  {term.text && (
+                    <dd className="min-w-0 break-words text-sm leading-relaxed text-custom-dark/75 dark:text-white/75 md:col-span-3">
+                      {term.text}
+                    </dd>
+                  )}
+                </div>
+              ))}
+            </dl>
+            <p className="mt-5 border-t border-custom-dark/10 pt-5 text-sm text-custom-dark/70 dark:border-white/15 dark:text-white/70">Vi er opptatt av ryddighet og transparens.</p>
+          </section>
         </div>
       </div>
 
