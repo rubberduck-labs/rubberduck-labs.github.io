@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -8,6 +8,17 @@ import { JobsPage } from './pages/JobsPage';
 import { ImpactPage } from './pages/ImpactPage';
 import { HandbookPage } from './pages/HandbookPage';
 import { OppdragPage } from './pages/OppdragPage';
+import { track } from './utils/track';
+
+// React Router bytter side uten å utløse hashchange, så menyklikk telles ikke av t.js alene. Her telles hvert sidebytte.
+// t.js hopper over en sidevisning av samme side som kom under to sekunder før, så lasting og tilbake-knapp ikke telles to ganger.
+function RouteTracker() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    track('pageview');
+  }, [pathname]);
+  return null;
+}
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -36,6 +47,7 @@ function App() {
 
   return (
     <Router>
+      <RouteTracker />
       <div 
         className="min-h-screen transition-colors duration-300"
         style={{
