@@ -43,6 +43,14 @@
   height: 100%;
 }
 
+/*
+ * react-pageflip first renders every page into the container and moves them
+ * into the book on init. Keep that raw state invisible so it never flashes.
+ */
+.book-shell__content > .book-flip:not(.stf__parent) {
+  visibility: hidden;
+}
+
 .book-shell__content .stf__wrapper {
   height: 100%;
 }

@@ -12,6 +12,8 @@ interface ContactDialogProps {
   title?: string;
   messageLabel?: string;
   thanks?: string;
+  /** Fast linje som settes foran teksten i Slack-meldingen, f.eks. hvilket oppdrag det gjelder. */
+  context?: string;
 }
 
 const ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/soknad`;
@@ -27,6 +29,7 @@ export function ContactDialog({
   title = 'Kontakt oss',
   messageLabel = 'Hva kan vi hjelpe deg med?',
   thanks = 'Takk! Vi tar kontakt så snart vi kan.',
+  context,
 }: ContactDialogProps) {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -55,7 +58,7 @@ export function ContactDialog({
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: kind, source, email: email.trim(), message, website }),
+        body: JSON.stringify({ type: kind, source, email: email.trim(), message: context ? `${context.slice(0, 200)}\n\n${message}`.trim() : message, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus('done');

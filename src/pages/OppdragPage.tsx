@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { MapPin, Calendar, Clock, Mail, X } from 'lucide-react';
+import { ContactDialog } from '../components/ContactDialog';
+import { MapPin, Calendar, Clock, Linkedin, Mail, Phone } from 'lucide-react';
 
 interface Assignment {
   id: string;
@@ -33,96 +34,6 @@ function cleanTitle(raw: string): { title: string; ref: string | null } {
 }
 
 const hasDuration = (d: string | null) => !!d && d.trim().toLowerCase() !== 'ukjent';
-
-function AssignmentModal({ assignment, onClose }: { assignment: Assignment; onClose: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[100]"
-      onClick={onClose}
-    >
-      <div
-        className="bg-white dark:bg-zinc-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-start justify-between p-6 pb-0">
-          <div>
-            <h2 className="text-2xl font-bold text-custom-dark dark:text-white mb-1">
-              {cleanTitle(assignment.title).title}
-            </h2>
-            <p className="text-custom-dark/70 dark:text-white/70 font-medium">
-              {assignment.company}
-              {cleanTitle(assignment.title).ref && (
-                <span className="ml-2 text-xs font-normal text-custom-dark/50 dark:text-white/50">Ref. {cleanTitle(assignment.title).ref}</span>
-              )}
-            </p>
-          </div>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-zinc-700 rounded-full transition-colors shrink-0 ml-4"
-          >
-            <X className="w-5 h-5 text-custom-dark dark:text-white" />
-          </button>
-        </div>
-
-        <div className="p-6 flex flex-col gap-5">
-          <div className="flex flex-wrap gap-3 text-sm text-custom-dark/70 dark:text-white/70">
-            {assignment.location && (
-              <span className="flex items-center gap-1">
-                <MapPin className="w-4 h-4 shrink-0" />
-                {assignment.location}
-              </span>
-            )}
-            {assignment.applicationDeadlineDate && (
-              <span className="flex items-center gap-1">
-                <Calendar className="w-4 h-4 shrink-0" />
-                Frist: {formatDate(assignment.applicationDeadlineDate)}
-              </span>
-            )}
-            {hasDuration(assignment.expectedDuration) && (
-              <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4 shrink-0" />
-                {assignment.expectedDuration}
-              </span>
-            )}
-          </div>
-
-          {assignment.description ? (
-            <p className="text-custom-dark/80 dark:text-white/80 leading-relaxed">
-              {assignment.description}
-            </p>
-          ) : (
-            <p className="text-custom-dark/60 dark:text-white/60 leading-relaxed">
-              Vi har ikke en kort beskrivelse av dette oppdraget ennå. Ta kontakt, så sender vi deg det vi har.
-            </p>
-          )}
-
-          {assignment.tags && assignment.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {assignment.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 text-xs font-medium bg-yellow-100 dark:bg-zinc-700 text-custom-dark dark:text-white rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-
-          <div className="pt-2 border-t border-gray-100 dark:border-zinc-700">
-            <a
-              href={`mailto:hei@rubberduck.no?subject=Interesse for oppdrag: ${encodeURIComponent(assignment.title)}`}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full font-semibold hover:opacity-90 transition-opacity"
-            >
-              <Mail className="w-4 h-4" />
-              Kontakt oss
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onClick: () => void }) {
   return (
@@ -161,12 +72,12 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
       </div>
 
       {assignment.description ? (
-        <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed line-clamp-3">
+        <p className="text-custom-dark/80 dark:text-white/80 text-sm leading-relaxed">
           {assignment.description}
         </p>
       ) : (
         <p className="text-custom-dark/50 dark:text-white/50 text-sm leading-relaxed">
-          Ingen beskrivelse ennå. Åpne oppdraget for å ta kontakt.
+          Vi har ikke en kort beskrivelse av dette oppdraget ennå. Si fra, så sender vi deg det vi har.
         </p>
       )}
 
@@ -188,90 +99,114 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
           onClick={onClick}
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
         >
-          Se oppdrag
+          Jeg vil gjerne høre mer
         </button>
       </div>
     </div>
   );
 }
 
-function SubscribeSection() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'duplicate'>('idle');
+function ContactSection() {
+  return (
+    <div>
+      <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col items-center justify-center gap-4 text-center h-full">
+        <img
+          src="/espen-isolated.png"
+          alt="Espen Schulstad"
+          className="w-32 h-32 rounded-full object-contain bg-custom-yellow/30 shrink-0"
+        />
+        <div className="flex flex-col items-center gap-5">
+          <p className="text-sm text-custom-dark dark:text-white">
+            Snakk med vår selger <span className="font-semibold">Espen Schulstad</span> om muligheter for oppdrag. Han tar gjerne en prat om markedet og eventuelle samarbeid også.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm font-medium text-custom-dark dark:text-white">
+            <a href="mailto:hei@rubberduck.no" className="inline-flex items-center gap-1.5 hover:underline">
+              <Mail className="w-4 h-4" />
+              hei@rubberduck.no
+            </a>
+            <a href="tel:+4722301010" className="inline-flex items-center gap-1.5 hover:underline">
+              <Phone className="w-4 h-4" />
+              +47 22 30 10 10
+            </a>
+            <a
+              href="https://www.linkedin.com/in/schulstad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 hover:underline"
+            >
+              <Linkedin className="w-4 h-4" />
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('loading');
+interface Etterspurt {
+  oppdatert: string;
+  dager: number;
+  oppdrag: number;
+  ord: { t: string; n: number }[];
+}
 
-    const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/rest/v1/Subscribers`, {
-      method: 'POST',
-      headers: {
-        apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({ email }),
-    });
+function WordCloud() {
+  const [data, setData] = useState<Etterspurt | null>(null);
 
-    if (res.status === 201) {
-      setStatus('success');
-      setEmail('');
-    } else if (res.status === 409) {
-      setStatus('duplicate');
-    } else {
-      setStatus('error');
-    }
-  };
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}etterspurt.json`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then(setData)
+      .catch(() => setData(null));
+  }, []);
+
+  if (!data || data.ord.length === 0) return null;
+
+  const max = data.ord[0].n;
+  const min = data.ord[data.ord.length - 1].n;
+  const size = (n: number) => 0.8 + (2.2 * (n - min)) / Math.max(1, max - min);
+  const tone = (n: number) =>
+    n > max * 0.6
+      ? 'text-custom-dark dark:text-white font-extrabold'
+      : n > max * 0.3
+        ? 'text-custom-dark/80 dark:text-white/80 font-bold'
+        : 'text-custom-dark/55 dark:text-white/55 font-semibold';
+  // Alfabetisk rekkefølge gir en blandet, men stabil, sky.
+  const words = [...data.ord].sort((a, b) => a.t.localeCompare(b.t, 'nb'));
 
   return (
-    <div className="mb-12 md:max-w-md">
-      <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 flex flex-col gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Mail className="w-5 h-5 text-custom-dark dark:text-white" />
-            <h2 className="text-lg font-bold text-custom-dark dark:text-white">Nyhetsbrev</h2>
-          </div>
-          <p className="text-sm text-custom-dark/70 dark:text-white/70">
-            Vi varsler deg på e-post når nye oppdrag er tilgjengelige.
-          </p>
-        </div>
-
-        {status === 'success' ? (
-          <p className="text-green-600 dark:text-green-400 text-sm font-medium">
-            🎉 Du er påmeldt!
-          </p>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3 mt-auto">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); setStatus('idle'); }}
-              placeholder="din@epost.no"
-              className="w-full px-4 py-2.5 rounded-full border border-gray-200 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-custom-dark dark:text-white placeholder-custom-dark/40 dark:placeholder-white/40 outline-none focus:ring-2 focus:ring-custom-dark/20 dark:focus:ring-white/20 text-sm"
-            />
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-custom-dark text-white dark:bg-white dark:text-custom-dark rounded-full text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {status === 'loading' ? 'Sender...' : 'Meld meg på'}
-            </button>
-            {status === 'duplicate' && (
-              <p className="text-xs text-custom-dark/60 dark:text-white/60 text-center">
-                Denne e-postadressen er allerede påmeldt.
-              </p>
-            )}
-            {status === 'error' && (
-              <p className="text-xs text-red-500 dark:text-red-400 text-center">
-                Noe gikk galt. Prøv igjen senere.
-              </p>
-            )}
-          </form>
-        )}
+    <div className="bg-white dark:bg-zinc-800 rounded-xl shadow-lg p-6 h-full flex flex-col gap-3">
+      <div>
+        <h2 className="text-lg font-bold text-custom-dark dark:text-white">Hva etterspørres nå?</h2>
+        <p className="text-xs text-custom-dark/60 dark:text-white/60">
+          Teknologier i {data.oppdrag} oppdrag de siste {data.dager} dagene.
+        </p>
       </div>
+      <ul
+        className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 leading-tight"
+        aria-label="Mest etterspurte teknologier"
+      >
+        {words.map((w) => (
+          <li
+            key={w.t}
+            title={`${w.n} oppdrag`}
+            className={tone(w.n)}
+            style={{ fontSize: `${size(w.n).toFixed(2)}rem` }}
+          >
+            {w.t}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
+function SubscribeSection() {
+  return (
+    <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+      <ContactSection />
+      <WordCloud />
     </div>
   );
 }
@@ -304,17 +239,9 @@ export function OppdragPage() {
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-custom-dark dark:text-white mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-custom-dark dark:text-white">
               Ledige oppdrag
             </h1>
-            <p className="text-lg text-custom-dark/80 dark:text-white/80">
-              Freelance? Dette er oppdrag vi har ledig akkurat nå.
-            </p>
-            {!loading && !error && assignments.length > 0 && (
-              <p className="mt-2 text-sm font-medium text-custom-dark/60 dark:text-white/60">
-                {assignments.length} {assignments.length === 1 ? 'ledig oppdrag' : 'ledige oppdrag'}
-              </p>
-            )}
           </div>
 
           <SubscribeSection />
@@ -346,6 +273,12 @@ export function OppdragPage() {
           )}
 
           {!loading && !error && assignments.length > 0 && (
+            <h2 className="mb-5 text-2xl font-bold text-custom-dark dark:text-white">
+              Akkurat nå ser vi etter
+            </h2>
+          )}
+
+          {!loading && !error && assignments.length > 0 && (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {assignments.map((assignment) => (
                 <AssignmentCard
@@ -359,9 +292,20 @@ export function OppdragPage() {
         </div>
       </div>
 
-      {selected && (
-        <AssignmentModal assignment={selected} onClose={() => setSelected(null)} />
-      )}
+      <ContactDialog
+        open={selected !== null}
+        onClose={() => setSelected(null)}
+        kind="kontakt"
+        source="oppdrag"
+        title="Jeg vil gjerne høre mer"
+        messageLabel="Noe du lurer på? (valgfritt)"
+        context={
+          selected
+            ? `Gjelder oppdraget: ${cleanTitle(selected.title).title}${selected.company ? ` (${selected.company})` : ''}`
+            : undefined
+        }
+        thanks="Takk! Vi tar kontakt så snart vi kan."
+      />
     </section>
   );
 }
