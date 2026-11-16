@@ -19,7 +19,7 @@ interface ContactDialogProps {
 const ENDPOINT = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/soknad`;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-type Status = 'idle' | 'sending' | 'done' | 'invalid' | 'error';
+type Status = 'idle' | 'sending' | 'done' | 'noname' | 'invalid' | 'error';
 
 export function ContactDialog({
   open,
@@ -31,6 +31,7 @@ export function ContactDialog({
   thanks = 'Takk! Vi tar kontakt så snart vi kan.',
   defaultMessage = '',
 }: ContactDialogProps) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState(defaultMessage);
 
@@ -47,6 +48,7 @@ export function ContactDialog({
     onClose();
     if (status === 'done') {
       setStatus('idle');
+      setName('');
       setEmail('');
       setMessage(defaultMessage);
     }
@@ -54,6 +56,11 @@ export function ContactDialog({
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Søknader trenger et navn, så vi vet hvem vi snakker med. Henvendelser sender det ikke.
+    if (kind === 'soknad' && !name.trim()) {
+      setStatus('noname');
+      return;
+    }
     if (!EMAIL_RE.test(email.trim())) {
       setStatus('invalid');
       return;
@@ -63,7 +70,7 @@ export function ContactDialog({
       const res = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: kind, source, email: email.trim(), message, website }),
+        body: JSON.stringify({ type: kind, source, name: kind === 'soknad' ? name.trim() : undefined, email: email.trim(), message, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus('done');
@@ -82,6 +89,23 @@ export function ContactDialog({
           <p className="text-custom-dark dark:text-white">{thanks}</p>
         ) : (
           <form onSubmit={submit} noValidate className="space-y-4">
+            {kind === 'soknad' && (
+              <div>
+                <label htmlFor="contact-name" className="block font-semibold mb-1 text-custom-dark dark:text-white">
+                  Navn
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  autoComplete="name"
+                  maxLength={100}
+                  placeholder="Fornavn og etternavn"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={inputClass}
+                />
+              </div>
+            )}
             <div>
               <label htmlFor="contact-message" className="block font-semibold mb-1 text-custom-dark dark:text-white">
                 {messageLabel}
@@ -129,6 +153,7 @@ export function ContactDialog({
                 {status === 'sending' ? 'Sender …' : 'Send'}
               </button>
               <p role="status" aria-live="polite" className="text-sm text-custom-dark/80 dark:text-white/80">
+                {status === 'noname' && 'Skriv navnet ditt.'}
                 {status === 'invalid' && 'Sjekk at e-postadressen er riktig.'}
                 {status === 'error' && 'Noe gikk galt. Send oss en e-post på hei@rubberduck.no i stedet.'}
               </p>
