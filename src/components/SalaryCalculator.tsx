@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { calculateProvision } from '../utils/salary';
 import { track } from '../utils/track';
 
 export function SalaryCalculator() {
+  const uid = useId();
   const [rate, setRate] = useState('1600');
   const [hours, setHours] = useState('1600');
   const used = useRef(false);
@@ -29,9 +30,11 @@ export function SalaryCalculator() {
         {/* Input Grid */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm text-white/70 mb-1">Timerate (NOK)</label>
+            <label htmlFor={`${uid}-rate`} className="block text-sm text-white/70 mb-1">Timerate (NOK)</label>
             <input
+              id={`${uid}-rate`}
               type="number"
+              inputMode="numeric"
               value={rate}
               onChange={(e) => { markUsed(); setRate(e.target.value); }}
               className="w-full px-3 py-2 bg-zinc-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono"
@@ -39,9 +42,11 @@ export function SalaryCalculator() {
             />
           </div>
           <div>
-            <label className="block text-sm text-white/70 mb-1">Timer per år</label>
+            <label htmlFor={`${uid}-hours`} className="block text-sm text-white/70 mb-1">Timer per år</label>
             <input
+              id={`${uid}-hours`}
               type="number"
+              inputMode="numeric"
               value={hours}
               onChange={(e) => { markUsed(); setHours(e.target.value); }}
               className="w-full px-3 py-2 bg-zinc-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono"
