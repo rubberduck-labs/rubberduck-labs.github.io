@@ -9,7 +9,7 @@ const ctaClass =
 const INTRO = [
   'Vi er et koselig lite konsulenthus med seniorutviklere som finner på mye sammen, både faglig og sosialt. Og flere av oss har faktisk liv utenom jobben også.',
   'Filosofien vår er enkel. Det er du som skaper verdiene. Da skal du også ha det største kakestykket. Samtidig har du verdens beste gjeng i ryggen, med tryggheten, nettverket og alle godene vi har bygget opp gjennom over 20 år i bransjen. Sammenlign oss med hvem som helst. Fordelene våre står under.',
-  'Nå ser vi etter noen nye nebb. Derfor har vi veldig lyst til å snakke med deg som har minst 7 års erfaring, henger med i tiden og elsker jobben som utvikler. Send oss et lite pip, så kan vi ta en kaffe og bli litt bedre kjent!',
+  'Nå ser vi etter noen nye nebb. Vi leter etter deg med fullstack-bakgrunn som bruker AI aktivt i arbeidshverdagen, har minst 7 års erfaring og elsker jobben som utvikler. Jobber du allerede som konsulent, er det bare positivt. Send oss et lite pip, så kan vi ta en kaffe og bli litt bedre kjent!',
 ];
 
 export function JobSection() {
