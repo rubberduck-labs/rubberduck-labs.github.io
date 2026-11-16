@@ -150,6 +150,13 @@
       tr.v:hover td { background: var(--bg); }
       tr.v.online td { background: rgb(22 163 74 / 7%); }
       tr.v.online:hover td { background: rgb(22 163 74 / 12%); }
+      .applied { display: block; width: fit-content; margin: 2px 0 0; padding: 1px 8px; font-size: 11px; font-weight: 700; border-radius: 999px; background: #f59e0b; color: #1f1300; }
+      tr.v.applied-row td { background: rgb(245 158 11 / 14%); }
+      tr.v.applied-row:hover td { background: rgb(245 158 11 / 22%); }
+      tr.v.applied-row td:first-child { box-shadow: inset 4px 0 0 #f59e0b; }
+      .journey li.applied-ev .journey-title::before { content: '🏆 '; }
+      .journey li.applied-ev .journey-title { color: #b45309; }
+      @media (prefers-color-scheme: dark) { .journey li.applied-ev .journey-title { color: #fbbf24; } }
       tr.vd td { background: var(--bg); padding: 8px 12px 14px; }
       .journey { width: 100%; padding: 16px 20px; background: var(--box); border: 1px solid var(--line); }
       .journey-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 12px; }
@@ -545,7 +552,7 @@
               var label = document.createElement('h4'); label.textContent = day === historyDay.format(new Date()) ? 'I dag' : day; box.appendChild(label);
               list = document.createElement('ol'); box.appendChild(list); lastDay = day;
             }
-            var li = document.createElement('li'); if (e.event !== 'pageview') li.className = 'action';
+            var li = document.createElement('li'); if (e.event !== 'pageview') li.className = 'action' + (e.event === 'apply_sent' ? ' applied-ev' : '');
             var time = document.createElement('time'); time.dateTime = e.created_at; time.textContent = clock.format(at); li.appendChild(time);
             var content = document.createElement('div'), title = document.createElement('span'); title.className = 'journey-title';
             var page = pageName(e.path);
@@ -586,6 +593,11 @@
               var visitCount = document.createElement('span'); visitCount.className = 'back-count'; visitCount.textContent = String(v.besok); rb.appendChild(visitCount);
               rb.appendChild(document.createTextNode(' besøk'));
               rb.title = v.besok + ' besøk totalt'; rb.setAttribute('aria-label', rb.title); visitorLabel.appendChild(rb);
+            }
+            var applied = (v.events || []).some(function (e) { return e.event === 'apply_sent'; });
+            if (applied) {
+              var ab = document.createElement('span'); ab.className = 'applied'; ab.textContent = '🏆 Søkte';
+              ab.title = 'Sendte inn søknad'; visitorLabel.appendChild(ab); tr.classList.add('applied-row');
             }
             activityCell(tr, v);
             // Hele raden markeres svakt grønt når besøkende har vært aktiv siste fem minutter.
