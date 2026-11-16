@@ -449,6 +449,8 @@
         }
         // Oversikten teller hver id én gang, uavhengig av antall besøk og hendelser.
         var audienceVisitors = new Map(), audienceCursor = null, audienceDone = false, audienceLoading = false, audienceError = false;
+        // Raden med ansikter og kakediagrammene viser de som har vært innom siste 48 timer, som grafen under.
+        function audienceCutoff() { return Date.now() - 48 * 3600 * 1000; }
         var PIE_COLORS = ['#3b82f6', '#f59e0b', '#10b981', '#a78bfa', '#f472b6', '#06b6d4', '#f97316', '#94a3b8'];
         var percentFmt = new Intl.NumberFormat('nb-NO', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 });
         function audienceGroups(list, classify) {
@@ -480,7 +482,9 @@
           root.appendChild(svg); root.appendChild(key);
         }
         function renderAudience() {
-          var list = Array.from(audienceVisitors.values()).sort(function (a, b) { return Date.parse(b.last) - Date.parse(a.last) || String(a.id).localeCompare(String(b.id)); });
+          var cutoff = audienceCutoff();
+          var list = Array.from(audienceVisitors.values()).filter(function (v) { return Date.parse(v.last) >= cutoff; })
+            .sort(function (a, b) { return Date.parse(b.last) - Date.parse(a.last) || String(a.id).localeCompare(String(b.id)); });
           $('audience').hidden = false; $('pies').hidden = false; $('chartbox').hidden = false;
           $('audience-note').textContent = audienceError ? 'Kunne ikke hente alle besøkende. Prøver igjen.' : !audienceDone ? 'Henter besøkende …' : '';
           $('pies').setAttribute('aria-label', 'Fordeling av ' + list.length + ' unike besøkende');
@@ -501,7 +505,8 @@
         function loadAudience() {
           if (!token || audienceDone || audienceLoading) return;
           if (!audienceCursor) {
-            if (!visitorsMore || !visitors.length) { audienceDone = true; renderAudience(); return; }
+            // Ferdig når det ikke finnes flere, eller når siste besøkende på første side allerede er eldre enn 48 timer.
+            if (!visitorsMore || !visitors.length || Date.parse(visitors[visitors.length - 1].last) < audienceCutoff()) { audienceDone = true; renderAudience(); return; }
             audienceCursor = visitors[visitors.length - 1].last;
           }
           var session = token, cursor = audienceCursor;
@@ -513,7 +518,8 @@
               var page = j.visitors || [], next = page.length ? page[page.length - 1].last : null;
               if (j.more && (!next || next >= cursor)) throw new Error('Ugyldig side');
               page.forEach(function (v) { var current = audienceVisitors.get(v.id); if (!current || v.last > current.last) audienceVisitors.set(v.id, v); });
-              audienceCursor = next; audienceDone = !j.more; audienceError = false; audienceLoading = false;
+              // Sorteres nyeste først, så når siste i siden er eldre enn 48 timer, er resten det også.
+              audienceCursor = next; audienceDone = !j.more || (next && Date.parse(next) < audienceCutoff()); audienceError = false; audienceLoading = false;
               renderAudience(); loadAudience();
             }).catch(function () { if (token !== session) return; audienceLoading = false; audienceError = true; renderAudience(); });
         }
