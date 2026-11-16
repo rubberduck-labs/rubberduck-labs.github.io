@@ -90,6 +90,8 @@
       .nowrap { white-space: nowrap; }
       .apply label { display: block; font-weight: 600; color: var(--box-ink); margin-bottom: 8px; }
       .apply .field { display: flex; flex-wrap: wrap; gap: 10px; }
+      .apply input#name { display: block; width: 100%; font: inherit; padding: 10px 12px; margin-bottom: 18px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; }
+      .apply input#name:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .apply textarea { display: block; width: 100%; font: inherit; padding: 10px 12px; margin-bottom: 18px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; resize: vertical; }
       .apply textarea:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .apply input[type=email] { font: inherit; flex: 1 1 260px; min-width: 0; padding: 10px 12px; border: 1px solid #6b7280; border-radius: 2px; color: var(--box-ink); background: #fff; }
@@ -192,8 +194,10 @@
         <div class="box">
           <p>Nysgjerrig på Rubberduck? Du trenger verken CV eller søknadsbrev.<br>Legg igjen <span class="nowrap">e-posten</span> din, så tar vi kontakt for en uforpliktende prat.</p>
           <form id="apply-form" novalidate>
-            <label for="message">Skriv navnet ditt og fortell oss litt om deg selv</label>
-            <textarea id="message" name="message" rows="4" maxlength="1000" placeholder="Navnet ditt, og for eksempel hva du liker å jobbe med. Et par setninger holder."></textarea>
+            <label for="name">Navn</label>
+            <input id="name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Fornavn og etternavn" required />
+            <label for="message">Fortell oss litt om deg selv</label>
+            <textarea id="message" name="message" rows="4" maxlength="1000" placeholder="For eksempel hva du liker å jobbe med. Et par setninger holder."></textarea>
             <label for="email">E-post</label>
             <div class="field">
               <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="navn@epost.no" required />
@@ -327,7 +331,7 @@
       (function () {
         var ENDPOINT = 'https://cttwgsndqzemsomzuijf.supabase.co/functions/v1/soknad';
         var form = document.getElementById('apply-form'), btn = document.getElementById('apply-btn');
-        var email = document.getElementById('email'), status = document.getElementById('apply-status');
+        var email = document.getElementById('email'), nameField = document.getElementById('name'), status = document.getElementById('apply-status');
         var source = 'fordeler';
         try { source = new URLSearchParams(location.search).get('kilde') || 'fordeler'; } catch (e) {}
         var utm = {};
@@ -347,13 +351,15 @@
         });
         form.addEventListener('submit', function (e) {
           e.preventDefault();
+          var nameValue = nameField.value.trim();
+          if (!nameValue) { status.textContent = 'Skriv navnet ditt.'; nameField.focus(); return; }
           var value = email.value.trim();
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) { status.textContent = 'Sjekk at e-postadressen er riktig.'; email.focus(); return; }
           btn.disabled = true; status.textContent = 'Sender …';
           fetch(ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: value, message: document.getElementById('message').value, source: source, referrer: document.referrer || undefined, utm: utm, website: document.getElementById('website').value })
+            body: JSON.stringify({ name: nameValue, email: value, message: document.getElementById('message').value, source: source, referrer: document.referrer || undefined, utm: utm, website: document.getElementById('website').value })
           }).then(function (r) {
             if (!r.ok) throw new Error(r.status);
             status.textContent = 'Takk for pipet! Vi tar kontakt for en prat.'; form.reset(); form.classList.add('sent'); setTimeout(function () { form.classList.add('sent-done'); }, 700); if (window.rdTrack) rdTrack('apply_sent');

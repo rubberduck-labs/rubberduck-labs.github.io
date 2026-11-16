@@ -8,6 +8,7 @@ import { JobsPage } from './pages/JobsPage';
 import { ImpactPage } from './pages/ImpactPage';
 import { HandbookPage } from './pages/HandbookPage';
 import { OppdragPage } from './pages/OppdragPage';
+import { IntervjuPage } from './pages/IntervjuPage';
 import { track } from './utils/track';
 
 // React Router bytter side uten å utløse hashchange, så menyklikk telles ikke av t.js alene. Her telles hvert sidebytte.
@@ -68,6 +69,7 @@ function App() {
             <Route path="/impact" element={<Navigate to="/kunder" replace />} />
             <Route path="/handbook" element={<HandbookPage />} />
             <Route path="/oppdrag" element={<OppdragPage />} />
+            <Route path="/intervju/:token" element={<IntervjuPage />} />
           </Routes>
         </main>
         <Footer />
