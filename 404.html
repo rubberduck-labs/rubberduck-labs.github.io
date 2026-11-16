@@ -382,19 +382,31 @@
           mobil: '<svg viewBox="0 0 36 28"><rect x="12" y="1" width="12" height="26" rx="2.8" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="14" y="4" width="8" height="17.5" rx="1" fill="#394150"/><circle cx="18" cy="24.3" r="1" fill="#7d786a"/></svg>',
           nettbrett: '<svg viewBox="0 0 36 28"><rect x="3.5" y="3" width="29" height="22" rx="2.8" fill="#e4dfcf" stroke="#7d786a" stroke-width="1.2"/><rect x="6" y="5.5" width="24" height="17" rx="1" fill="#394150"/><circle cx="31.2" cy="14" r=".8" fill="#7d786a"/></svg>'
         };
+        // screen er «pc», «mobil», «nettbrett» eller «robot». For roboter står årsaken etter kolon («robot:w»); eldre rader har bare «robot».
+        function screenKind(s) { return s && s.indexOf('robot') === 0 ? 'robot' : s; }
+        var ROBOT_CODE = function (s) { return s && s.indexOf('robot:') === 0 ? s.slice(6) : ''; };
+        var ROBOT_SHORT = { w: 'styres av verktøy', h: 'headless', z: 'uten vindu' };
+        var ROBOT_LONG = {
+          w: 'Nettleseren sier selv at den styres av et automatiseringsverktøy (navigator.webdriver).',
+          h: 'Nettleseren kaller seg HeadlessChrome, altså en Chrome uten skjerm.',
+          z: 'Vinduet har ingen størrelse, typisk for en nettleser uten skjerm.'
+        };
+        function robotShort(s) { return ROBOT_SHORT[ROBOT_CODE(s)] || 'ukjent grunn'; }
+        function robotLong(s) { return ROBOT_LONG[ROBOT_CODE(s)] || 'Ukjent grunn. Besøket ble registrert før vi lagret hvorfor.'; }
         function deviceCell(tr, v) {
           var td = document.createElement('td'); td.className = 'hide-s dev'; tr.appendChild(td);
           var pb = parseBrowser(v.browser), osIcon = { iOS: 'apple', macOS: 'apple', Android: 'android', Windows: 'windows', Linux: 'linux' }[pb.o];
           var bi = pb.b && icon(pb.b, BRAND[pb.b]), oi = osIcon && icon(osIcon);
-          td.title = [v.screen, v.browser].filter(Boolean).join(' · ');
+          var kind = screenKind(v.screen), isRobot = kind === 'robot';
+          td.title = [isRobot ? 'Robot. ' + robotLong(v.screen) : kind, v.browser].filter(Boolean).join(' · ');
           td.setAttribute('aria-label', td.title);
-          var device = Object.prototype.hasOwnProperty.call(DEVICE, v.screen) ? DEVICE[v.screen] : null;
+          var device = Object.prototype.hasOwnProperty.call(DEVICE, kind) ? DEVICE[kind] : null;
           if (device) { var dv = document.createElement('span'); dv.className = 'dev-ill'; dv.setAttribute('aria-hidden', 'true'); dv.innerHTML = device; td.appendChild(dv); }
           if (bi) td.appendChild(bi);
           if (oi) td.appendChild(oi);
           var t = document.createElement('span'); t.className = 'devt';
           // Vis tekst for ukjente enheter og nettlesere uten ikoner.
-          t.textContent = [device ? null : v.screen, (!bi && !oi) ? v.browser : null].filter(Boolean).join(' · ');
+          t.textContent = [isRobot ? robotShort(v.screen) : (device ? null : kind), (!bi && !oi) ? v.browser : null].filter(Boolean).join(' · ');
           td.appendChild(t);
         }
         // Kallenavn («Blid Elg») i stedet for hash. Lages av id-en, så samme besøkende har samme navn hele uka.
@@ -425,10 +437,11 @@
           var img = document.createElement('img'); img.src = uri; img.alt = ''; img.width = 38; img.height = 38; f.appendChild(img);
           return f;
         }
-        function liveDot(td, last, id, robot) {
+        function liveDot(td, last, id, screen) {
+          var robot = screenKind(screen) === 'robot';
           var on = Date.now() - Date.parse(last) < 5 * 60000, f = faceFor(id, robot);
           if (f) {
-            var w = document.createElement('span'); w.className = 'facewrap'; w.title = nick(id) + (on ? ' · inne nå' : ''); w.appendChild(f);
+            var w = document.createElement('span'); w.className = 'facewrap'; w.title = nick(id) + (robot ? ' · robot: ' + robotLong(screen) : '') + (on ? ' · inne nå' : ''); w.appendChild(f);
             if (on) { var b = document.createElement('span'); b.className = 'dot live'; w.appendChild(b); }
             td.insertBefore(w, td.firstChild);
           } else if (on) { var d = document.createElement('span'); d.className = 'dot live'; d.title = id ? 'Inne nå · ' + nick(id) : 'Inne nå'; td.insertBefore(d, td.firstChild); }
@@ -473,14 +486,14 @@
           var lineup = $('lineup'); lineup.textContent = '';
           list.forEach(function (v) {
             var person = document.createElement('div'); person.className = 'lineup-person';
-            liveDot(person, v.last, v.id, v.screen === 'robot');
+            liveDot(person, v.last, v.id, v.screen);
             var face = person.querySelector('.face'); if (face) face.style.background = 'none';
             if (!person.querySelector('.facewrap')) {
               var fallback = document.createElement('span'); fallback.className = 'facewrap face-placeholder'; fallback.textContent = '☺'; fallback.setAttribute('aria-hidden', 'true'); person.insertBefore(fallback, person.firstChild);
             }
             person.title = nick(v.id) + ' · Sist sett ' + ago(v.last); lineup.appendChild(person);
           });
-          drawPie('pie-device', audienceGroups(list, function (v) { return v.screen === 'pc' ? 'PC' : v.screen === 'mobil' ? 'Mobil' : v.screen === 'nettbrett' ? 'Nettbrett' : v.screen === 'robot' ? 'Robot' : 'Ukjent'; }), list.length);
+          drawPie('pie-device', audienceGroups(list, function (v) { return v.screen === 'pc' ? 'PC' : v.screen === 'mobil' ? 'Mobil' : v.screen === 'nettbrett' ? 'Nettbrett' : screenKind(v.screen) === 'robot' ? 'Robot' : 'Ukjent'; }), list.length);
           drawPie('pie-browser', audienceGroups(list, function (v) { var b = parseBrowser(v.browser).b; return b ? b.charAt(0).toUpperCase() + b.slice(1) : 'Ukjent'; }), list.length);
           drawPie('pie-os', audienceGroups(list, function (v) { return parseBrowser(v.browser).o; }), list.length);
         }
@@ -553,7 +566,7 @@
             var tr = document.createElement('tr'); tr.className = 'v'; tr.tabIndex = 0;
             cell(tr, ago(v.last), 't'); var idc = cell(tr, '', 'idc');
             var visitorLabel = document.createElement('span'); visitorLabel.className = 'visitor-label'; visitorLabel.textContent = nick(v.id); idc.appendChild(visitorLabel);
-            liveDot(idc, v.last, v.id, v.screen === 'robot');
+            liveDot(idc, v.last, v.id, v.screen);
             if (v.besok > 1) {
               var rb = document.createElement('span'); rb.className = 'back';
               var visitCount = document.createElement('span'); visitCount.className = 'back-count'; visitCount.textContent = String(v.besok); rb.appendChild(visitCount);
@@ -598,7 +611,7 @@
           list.forEach(function (e) {
             var tr = document.createElement('tr');
             var tc = cell(tr, ago(e.created_at), 't');
-            liveDot(tc, lastSeen[e.v] || e.created_at, e.v, e.screen === 'robot');
+            liveDot(tc, lastSeen[e.v] || e.created_at, e.v, e.screen);
             if (e.v) { var nk = document.createElement('div'); nk.className = 'nick'; nk.textContent = nick(e.v); tc.appendChild(nk); }
             cell(tr, (LABEL[e.event] || e.event) + (e.label ? ': ' + e.label : ''), 'ev ' + e.event);
             cell(tr, pageName(e.path));
