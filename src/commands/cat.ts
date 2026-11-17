@@ -1,6 +1,6 @@
 import { Command } from './types';
 
-const files = {
+const files: Record<string, string> = {
   'README': 'Ask me about loom'
 };
 

@@ -1,5 +1,7 @@
-import React from 'react';
-import * as SimpleIcons from 'simple-icons';
+import * as SimpleIconsModule from 'simple-icons';
+import type { SimpleIcon } from 'simple-icons';
+
+const SimpleIcons = SimpleIconsModule as unknown as Record<string, SimpleIcon | undefined>;
 
 interface TechIconProps {
   name: string;

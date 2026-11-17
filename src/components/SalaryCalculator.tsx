@@ -1,4 +1,4 @@
-import React, { useId, useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { calculateProvision } from '../utils/salary';
 import { track } from '../utils/track';
 

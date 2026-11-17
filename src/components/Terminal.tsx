@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Terminal as TerminalIcon, X } from 'lucide-react';
 import { commands } from '../commands';
 import { FileSystemManager } from '../utils/filesystem';
+import type { FileSystem } from '../utils/filesystem';
 import terminalConfig from '../terminal.json';
 import { track } from '../utils/track';
 import { trackTerminalCommand } from '../utils/terminalTracking';
@@ -71,7 +72,7 @@ export function Terminal({ isOpen, onClose, setBackgroundColor }: TerminalProps)
   const terminalRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const fsRef = useRef<FileSystemManager>(new FileSystemManager(terminalConfig));
+  const fsRef = useRef<FileSystemManager>(new FileSystemManager(terminalConfig as FileSystem));
   const openTrackedRef = useRef(false);
 
   const initialLines = [

@@ -11,7 +11,7 @@ const pastelColors = [
   { name: 'Sky Blue', hex: '#87CEEB' }
 ];
 
-const applyColor = (color: string, fontName: string, setLines: (fn: (prev: any[]) => any[]) => void, setBackgroundColor: (color: string | null) => void) => {
+const applyColor = (color: string, _fontName: string, setLines: (fn: (prev: any[]) => any[]) => void, setBackgroundColor: (color: string | null) => void) => {
   // First check if we're in dark mode and switch to light mode if needed
   if (document.documentElement.classList.contains('dark')) {
     const darkModeButton = document.querySelector('button[aria-label="Toggle dark mode"]');

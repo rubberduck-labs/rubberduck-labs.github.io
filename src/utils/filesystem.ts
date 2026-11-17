@@ -5,7 +5,7 @@ interface FileSystemNode {
   contents?: string[] | { [key: string]: FileSystemNode };
 }
 
-interface FileSystem {
+export interface FileSystem {
   type: 'directory';
   contents: {
     [key: string]: FileSystemNode;
@@ -33,7 +33,7 @@ export class FileSystemManager {
     
     for (const segment of path) {
       if (segment === '') continue;
-      if (current.type !== 'directory' || !current.contents) return null;
+      if (current.type !== 'directory' || !current.contents || Array.isArray(current.contents)) return null;
       if (!(segment in current.contents)) return null;
       current = current.contents[segment];
     }
@@ -87,7 +87,7 @@ export class FileSystemManager {
     const dirPath = fullPath.slice(0, -1);
     
     const dirNode = this.traverseToPath(dirPath);
-    if (!dirNode || dirNode.type !== 'directory' || !dirNode.contents) return null;
+    if (!dirNode || dirNode.type !== 'directory' || !dirNode.contents || Array.isArray(dirNode.contents)) return null;
     
     const fileNode = dirNode.contents[fileName];
     if (!fileNode || !('contents' in fileNode) || !Array.isArray(fileNode.contents)) return null;
@@ -103,7 +103,7 @@ export class FileSystemManager {
     const targetPath = this.resolvePath(dirPath);
     const dirNode = this.traverseToPath(targetPath);
     
-    if (!dirNode || dirNode.type !== 'directory' || !dirNode.contents) return false;
+    if (!dirNode || dirNode.type !== 'directory' || !dirNode.contents || Array.isArray(dirNode.contents)) return false;
     
     const fileNode = dirNode.contents[fileName];
     return fileNode?.type === 'executable';

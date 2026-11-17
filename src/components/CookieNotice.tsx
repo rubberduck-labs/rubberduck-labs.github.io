@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Cookie } from 'lucide-react';
 
 // På smale skjermer ligger meldingen i selve siden, under teksten, så den ikke dekker noe. Ellers er den en liten lapp nede til høyre.
