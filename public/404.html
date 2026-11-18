@@ -136,6 +136,7 @@
       .visitor-label { display: inline-block; vertical-align: middle; }
       td.dev { white-space: nowrap; }
       .applied { margin-left: 6px; vertical-align: middle; }
+      .still { margin-left: 6px; vertical-align: middle; opacity: 0.45; }
       .ico { width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px; color: var(--muted); }
       .devt { color: var(--muted); font-size: 13px; }
       .dev-ill { display: inline-block; width: 34px; height: 26px; margin-right: 12px; vertical-align: middle; }
@@ -413,6 +414,11 @@
           // Årsaken til at noen er en robot står i hover-teksten (title), ikke som synlig tekst.
           t.textContent = [isRobot ? null : (device ? null : kind), (!bi && !oi) ? v.browser : null].filter(Boolean).join(' · ');
           td.appendChild(t);
+          // Ingen interaksjon registrert (mus, scroll, tast, berøring): kan være en robot, men bare et hint.
+          if (v.stille && !isRobot) {
+            var st = document.createElement('span'); st.className = 'still'; st.textContent = '🤖';
+            st.title = 'Ingen mus, scroll, tastetrykk eller berøring registrert. Kan være en robot, men også en som bare leste.'; st.setAttribute('aria-label', st.title); td.appendChild(st);
+          }
           // Har søkt: lite trofé helt til slutt, så ingenting annet flytter seg.
           if ((v.events || []).some(function (e) { return e.event === 'apply_sent'; })) {
             var tro = document.createElement('span'); tro.className = 'applied'; tro.textContent = '🏆';
