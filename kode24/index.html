@@ -84,6 +84,7 @@
       .crew a:hover span, .crew a:focus-visible span { text-decoration: underline; text-underline-offset: 3px; }
       .crew a:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 4px; }
       @media (prefers-reduced-motion: reduce) { .crew a img { transition: none; } .crew a:hover img, .crew a:focus-visible img { transform: none; } }
+      @media (max-width: 560px) { .crew { gap: 10px 8px; } .crew img { max-width: 78px; margin-bottom: 2px; } .crew span { font-size: 14px; } }
       @media (min-width: 760px) { .crew { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
       .apply .box { padding: 24px 28px; }
       .apply p { margin: 0 0 16px; color: var(--box-muted); }
@@ -98,6 +99,10 @@
       .apply input[type=email]:focus-visible, .apply button:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .apply button { font: inherit; font-weight: 600; padding: 10px 22px; border: 1px solid var(--box-ink); border-radius: 2px; background: var(--box-ink); color: #fff; cursor: pointer; }
       .apply button:disabled { opacity: 0.6; cursor: default; }
+      .intro-link { font-weight: 600; }
+      .cta-wrap { margin: 0; padding: 28px 0 40px; text-align: center; }
+      .cta { display: inline-block; font: inherit; font-weight: 600; padding: 10px 22px; border: 1px solid var(--box-ink); border-radius: 2px; background: var(--box-ink); color: #fff; text-decoration: none; }
+      .cta:focus-visible { outline: 2px solid var(--box-ink); outline-offset: 2px; }
       .apply .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
       .apply .small { margin: 12px 0 0; font-size: 14px; }
       .apply .status { margin: 12px 0 0; font-size: 15px; color: var(--box-ink); min-height: 1.5em; }
@@ -183,11 +188,25 @@
         <div class="intro">
           <p>Vi er et koselig lite konsulenthus med seniorutviklere som finner på mye sammen, både faglig og sosialt. Og flere av oss har faktisk liv utenom jobben også.</p>
           <p>Filosofien vår er enkel. Det er du som skaper verdiene. Da skal du også ha det største kakestykket. Samtidig har du verdens beste gjeng i ryggen, med tryggheten, nettverket og alle godene vi har bygget opp gjennom over 20 år i bransjen. Sammenlign oss med hvem som helst. Fordelene våre står under.</p>
+          <p><a class="intro-link" href="#kalkulator">Regn ut hvor mye du kan få i lønn →</a></p>
           <p>Nå ser vi etter noen nye nebb. Vi leter etter deg med fullstack-bakgrunn som bruker AI aktivt i arbeidshverdagen, har minst 7 års erfaring og elsker jobben som utvikler. Jobber du allerede som konsulent, er det bare positivt. Send oss et lite pip, så kan vi ta en kaffe og bli litt bedre kjent!</p>
         </div>
       </section>
 
       <div class="boxes">
+
+      <section class="cat crew-wrap">
+        <h2>Ducks i dag</h2>
+        <ul class="crew">
+            <li><a href="https://linkedin.com/in/cato-hauge-7b80401" target="_blank" rel="noopener noreferrer" aria-label="Cato Hauge på LinkedIn (åpnes i ny fane)"><img src="/cato-isolated.png" alt="Cato Hauge" width="167" height="250" loading="lazy" /><span>Cato</span></a></li>
+            <li><a href="https://linkedin.com/in/kennethleineschulstad" target="_blank" rel="noopener noreferrer" aria-label="Kenneth Leine Schulstad på LinkedIn (åpnes i ny fane)"><img src="/kenneth-isolated.png" alt="Kenneth Leine Schulstad" width="167" height="250" loading="lazy" /><span>Kenneth</span></a></li>
+            <li><a href="https://linkedin.com/in/schulstad" target="_blank" rel="noopener noreferrer" aria-label="Espen Schulstad på LinkedIn (åpnes i ny fane)"><img src="/espen-isolated.png" alt="Espen Schulstad" width="167" height="250" loading="lazy" /><span>Espen</span></a></li>
+            <li><a href="https://linkedin.com/in/arild-greni-52503018" target="_blank" rel="noopener noreferrer" aria-label="Arild Greni på LinkedIn (åpnes i ny fane)"><img src="/arild-isolated.png" alt="Arild Greni" width="167" height="250" loading="lazy" /><span>Arild</span></a></li>
+            <li><a href="https://linkedin.com/in/%C3%B8yvind-str%C3%B8mmen-27855146" target="_blank" rel="noopener noreferrer" aria-label="Øyvind Strømmen på LinkedIn (åpnes i ny fane)"><img src="/oyvind-isolated.png" alt="Øyvind Strømmen" width="167" height="250" loading="lazy" /><span>Øyvind</span></a></li>
+            <li><a href="https://linkedin.com/in/vegardh" target="_blank" rel="noopener noreferrer" aria-label="Vegard Haugstvedt på LinkedIn (åpnes i ny fane)"><img src="/vegard-isolated.png" alt="Vegard Haugstvedt" width="167" height="250" loading="lazy" /><span>Vegard</span></a></li>
+            <li><a href="https://linkedin.com/in/johannes-moskvil-41a32716a" target="_blank" rel="noopener noreferrer" aria-label="Johannes Moskvil på LinkedIn (åpnes i ny fane)"><img src="/johannes-isolated.png" alt="Johannes Moskvil" width="167" height="250" loading="lazy" /><span>Johannes</span></a></li>
+        </ul>
+      </section>
 
       <section class="cat apply" id="sok">
         <h2>La oss ta en prat</h2>
@@ -210,18 +229,21 @@
         </div>
       </section>
 
-      <section class="cat crew-wrap">
-        <h2>Ducks i dag</h2>
-        <ul class="crew">
-            <li><a href="https://linkedin.com/in/cato-hauge-7b80401" target="_blank" rel="noopener noreferrer" aria-label="Cato Hauge på LinkedIn (åpnes i ny fane)"><img src="/cato-isolated.png" alt="Cato Hauge" width="167" height="250" loading="lazy" /><span>Cato</span></a></li>
-            <li><a href="https://linkedin.com/in/kennethleineschulstad" target="_blank" rel="noopener noreferrer" aria-label="Kenneth Leine Schulstad på LinkedIn (åpnes i ny fane)"><img src="/kenneth-isolated.png" alt="Kenneth Leine Schulstad" width="167" height="250" loading="lazy" /><span>Kenneth</span></a></li>
-            <li><a href="https://linkedin.com/in/schulstad" target="_blank" rel="noopener noreferrer" aria-label="Espen Schulstad på LinkedIn (åpnes i ny fane)"><img src="/espen-isolated.png" alt="Espen Schulstad" width="167" height="250" loading="lazy" /><span>Espen</span></a></li>
-            <li><a href="https://linkedin.com/in/arild-greni-52503018" target="_blank" rel="noopener noreferrer" aria-label="Arild Greni på LinkedIn (åpnes i ny fane)"><img src="/arild-isolated.png" alt="Arild Greni" width="167" height="250" loading="lazy" /><span>Arild</span></a></li>
-            <li><a href="https://linkedin.com/in/%C3%B8yvind-str%C3%B8mmen-27855146" target="_blank" rel="noopener noreferrer" aria-label="Øyvind Strømmen på LinkedIn (åpnes i ny fane)"><img src="/oyvind-isolated.png" alt="Øyvind Strømmen" width="167" height="250" loading="lazy" /><span>Øyvind</span></a></li>
-            <li><a href="https://linkedin.com/in/vegardh" target="_blank" rel="noopener noreferrer" aria-label="Vegard Haugstvedt på LinkedIn (åpnes i ny fane)"><img src="/vegard-isolated.png" alt="Vegard Haugstvedt" width="167" height="250" loading="lazy" /><span>Vegard</span></a></li>
-            <li><a href="https://linkedin.com/in/johannes-moskvil-41a32716a" target="_blank" rel="noopener noreferrer" aria-label="Johannes Moskvil på LinkedIn (åpnes i ny fane)"><img src="/johannes-isolated.png" alt="Johannes Moskvil" width="167" height="250" loading="lazy" /><span>Johannes</span></a></li>
-        </ul>
-      </section>
+        <section class="cat" id="kalkulator">
+          <h2>Lønnskalkulator</h2>
+          <div class="box"><dl>
+            <div class="row"><dt><label for="rate">Timerate</label></dt><dd><input id="rate" type="number" inputmode="numeric" min="0" step="50" value="1600" /> kr/t</dd></div>
+            <div class="row"><dt><label for="hours">Fakturerbare timer per år</label></dt><dd><input id="hours" type="number" inputmode="numeric" min="0" step="50" value="1600" /> timer</dd></div>
+            <div class="row"><dt>70 % av fakturert</dt><dd id="o-base"></dd></div>
+            <div class="row"><dt>Arbeidsgiveravgift</dt><dd><span id="o-tax"></span> (14,1 % av lønnen)</dd></div>
+            <div class="row total"><dt>Til deg i året</dt><dd id="o-total"></dd></div>
+            <div class="row"><dt>Hvorav årslønn</dt><dd id="o-salary"></dd></div>
+            <div class="row"><dt>Hvorav feriepenger</dt><dd><span id="o-vac"></span> (12 % av lønnen)</dd></div>
+          </dl>
+          <p class="note">Av de 70 % betaler vi arbeidsgiveravgift, og resten går til årslønn og feriepenger. Beløpene er før skatt. Feriepenger er 12 % og arbeidsgiveravgiften 14,1 % av lønnen.</p></div>
+        </section>
+
+      <p class="cta-wrap"><a class="cta" href="#sok" data-cta="midt">Send oss et pip</a></p>
 
       <h2 class="lead">En liten oversikt over fordelene i Rubberduck</h2>
 
@@ -259,19 +281,7 @@
           </dl></div>
         </section>
 
-        <section class="cat" id="kalkulator">
-          <h2>Lønnskalkulator</h2>
-          <div class="box"><dl>
-            <div class="row"><dt><label for="rate">Timerate</label></dt><dd><input id="rate" type="number" inputmode="numeric" min="0" step="50" value="1600" /> kr/t</dd></div>
-            <div class="row"><dt><label for="hours">Fakturerbare timer per år</label></dt><dd><input id="hours" type="number" inputmode="numeric" min="0" step="50" value="1600" /> timer</dd></div>
-            <div class="row"><dt>70 % av fakturert</dt><dd id="o-base"></dd></div>
-            <div class="row"><dt>Arbeidsgiveravgift</dt><dd><span id="o-tax"></span> (14,1 % av lønnen)</dd></div>
-            <div class="row total"><dt>Til deg i året</dt><dd id="o-total"></dd></div>
-            <div class="row"><dt>Hvorav årslønn</dt><dd id="o-salary"></dd></div>
-            <div class="row"><dt>Hvorav feriepenger</dt><dd><span id="o-vac"></span> (12 % av lønnen)</dd></div>
-          </dl>
-          <p class="note">Av de 70 % betaler vi arbeidsgiveravgift, og resten går til årslønn og feriepenger. Beløpene er før skatt. Feriepenger er 12 % og arbeidsgiveravgiften 14,1 % av lønnen.</p></div>
-        </section>
+      <p class="cta-wrap"><a class="cta" href="#sok" data-cta="bunn">Send oss et pip</a></p>
       </div>
       </main>
     </div>
@@ -337,6 +347,18 @@
         var utm = {};
         try { var q = new URLSearchParams(location.search); utm = { source: q.get('utm_source') || undefined, campaign: q.get('utm_campaign') || undefined }; } catch (e) {}
         btn.addEventListener('click', function () { if (window.rdTrack) rdTrack('apply_click'); });
+        // «Send oss et pip»-knappene: scroll jevnt til skjemaet og fokuser navnefeltet. Uten JS virker href="#sok".
+        document.querySelectorAll('a.cta').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            if (window.rdTrack) rdTrack('apply_click', 'cta-' + a.getAttribute('data-cta'));
+            var target = document.getElementById('sok'); if (!target) return;
+            e.preventDefault();
+            var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+            target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+            try { history.replaceState(null, '', '#sok'); } catch (err) {}
+            setTimeout(function () { nameField.focus({ preventScroll: true }); }, reduce ? 0 : 600);
+          });
+        });
         // Én gang per sidevisning: når beskrivelsen går over 10 tegn.
         var started = false;
         document.getElementById('message').addEventListener('input', function (e) {
