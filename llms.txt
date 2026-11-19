@@ -1,0 +1,11 @@
+# Rubberduck Dev AS
+
+> Et lite norsk konsulenthus med seniorutviklere. Vi leter etter utviklere med fullstack-bakgrunn som bruker AI aktivt i arbeidshverdagen, har minst 7 års erfaring og elsker jobben som utvikler. Du som jobber som konsulent fra før er velkommen.
+
+Org.nr 988 353 612. Kontakt: hei@rubberduck.no
+
+## Sider
+
+- [Jobb hos oss](https://rubberduck.no/kode24/): hvem vi er, teamet, utstyr, lønn og pensjon, lønnskalkulator og søknadsskjema (ingen CV eller søknadsbrev nødvendig).
+- [Fordeler](https://rubberduck.no/fordeler/): oversikt over fordelene i Rubberduck.
+- [Forside](https://rubberduck.no/): om selskapet.

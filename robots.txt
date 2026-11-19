@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /live/
+Disallow: /intervju/
+
+Sitemap: https://rubberduck.no/sitemap.xml
