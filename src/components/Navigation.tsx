@@ -13,7 +13,7 @@ interface NavigationProps {
 
 // Desktop social media links component
 const DesktopSocialLinks = () => (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-1 lg:gap-4">
     <a
       href="https://www.instagram.com/rubberduck.no/"
       target="_blank"
@@ -75,7 +75,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
   };
 
   const getLinkClasses = (path: string) => {
-    const baseClasses = "relative py-1 transition-colors";
+    const baseClasses = "relative py-1 transition-colors whitespace-nowrap";
     const textClasses = isActive(path)
       ? "text-custom-dark dark:text-white font-medium"
       : "text-custom-dark/80 dark:text-white/80 hover:text-custom-dark dark:hover:text-white";
@@ -99,7 +99,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
     >
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-6 lg:gap-12">
             <Link
               to="/"
               className="flex items-center gap-3 group min-w-0"
@@ -111,7 +111,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
                 darkMode ? 'text-white' : '[filter:brightness(0)]'
               }`} />
             </Link>
-            <div className="hidden md:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-4 lg:gap-6">
               <Link
                 to="/jobs"
                 className={getLinkClasses('/jobs')}
@@ -146,7 +146,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
               )}
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 lg:gap-4">
             {/* Desktop social media links */}
             <div className="hidden md:block">
               <DesktopSocialLinks />

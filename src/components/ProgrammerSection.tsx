@@ -206,9 +206,17 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
           {/* Programmer */}
           <button
             onClick={() => setIsTerminalOpen(true)}
-            className="absolute left-[40px] bottom-0 w-[300px] h-auto z-50 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current motion-safe:active:scale-[0.98] transition-transform"
+            className="group absolute left-[40px] bottom-0 w-[300px] h-auto z-50 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current motion-safe:active:scale-[0.98] transition-transform"
             aria-label="Åpne terminalen"
           >
+            {/* Mykt, rundt lys bak figuren ved hover og fokus. Ikke et omriss, så det ikke flimrer i stolen og beina. */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-x-6 -inset-y-4 -z-10 rounded-full opacity-0 transition-opacity duration-500
+                bg-[radial-gradient(closest-side,rgb(255_255_255/.75),rgb(255_255_255/.35)_55%,transparent)]
+                dark:bg-[radial-gradient(closest-side,rgb(253_224_71/.5),rgb(253_224_71/.2)_55%,transparent)]
+                group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+            />
             <img
               src={currentImage}
               alt=""
