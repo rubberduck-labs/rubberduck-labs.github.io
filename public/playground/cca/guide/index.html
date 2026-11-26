@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A one-page, to-the-point study guide for Claude Certified Architect – Foundations: decision rules for all 30 exam tasks.">
+<title>CCA Study Guide</title>
+<script src="/t.js" defer></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #fbfbfa; --fill: #f0f0ee; --fg: #1c1c1a; --muted: #6b6b66; --accent: #2b50d6;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #161615; --fill: #222220; --fg: #ececea; --muted: #9a9a94; --accent: #8aa2ff; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #161615; --fill: #222220; --fg: #ececea; --muted: #9a9a94; --accent: #8aa2ff; color-scheme: dark }
+* { box-sizing: border-box }
+html { scroll-padding-top: 16px }
+body { background: var(--bg); color: var(--fg); font: 16px/1.6 var(--sans);
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px }
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px }
+h1 { font-size: 1.6rem; font-weight: 600; line-height: 1.25; margin: 0 }
+.sub { color: var(--muted); margin: 4px 0 0 }
+nav { display: flex; flex-wrap: wrap; gap: 4px 20px }
+nav a { color: var(--muted); font-weight: 500; font-size: .95rem; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent }
+nav a:hover { color: var(--fg); border-bottom-color: var(--accent) }
+nav a:first-child { color: var(--accent) }
+main { display: flex; flex-direction: column; gap: 32px }
+section h2 { font-size: 1.15rem; font-weight: 600; margin: 0 0 10px; display: flex; gap: 10px; align-items: baseline }
+section h2 .w { color: var(--muted); font-weight: 500; font-size: .9rem; font-variant-numeric: tabular-nums }
+ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px }
+li { max-width: 68ch }
+b { font-weight: 600 }
+code { font: .88em var(--mono); background: var(--fill); padding: 1px 4px; border-radius: 3px; overflow-wrap: anywhere }
+a { color: var(--accent); text-underline-offset: 2px }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+footer { color: var(--muted); font-size: .85rem; display: flex; flex-direction: column; gap: 10px; margin-top: 8px }
+footer p { margin: 0 }
+footer .made { color: var(--fg) }
+@media print { nav { display: none } body { padding-block: 0 } a { color: inherit } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>CCA Study Guide</h1>
+    <p class="sub">Claude Certified Architect – Foundations, on one page. Decision rules for the exam guide's 30 tasks.</p>
+  </header>
+  <nav aria-label="Sections">
+    <a href="https://rubberduck.no/playground/cca/">Practice test</a>
+    <a href="#agents">Agents</a>
+    <a href="#tools">Tools & MCP</a>
+    <a href="#claude-code">Claude Code</a>
+    <a href="#prompting">Prompting</a>
+    <a href="#context">Context</a>
+  </nav>
+  <main>
+    <section aria-labelledby="exam">
+      <h2 id="exam">The exam</h2>
+      <ul>
+        <li>60 questions in 120 minutes. Some ask for one answer, some for several; each says how many.</li>
+        <li>4 scenarios drawn from 6: customer support agent, code generation with Claude Code, multi-agent research, developer productivity, Claude Code in CI, structured data extraction.</li>
+        <li>Pass: scaled score 720 of 1,000. Weights: agents 27%, tools & MCP 18%, Claude Code 20%, prompting 20%, context 15%.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="agents">
+      <h2 id="agents">Agent architecture <span class="w">27%</span></h2>
+      <ul>
+        <li><b>Loop:</b> continue while <code>stop_reason</code> is <code>tool_use</code>; stop on <code>end_turn</code>. Append the full assistant content and the tool results. Don't stop on wording, on a text block or on an iteration cap.</li>
+        <li><b>Coordinator:</b> hub and spoke. It picks the subagents a query needs, splits scope to avoid overlap, checks the synthesis for gaps and re-delegates. All traffic goes through it.</li>
+        <li><b>Subagents:</b> start empty. Put findings and sources in the prompt. Allow the spawning tool (<code>Agent</code>, formerly <code>Task</code>). Several calls in one response run in parallel. Give goals and quality criteria, not steps.</li>
+        <li><b>Guarantees need code:</b> prompts fail sometimes. Use hooks or gates for order and limits: <code>PreToolUse</code> blocks a call, <code>PostToolUse</code> normalises results.</li>
+        <li><b>Decomposition:</b> fixed chain for predictable work; adaptive plan for open-ended work. Big reviews: per-file passes, then a cross-file pass.</li>
+        <li><b>Sessions:</b> <code>--resume &lt;name&gt;</code> when earlier results still hold, and say which files changed. Fresh session with a summary when they're stale. <code>fork_session</code> to compare approaches.</li>
+        <li><b>Handoff to a human:</b> customer ID, what was checked, root cause, recommended action.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="tools">
+      <h2 id="tools">Tools & MCP <span class="w">18%</span></h2>
+      <ul>
+        <li><b>Descriptions choose the tool.</b> Say what it does, its inputs, edge cases, and when to use it instead of a similar tool. Rename or split overlapping tools. Check the system prompt for wording that pulls toward one tool.</li>
+        <li><b>Errors:</b> set <code>isError</code> with a category (transient, validation, business, permission) and whether it's retryable. An empty result is a success, not a failure.</li>
+        <li><b>Distribution:</b> 4–5 tools per agent, scoped to its role. Add a narrow cross-role tool for frequent needs.</li>
+        <li><b><code>tool_choice</code>:</b> <code>auto</code> may answer in text, <code>any</code> forces some tool, a named tool forces that one. See the compatibility note.</li>
+        <li><b>MCP in Claude Code:</b> team servers in <code>.mcp.json</code> with <code>${TOKEN}</code> expansion; personal ones in <code>~/.claude.json</code>. Expose catalogues as resources. Prefer existing community servers for standard systems.</li>
+        <li><b>Built-in tools:</b> Glob finds files by name, Grep finds text in files. If Edit can't find a unique match, Read then Write. Explore from entry points; don't read everything.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="claude-code">
+      <h2 id="claude-code">Claude Code <span class="w">20%</span></h2>
+      <ul>
+        <li><b>CLAUDE.md:</b> user (<code>~/.claude/CLAUDE.md</code>, not shared), project (committed), subdirectory. <code>@path</code> imports keep it modular. <code>/memory</code> shows what's loaded.</li>
+        <li><b>Rules:</b> <code>.claude/rules/*.md</code> with <code>paths: ["**/*.test.tsx"]</code> load only for matching files, across directories.</li>
+        <li><b>Commands and skills:</b> team ones in <code>.claude/commands/</code> and <code>.claude/skills/</code>, personal ones in <code>~/.claude/</code>. Skill frontmatter: <code>context: fork</code> isolates output, <code>disallowed-tools</code> removes tools, <code>allowed-tools</code> pre-approves tools, <code>argument-hint</code> asks for input. Skills load on demand; CLAUDE.md always loads.</li>
+        <li><b>Plan mode</b> for large, multi-file or architectural work; direct execution for small, clear fixes. The Explore subagent keeps discovery out of the main context.</li>
+        <li><b>Iterating:</b> 2–3 input/output examples, tests first, the interview pattern. Send interacting problems together, independent ones one by one.</li>
+        <li><b>CI:</b> <code>-p</code>, <code>--output-format json --json-schema</code>, project context in CLAUDE.md. Review with a separate instance, and pass earlier findings so only new issues are reported.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="prompting">
+      <h2 id="prompting">Prompting & structured output <span class="w">20%</span></h2>
+      <ul>
+        <li><b>Explicit criteria</b> beat "be conservative" or confidence thresholds. Define what to report and what to skip, with an example per severity. Switch off a category with many false alarms while you fix it.</li>
+        <li><b>Few-shot:</b> targeted, varied examples that show the reasoning for ambiguous cases. The guide says 2–4; the prompting docs say 3–5.</li>
+        <li><b>Schemas</b> remove syntax errors, not semantic ones. Make missing fields nullable, add <code>"other"</code> plus a detail field to enums, and include normalisation rules.</li>
+        <li><b>Retries</b> include the document, the failed output and the specific error. They don't help when the information isn't there. Extract a calculated total next to the stated one to catch mismatches.</li>
+        <li><b>Batches:</b> about 50% cheaper, up to 24 hours, no tool calls mid-request. Not for anything someone waits on. Resubmit only failed <code>custom_id</code>s.</li>
+        <li><b>Review:</b> an independent instance catches more than self-review or more thinking.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="context">
+      <h2 id="context">Context & reliability <span class="w">15%</span></h2>
+      <ul>
+        <li><b>Case facts:</b> keep amounts, dates, IDs and promises in a block that is never summarised. Trim tool output to the fields that matter. Put key findings first; models miss the middle of long inputs.</li>
+        <li><b>Escalate</b> when the customer asks for a human (right away), when policy doesn't cover the request, or when there's no progress. Not on sentiment or self-rated confidence. Several matches: ask for another identifier.</li>
+        <li><b>Errors between agents:</b> retry transient failures locally; otherwise pass on the failure type, what was tried, partial results and alternatives. Never report a failure as an empty result.</li>
+        <li><b>Long exploration:</b> scratchpad files for findings, subagents for verbose searches, manifests for crash recovery, <code>/compact</code> when context fills.</li>
+        <li><b>Human review:</b> measure accuracy per document type and field, not just overall. Sample high-confidence results too. Calibrate confidence on labelled data.</li>
+        <li><b>Provenance:</b> keep claim-to-source links and dates through synthesis. Report conflicting figures with both sources.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="compat">
+      <h2 id="compat">Exam guide vs current models</h2>
+      <ul>
+        <li>The guide teaches <code>tool_choice</code> <code>any</code> and forced tools. Claude Opus 5.5 and Sonnet 5.5 reject both; use <code>auto</code> with clear instructions, or structured outputs (<code>output_config.format</code>).</li>
+        <li>The guide calls the subagent tool <code>Task</code>; current SDKs call it <code>Agent</code>.</li>
+        <li>Assistant prefill is rejected on current models; use structured outputs.</li>
+        <li>The guide describes a skill's <code>allowed-tools</code> as a restriction. In current Claude Code it pre-approves tools; <code>disallowed-tools</code> removes them.</li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>Sources: the <a href="https://cc.sj-cdn.net/instructor/6nizmqk8tpzpfjvt6qmmav7rh/public/1794946250/Claude_Certified_Architect_-_Foundations_Exam_Guide.pdf" target="_blank" rel="noopener">official exam guide</a> (v1.1), the <a href="https://platform.claude.com/docs/en/home" target="_blank" rel="noopener">Claude</a>, <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code</a> and <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener">MCP</a> docs, and Anthropic's <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a>, <a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noopener">Writing tools for agents</a> and <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">multi-agent research</a> posts. Unofficial. Checked 26 November 2026.</p>
+    <p class="made">Made by <a href="https://rubberduck.no" target="_blank" rel="noopener">Rubberduck</a> ❤️ with Claude</p>
+  </footer>
+</div>
+</body>
+</html>
