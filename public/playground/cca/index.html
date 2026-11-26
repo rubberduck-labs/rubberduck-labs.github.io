@@ -34,7 +34,8 @@ nav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 
 .set-note { color: var(--muted); font-size: .9rem; margin: -20px 0 0 }
 .progress { height: 3px; background: var(--fill); border-radius: 2px; overflow: hidden; margin-bottom: -16px }
 .progress i { display: block; height: 100%; background: var(--accent) }
-main { display: flex; flex-direction: column; gap: 20px }
+.test { display: flex; flex-direction: column; gap: 32px }
+#sheet { display: flex; flex-direction: column; gap: 20px }
 .meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums }
 .q { font-size: 1.2rem; font-weight: 500; line-height: 1.45; margin: 0 }
 .q:focus, .score:focus { outline: none }
@@ -42,7 +43,7 @@ main { display: flex; flex-direction: column; gap: 20px }
 .opt { width: 100%; text-align: left; display: flex; gap: 14px; border: 0; border-radius: 6px; background: var(--fill); color: var(--fg); font: inherit; font-size: .97rem; padding: 12px 16px; cursor: pointer }
 .opt:hover:not(:disabled) { background: var(--fill-hover) }
 .opt .k { color: var(--muted); font-weight: 500; flex: none }
-.opt.sel { background: var(--accent); color: var(--on-accent) }
+.opt.sel, .opt.sel:hover:not(:disabled) { background: var(--accent); color: var(--on-accent) }
 .opt.sel .k { color: inherit }
 .opt.right { background: var(--good-fill) }
 .opt.wrong { background: var(--bad-fill) }
@@ -57,10 +58,11 @@ a { color: var(--accent); text-underline-offset: 2px }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: center }
 .btn { border: 0; border-radius: 6px; background: var(--fill); color: var(--fg); font: 500 .95rem var(--sans); padding: 10px 18px; cursor: pointer }
 .btn:hover:not(:disabled) { background: var(--fill-hover) }
-.btn.primary { background: var(--accent); color: var(--on-accent) }
+.btn.primary, .btn.primary:hover:not(:disabled) { background: var(--accent); color: var(--on-accent) }
 .btn.primary:hover:not(:disabled) { filter: brightness(1.08) }
 .btn:disabled { opacity: .4; cursor: default }
-.btn.quiet { background: none; padding-inline: 0; color: var(--muted) }
+.btn.quiet, .btn.quiet:hover:not(:disabled) { background: none; padding-inline: 0; color: var(--muted) }
+.btn.quiet:hover:not(:disabled) { color: var(--fg) }
 .score { display: flex; flex-direction: column; gap: 4px }
 .score b { font-size: 3rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums }
 .verdict.ok { color: var(--good) } .verdict.no { color: var(--bad) } .verdict.sub { color: var(--muted) }
@@ -100,9 +102,11 @@ footer .made { color: var(--fg); margin-top: 8px }
   <nav aria-label="Choose test">
     <div class="tabs" id="sets" role="group" aria-label="Question set"></div>
   </nav>
-  <p class="set-note" id="set-note"></p>
-  <div class="progress" id="progress" aria-hidden="true"></div>
-  <main id="sheet" aria-live="polite"></main>
+  <main class="test">
+    <p class="set-note" id="set-note"></p>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <div id="sheet" aria-live="polite"></div>
+  </main>
   <footer>
     <h2>Study material</h2>
     <ul class="sources">
