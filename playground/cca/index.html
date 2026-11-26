@@ -97,6 +97,9 @@ footer .made { color: var(--fg) }
 .verdict.ok { color: var(--good) } .verdict.no { color: var(--bad) } .verdict.sub { color: var(--muted) }
 .score .fine { color: var(--muted); font-size: .85rem; margin-top: 4px; max-width: 60ch }
 #sheet h2 { margin-top: 8px }
+.askc, .plan { color: var(--muted); font-size: .9rem }
+.linkbtn { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer }
+.askc textarea, .plan textarea { display: block; margin-top: 8px }
 .group { display: flex; flex-direction: column; gap: 10px }
 .drow { display: grid; grid-template-columns: minmax(0, 11rem) 1fr 3.5rem; gap: 16px; align-items: center; font-size: .95rem }
 .bar { height: 6px; background: var(--fill); border-radius: 3px; overflow: hidden }
@@ -345,6 +348,22 @@ function links(q) {
   own.push(`<a href="${GUIDE}${ANCHORS[q.d]}/">Study guide: ${DOMAINS[q.d]}</a>`);
   return `<span class="read">Read more: ${own.join(" · ")}</span>`;
 }
+const strip = s => s.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+const claudeUrl = t => "https://claude.ai/new?q=" + encodeURIComponent(t);
+function copyText(text, btn, label) {
+  const done = () => { btn.textContent = label; };
+  const fallback = () => { let ta = btn.parentElement.querySelector("textarea"); if (!ta) { ta = document.createElement("textarea"); ta.setAttribute("aria-label", "Prompt to copy"); ta.rows = 6; btn.parentElement.append(ta); } ta.value = text; ta.focus(); ta.select(); btn.textContent = "Select all and copy"; };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+}
+function askPrompt(qi) {
+  const q = Q[qi], perm = S.perm[qi], p = S.pick[qi], letter = oi => LETTERS[perm.indexOf(oi)];
+  const mine = (Array.isArray(p) ? p : [p]).filter(x => x !== undefined).map(letter).join(" and ") || "none";
+  const right = q.o.slice(0, nOf(q)).map((_, oi) => letter(oi)).join(" and ");
+  return ["I'm studying for Anthropic's Claude Certified Architect – Foundations exam (guide v1.1). Help me with this practice question.", "",
+    "Question: " + strip(q.q), ...perm.map((oi, k) => LETTERS[k] + ". " + strip(q.o[oi])), "",
+    "My answer: " + mine, "Correct answer: " + right, "Explanation on the site: " + strip(q.w), "",
+    "Explain why the correct answer is right" + (correct(qi) ? "" : " and why mine is wrong") + ", based on Anthropic's current docs. Then ask me one similar question and wait for my answer."].join("\n");
+}
 function rightText(q) { return q.o.slice(0, nOf(q)).join(" + "); }
 function pickedText(q, p) { if (p === undefined || (Array.isArray(p) && !p.length)) return "none"; return (Array.isArray(p) ? p : [p]).map(i => q.o[i]).join(" + "); }
 
@@ -386,7 +405,7 @@ function renderQuestion() {
     <p class="q" id="qtext" tabindex="-1">${q.q}</p>
     ${n > 1 && !reveal ? `<p class="hint">Select ${n === 2 ? "two" : n}. ${Array.isArray(picked) ? picked.length : 0} of ${n} selected.</p>` : ""}
     <ul class="opts">${opts}</ul>
-    ${reveal ? `<div class="why"><span><b class="${correct(qi) ? "ok" : "no"}">${correct(qi) ? "Correct." : "Not quite."}</b> ${q.w}</span>${links(q)}</div>` : ""}
+    ${reveal ? `<div class="why"><span><b class="${correct(qi) ? "ok" : "no"}">${correct(qi) ? "Correct." : "Not quite."}</b> ${q.w}</span>${links(q)}<span class="askc">Ask Claude about this question: <button class="linkbtn" id="ask-copy">Copy prompt</button> · <a href="${claudeUrl(askPrompt(qi))}" target="_blank" rel="noopener">Open in Claude</a></span></div>` : ""}
     <div class="actions"><button class="btn" id="back" ${S.pos === 0 ? "disabled" : ""}>Back</button><button class="btn primary" id="go" ${!ready && !reveal ? "disabled" : ""}>${label}</button></div>`;
   $("sheet").querySelectorAll(".opt").forEach(b => b.onclick = () => {
     if (!Object.keys(S.pick).length) track("cca_start", setInfo(ST.set).label + (ST.set === "all" && ST.area !== "all" ? " " + DOMAINS[+ST.area] : ""));
@@ -400,6 +419,7 @@ function renderQuestion() {
     }
     focusNext = `.opt[data-oi="${oi}"]`; save(); render();
   });
+  if (reveal) $("ask-copy").onclick = e => copyText(askPrompt(qi), e.currentTarget, "Copied. Paste it in Claude");
   $("back").onclick = () => { S.pos--; focusNext = "#qtext"; save(); render(); };
   $("go").onclick = () => {
     if (!reveal) { S.shown[qi] = true; focusNext = "#go"; }
@@ -423,6 +443,15 @@ function renderResults() {
   const setName = setInfo(ST.set).label + (ST.set === "all" && ST.area !== "all" ? " · " + DOMAINS[+ST.area] : "");
   const byDomain = DOMAINS.map((name, d) => [name, S.order.filter(qi => Q[qi].d === d)]);
   const missed = S.order.filter(qi => !correct(qi));
+  const planText = [`I'm studying for Anthropic's Claude Certified Architect – Foundations exam (guide v1.1). My practice results (${setName}, ${S.full ? "full run" : "retry of missed"}): ${ok} of ${n} (${pct}%).`,
+    ...byDomain.filter(([, ids]) => ids.length).map(([name, ids]) => `${name}: ${ids.filter(correct).length} of ${ids.length}`), "", "Questions I missed:",
+    ...missed.map(qi => { const q = Q[qi]; return `- [${q.t ? "task " + q.t + ", " : ""}${DOMAINS[q.d]}] ${strip(q.q)} My answer: ${strip(pickedText(q, S.pick[qi]))}. Correct: ${strip(rightText(q))}.`; }), "",
+    "Make me a short study plan for the weakest areas, pointing to the exam guide tasks and Anthropic's docs. Then quiz me on the first topic, one question at a time."].join("\n");
+  const cut = t => t.length > 120 ? t.slice(0, 117) + "…" : t;
+  const planLink = [`I'm studying for Anthropic's Claude Certified Architect – Foundations exam (guide v1.1). My practice results (${setName}): ${ok} of ${n} (${pct}%).`,
+    ...byDomain.filter(([, ids]) => ids.length).map(([name, ids]) => `${name}: ${ids.filter(correct).length} of ${ids.length}`), "", "Questions I missed:",
+    ...missed.map(qi => { const q = Q[qi]; return `- ${q.t ? "Task " + q.t + ", " : ""}${DOMAINS[q.d]}: ${cut(strip(q.q))}`; }), "",
+    "Make me a short study plan for the weakest areas, pointing to the exam guide tasks and Anthropic's docs. Then quiz me on the first topic, one question at a time."].join("\n");
   const verdict = S.full
     ? `<span class="verdict ${pct >= 80 ? "ok" : "no"}">${pct}% · ${pct >= 80 ? "At or above our 80% practice target." : "Below our 80% practice target. Study the areas in red, then try again."}</span>`
     : `<span class="verdict sub">${pct}% on a retry of ${n} question${n === 1 ? "" : "s"}. Take a full run to see where you stand.</span>`;
@@ -435,23 +464,12 @@ function renderResults() {
     <div class="meta"><span>${setName}</span><span>Results</span></div>
     <div class="score" id="score" tabindex="-1"><b>${ok} of ${n}</b>${verdict}<span class="fine">80% is our practice target, not a pass prediction. The real exam reports a scaled score from 100 to 1,000 and passes at 720.</span></div>
     ${bars("By area", byDomain)}
-    <div class="actions"><button class="btn" id="again">${ST.set === "quick" ? "New Quick 25" : "Start a full run"}</button><button class="btn quiet" id="copy">Copy results for Claude</button>${missed.length ? `<button class="btn primary" id="retry">Retry the ${missed.length} I missed</button>` : ""}</div>
-    <textarea id="report" readonly hidden rows="6" aria-label="Results summary"></textarea>
+    <div class="actions"><button class="btn" id="again">${ST.set === "quick" ? "New Quick 25" : "Start a full run"}</button><span class="plan">Make a study plan with Claude: <button class="linkbtn" id="copy">Copy prompt</button> · <a href="${claudeUrl(planLink)}" target="_blank" rel="noopener">Open in Claude</a></span>${missed.length ? `<button class="btn primary" id="retry">Retry the ${missed.length} I missed</button>` : ""}</div>
     ${missed.length ? `<h2>Missed</h2><ul class="review">${missed.map(item).join("")}</ul>` : ""}
     ${missed.length < n ? `<h2>Correct</h2><ul class="review">${S.order.filter(correct).map(item).join("")}</ul>` : ""}`;
   $("again").onclick = () => replace(fresh());
   if (missed.length) $("retry").onclick = () => replace(fresh(missed));
-  $("copy").onclick = () => {
-    const strip = s => s.replace(/<[^>]+>/g, "").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-    const lines = [`CCA practice results (${setName}, ${S.full ? "full run" : "retry of missed"}): ${ok} of ${n} (${pct}%)`];
-    byDomain.forEach(([name, ids]) => { if (ids.length) lines.push(`${name}: ${ids.filter(correct).length} of ${ids.length}`); });
-    missed.forEach(qi => { const q = Q[qi]; lines.push(`MISSED [${q.t ? "task " + q.t + " · " : ""}${DOMAINS[q.d]}] ${strip(q.q)} | picked: ${strip(pickedText(q, S.pick[qi]))} | correct: ${strip(rightText(q))}`); });
-    lines.push("Please make me a short study plan from this, pointing to the exam guide tasks and the docs.");
-    const text = lines.join("\n"), ta = $("report"), btn = $("copy");
-    ta.value = text; ta.hidden = false;
-    const fallback = () => { ta.focus(); ta.select(); btn.textContent = "Select all and copy"; };
-    try { navigator.clipboard.writeText(text).then(() => { btn.textContent = "Copied. Paste it in a chat with Claude"; }, fallback); } catch (e) { fallback(); }
-  };
+  $("copy").onclick = e => copyText(planText, e.currentTarget, "Copied. Paste it in Claude");
 }
 
 ST = load(); S = current(); syncHash();
