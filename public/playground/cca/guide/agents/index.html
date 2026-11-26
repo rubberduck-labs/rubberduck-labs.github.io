@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="What to remember about Agent architecture for Claude Certified Architect – Foundations.">
+<title>Agent architecture – CCA Study Guide</title>
+<script src="/t.js" defer></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+:root {
+  --bg: #fbfbfa; --panel: #f1f1ee; --opt: #ffffff; --opt-hover: #f6f6f3; --fill: #ebebe8; --line: #e2e2de;
+  --fg: #1c1c1a; --muted: #67675f; --accent: #2b50d6; --on-accent: #ffffff;
+  --good: #186638; --good-fill: #e1f0e6; --bad: #b3392d; --bad-fill: #f7e3df;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #151514; --panel: #1d1d1b; --opt: #262624; --opt-hover: #2d2d2a; --fill: #2f2f2c; --line: #2c2c29;
+  --fg: #ececea; --muted: #a0a09a; --accent: #8aa2ff; --on-accent: #10131f;
+  --good: #72cf98; --good-fill: #1a2d20; --bad: #f0907f; --bad-fill: #361d19; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #151514; --panel: #1d1d1b; --opt: #262624; --opt-hover: #2d2d2a; --fill: #2f2f2c; --line: #2c2c29;
+  --fg: #ececea; --muted: #a0a09a; --accent: #8aa2ff; --on-accent: #10131f;
+  --good: #72cf98; --good-fill: #1a2d20; --bad: #f0907f; --bad-fill: #361d19; color-scheme: dark }
+* { box-sizing: border-box }
+html { scroll-padding-top: 16px }
+body { background: var(--bg); color: var(--fg); font: 16px/1.6 var(--sans);
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px }
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px }
+a { color: var(--accent); text-underline-offset: 2px }
+a:focus-visible, button:focus-visible, summary:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+code { font: .9em var(--mono); background: var(--fill); padding: 1px 4px; border-radius: 3px; overflow-wrap: anywhere }
+
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line) }
+.brand { font-size: 1.1rem; font-weight: 600; line-height: 1.3; margin: 0; color: var(--fg); text-decoration: none }
+a.brand:hover { color: var(--accent) }
+.tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px }
+.tabs .group { display: contents }
+.tabs a, .tabs button { background: none; border: 0; padding: 4px 0; font: 500 .95rem var(--sans); color: var(--muted); cursor: pointer; text-decoration: none; border-bottom: 2px solid transparent }
+.tabs a:hover, .tabs button:hover { color: var(--fg) }
+.tabs [aria-pressed="true"], .tabs [aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent) }
+
+h1 { font-size: 1.5rem; font-weight: 600; line-height: 1.25; margin: 0 }
+h2 { font-size: 1.05rem; font-weight: 600; margin: 0 }
+.lead { color: var(--muted); margin: 6px 0 0 }
+
+footer { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px 40px; color: var(--muted); font-size: .9rem; padding-top: 20px; border-top: 1px solid var(--line) }
+footer h2 { color: var(--fg); font-size: .95rem; margin-bottom: 8px }
+footer p { margin: 0 0 8px }
+footer ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px }
+footer .made { color: var(--fg) }
+@media (max-width: 600px) { footer { grid-template-columns: 1fr } }
+@media (max-width: 480px) { body { padding-block: 20px 48px } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+
+.topics { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: .9rem; margin-top: -12px }
+.topics a { color: var(--muted); text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent }
+.topics a:hover { color: var(--fg) }
+.topics a[aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent) }
+main { display: flex; flex-direction: column; gap: 28px }
+.weight { color: var(--muted); font-weight: 500; font-size: 1rem; margin-left: 8px }
+section { display: flex; flex-direction: column; gap: 12px }
+.rules { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px }
+.rules li { background: var(--panel); border-radius: 6px; padding: 12px 16px }
+.rules b { font-weight: 600 }
+.pairs { width: 100%; border-collapse: collapse; font-size: .95rem }
+.pairs th { text-align: left; font-weight: 600; padding: 0 12px 8px 0; color: var(--muted); font-size: .85rem }
+.pairs td { padding: 10px 12px 10px 0; vertical-align: top; border-top: 1px solid var(--line) }
+.pairs td:first-child { width: 50% }
+.recall { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px }
+.recall details { background: var(--panel); border-radius: 6px; padding: 12px 16px }
+.recall summary { cursor: pointer; font-weight: 500 }
+.recall details p { margin: 8px 0 0; color: var(--fg) }
+.recall .reveal { color: var(--muted); font-weight: 400; font-size: .85rem; margin-left: 6px }
+.recall details[open] .reveal { display: none }
+.cta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px }
+.btn { display: inline-block; background: var(--accent); color: var(--on-accent); font-weight: 500; text-decoration: none; padding: 10px 18px; border-radius: 6px }
+.btn:hover { filter: brightness(1.08) }
+.pn { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .95rem }
+.overview { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px }
+.overview a { display: flex; justify-content: space-between; gap: 12px; background: var(--panel); border-radius: 6px; padding: 14px 16px; color: var(--fg); text-decoration: none; font-weight: 500 }
+.overview a:hover { background: var(--fill) }
+.overview span { color: var(--muted); font-weight: 400 }
+.facts { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px }
+@media print { .top, .topics, .cta, .pn { display: none } .recall details { break-inside: avoid } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/playground/cca/">CCA Practice Test</a>
+    <nav class="tabs" aria-label="Main">
+      <a href="/playground/cca/#quick">Quick 25</a>
+      <a href="/playground/cca/#all">All questions</a>
+      <a href="/playground/cca/guide/" aria-current="page">Study guide</a>
+    </nav>
+  </header>
+  <nav class="topics" aria-label="Study guide topics"><a href="/playground/cca/guide/">Overview</a><a href="/playground/cca/guide/agents/" aria-current="page">Agents</a><a href="/playground/cca/guide/tools/">Tools &amp; MCP</a><a href="/playground/cca/guide/claude-code/">Claude Code</a><a href="/playground/cca/guide/prompting/">Prompting</a><a href="/playground/cca/guide/context/">Context</a></nav>
+  <main>
+    <div>
+      <h1>Agent architecture<span class="weight">27% of the exam</span></h1>
+    </div>
+    <section aria-labelledby="remember"><h2 id="remember">Remember</h2><ul class="rules"><li><b>Loop on the stop reason.</b> Continue while <code>stop_reason</code> is <code>tool_use</code>; stop on <code>end_turn</code>. Never on wording, a text block or a turn cap.</li><li><b>Subagents start empty.</b> Everything they need goes in their prompt: findings, sources, goal, output format.</li><li><b>Spawn with the <code>Agent</code> tool</b> (formerly <code>Task</code>). It must be in <code>allowedTools</code>. Several calls in one response run in parallel.</li><li><b>The coordinator is the hub.</b> It picks subagents, splits scope, checks for gaps and routes all messages.</li><li><b>Guarantees live in code, not prompts.</b> <code>PreToolUse</code> blocks a call; <code>PostToolUse</code> fixes a result.</li><li><b>Chain when the steps are known; plan adaptively when they aren't.</b> Big reviews: per file, then across files.</li><li><b>Sessions:</b> <code>--resume</code> when old results still hold; fresh session plus summary when they're stale; <code>fork_session</code> to compare two ideas.</li><li><b>Handoffs to a human</b> carry customer ID, what was checked, root cause and the recommended action.</li></ul></section>
+    <section aria-labelledby="pairs"><h2 id="pairs">Don't mix up</h2><table class="pairs"><tbody><tr><td><code>PreToolUse</code>: before the call. Can block it.</td><td><code>PostToolUse</code>: after the call. Can change the result.</td></tr><tr><td>Prompt chaining: fixed steps, known in advance.</td><td>Orchestrator-workers: steps decided at run time.</td></tr><tr><td><code>--resume</code>: continue when earlier results still hold.</td><td><code>fork_session</code>: branch from the same point to compare.</td></tr><tr><td>Prompt rule: usually followed.</td><td>Hook or gate: always enforced.</td></tr></tbody></table></section>
+    <section aria-labelledby="recall"><h2 id="recall">Test yourself</h2><p class="lead" style="margin:0">Answer in your head, then check.</p><ul class="recall"><li><details><summary>Your loop ends when Claude writes "Done". What's wrong?<span class="reveal">Show answer</span></summary><p>Loops stop on <code>stop_reason</code>, not on wording. Continue on <code>tool_use</code>, stop on <code>end_turn</code>.</p></details></li><li><details><summary>The coordinator never delegates. First thing to check?<span class="reveal">Show answer</span></summary><p>Whether <code>allowedTools</code> includes the subagent tool (<code>Agent</code>, formerly <code>Task</code>).</p></details></li><li><details><summary>How do two subagents run at the same time?<span class="reveal">Show answer</span></summary><p>The coordinator emits both subagent calls in one response.</p></details></li><li><details><summary>Refunds above $500 must never run automatically. How?<span class="reveal">Show answer</span></summary><p>A <code>PreToolUse</code> hook that blocks the call and tells the agent to escalate.</p></details></li><li><details><summary>The files changed since yesterday's session. Resume or start fresh?<span class="reveal">Show answer</span></summary><p>Fresh session with a summary if most results are stale; resume and name the changed files if only a few changed.</p></details></li></ul></section>
+    <div class="cta"><a class="btn" href="/playground/cca/#agents">Practise this area</a><span class="lead" style="margin:0">All Agent architecture questions in the test</span></div>
+    <nav class="pn" aria-label="Previous and next"><a href="/playground/cca/guide/">← Overview</a><a href="/playground/cca/guide/tools/">Tools &amp; MCP →</a></nav>
+  </main>
+  <footer>
+    <div>
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://cc.sj-cdn.net/instructor/6nizmqk8tpzpfjvt6qmmav7rh/public/1794946250/Claude_Certified_Architect_-_Foundations_Exam_Guide.pdf" target="_blank" rel="noopener">Official exam guide</a> (PDF, v1.1)</li>
+        <li><a href="https://platform.claude.com/docs/en/home" target="_blank" rel="noopener">Claude</a>, <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code</a> and <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener">MCP</a> docs</li>
+        <li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a>, <a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noopener">Writing tools for agents</a>, <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">Multi-agent research</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>About</h2>
+      <p>Unofficial. Checked against exam guide v1.1 and the docs on 26 November 2026.</p>
+      <p class="made">Made by <a href="https://rubberduck.no" target="_blank" rel="noopener">Rubberduck</a> ❤️ with Claude</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
