@@ -82,6 +82,13 @@ section { display: flex; flex-direction: column; gap: 12px }
 .overview a { display: flex; justify-content: space-between; gap: 12px; background: var(--panel); border-radius: 6px; padding: 14px 16px; color: var(--fg); text-decoration: none; font-weight: 500 }
 .overview a:hover { background: var(--fill) }
 .overview span { color: var(--muted); font-weight: 400 }
+.claude { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px }
+.claude li { background: var(--panel); border-radius: 6px; padding: 12px 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 16px }
+.claude .what b { display: block; font-weight: 600 }
+.claude .what span { color: var(--muted); font-size: .9rem }
+.claude .act { display: flex; gap: 14px; align-items: center; font-size: .9rem }
+.claude button { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer }
+.claude textarea { flex-basis: 100%; width: 100%; font: .85rem var(--mono); background: var(--opt); color: var(--fg); border: 0; border-radius: 6px; padding: 10px }
 .facts { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px }
 @media print { .top, .topics, .cta, .pn { display: none } .recall details { break-inside: avoid } }
 </style>
@@ -103,6 +110,13 @@ section { display: flex; flex-direction: column; gap: 12px }
       <p class="lead">One page per area: the rules to remember, the pairs people mix up, and questions to test yourself.</p>
     </div>
     <section aria-labelledby="areas"><h2 id="areas">Areas</h2><ul class="overview"><li><a href="/playground/cca/guide/agents/">Agent architecture <span>27%</span></a></li><li><a href="/playground/cca/guide/tools/">Tools &amp; MCP <span>18%</span></a></li><li><a href="/playground/cca/guide/claude-code/">Claude Code <span>20%</span></a></li><li><a href="/playground/cca/guide/prompting/">Prompting &amp; structured output <span>20%</span></a></li><li><a href="/playground/cca/guide/context/">Context &amp; reliability <span>15%</span></a></li></ul></section>
+    <section aria-labelledby="claude"><h2 id="claude">Study with Claude</h2>
+      <ul class="facts">
+        <li>Let Claude quiz you. Answering from memory makes it stick better than rereading.</li>
+        <li>When you get something wrong in the test, use "Ask Claude about this" to get it explained in your own context.</li>
+        <li>Each topic page has ready-made prompts: a quiz, the pairs explained, and a case to solve. Open <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> next to the guide while you study.</li>
+      </ul>
+    </section>
     <section aria-labelledby="exam"><h2 id="exam">The exam in four lines</h2>
       <ul class="facts">
         <li>60 questions, 120 minutes. Some ask for one answer, some for several.</li>
@@ -136,5 +150,13 @@ section { display: flex; flex-direction: column; gap: 12px }
     </div>
   </footer>
 </div>
+<script>
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", () => {
+  const text = b.closest("li").querySelector("textarea").value;
+  const done = () => { b.textContent = "Copied"; };
+  const fallback = () => { const ta = b.closest("li").querySelector("textarea"); ta.hidden = false; ta.focus(); ta.select(); b.textContent = "Select all and copy"; };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+}));
+</script>
 </body>
 </html>
