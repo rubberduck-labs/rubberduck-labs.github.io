@@ -10,71 +10,99 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
 :root {
-  --bg: #fbfbfa; --fill: #f0f0ee; --fill-hover: #e7e7e4; --fg: #1c1c1a; --muted: #6b6b66;
-  --accent: #2b50d6; --on-accent: #ffffff; --good: #1f7a46; --good-fill: #e4f1e8; --bad: #b3392d; --bad-fill: #f8e6e3;
+  --bg: #fbfbfa; --panel: #f1f1ee; --opt: #ffffff; --opt-hover: #f6f6f3; --fill: #ebebe8; --line: #e2e2de;
+  --fg: #1c1c1a; --muted: #67675f; --accent: #2b50d6; --on-accent: #ffffff;
+  --good: #186638; --good-fill: #e1f0e6; --bad: #b3392d; --bad-fill: #f7e3df;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #161615; --fill: #222220; --fill-hover: #2c2c29; --fg: #ececea; --muted: #9a9a94;
-  --accent: #8aa2ff; --on-accent: #10131f; --good: #72cf98; --good-fill: #1b2c21; --bad: #f0907f; --bad-fill: #351d19; color-scheme: dark } }
+  --bg: #151514; --panel: #1d1d1b; --opt: #262624; --opt-hover: #2d2d2a; --fill: #2f2f2c; --line: #2c2c29;
+  --fg: #ececea; --muted: #a0a09a; --accent: #8aa2ff; --on-accent: #10131f;
+  --good: #72cf98; --good-fill: #1a2d20; --bad: #f0907f; --bad-fill: #361d19; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #161615; --fill: #222220; --fill-hover: #2c2c29; --fg: #ececea; --muted: #9a9a94;
-  --accent: #8aa2ff; --on-accent: #10131f; --good: #72cf98; --good-fill: #1b2c21; --bad: #f0907f; --bad-fill: #351d19; color-scheme: dark }
+  --bg: #151514; --panel: #1d1d1b; --opt: #262624; --opt-hover: #2d2d2a; --fill: #2f2f2c; --line: #2c2c29;
+  --fg: #ececea; --muted: #a0a09a; --accent: #8aa2ff; --on-accent: #10131f;
+  --good: #72cf98; --good-fill: #1a2d20; --bad: #f0907f; --bad-fill: #361d19; color-scheme: dark }
 * { box-sizing: border-box }
+html { scroll-padding-top: 16px }
 body { background: var(--bg); color: var(--fg); font: 16px/1.6 var(--sans);
-  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px }
-.wrap { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px }
-h1 { font-size: 1.6rem; font-weight: 600; line-height: 1.25; margin: 0 }
-.sub { color: var(--muted); margin: 4px 0 0 }
-nav { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; align-items: center }
-.tabs { display: flex; flex-wrap: wrap; gap: 4px 20px }
-.tabs button { background: none; border: 0; padding: 4px 0; font: 500 .95rem var(--sans); color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent }
-.tabs button:hover { color: var(--fg) }
-.tabs button[aria-pressed="true"] { color: var(--fg); border-bottom-color: var(--accent) }
-.set-note { color: var(--muted); font-size: .9rem; margin: -20px 0 0 }
-.progress { height: 3px; background: var(--fill); border-radius: 2px; overflow: hidden; margin-bottom: -16px }
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px }
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px }
+a { color: var(--accent); text-underline-offset: 2px }
+a:focus-visible, button:focus-visible, summary:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+code { font: .9em var(--mono); background: var(--fill); padding: 1px 4px; border-radius: 3px; overflow-wrap: anywhere }
+
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line) }
+.brand { font-size: 1.1rem; font-weight: 600; line-height: 1.3; margin: 0; color: var(--fg); text-decoration: none }
+a.brand:hover { color: var(--accent) }
+.tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px }
+.tabs .group { display: contents }
+.tabs a, .tabs button { background: none; border: 0; padding: 4px 0; font: 500 .95rem var(--sans); color: var(--muted); cursor: pointer; text-decoration: none; border-bottom: 2px solid transparent }
+.tabs a:hover, .tabs button:hover { color: var(--fg) }
+.tabs [aria-pressed="true"], .tabs [aria-current="page"] { color: var(--fg); border-bottom-color: var(--accent) }
+
+h1 { font-size: 1.5rem; font-weight: 600; line-height: 1.25; margin: 0 }
+h2 { font-size: 1.05rem; font-weight: 600; margin: 0 }
+.lead { color: var(--muted); margin: 6px 0 0 }
+
+footer { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px 40px; color: var(--muted); font-size: .9rem; padding-top: 20px; border-top: 1px solid var(--line) }
+footer h2 { color: var(--fg); font-size: .95rem; margin-bottom: 8px }
+footer p { margin: 0 0 8px }
+footer ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px }
+footer .made { color: var(--fg) }
+@media (max-width: 600px) { footer { grid-template-columns: 1fr } }
+@media (max-width: 480px) { body { padding-block: 20px 48px } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+.test { display: flex; flex-direction: column; gap: 14px }
+.intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px }
+.set-note { color: var(--muted); font-size: .9rem; margin: 0 }
+.area { color: var(--muted); font-size: .9rem; display: flex; align-items: center; gap: 8px }
+.area select { font: inherit; color: var(--fg); background: var(--panel); border: 0; border-radius: 6px; padding: 6px 8px }
+.panel { background: var(--panel); border-radius: 8px; padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 16px }
+.progress { height: 3px; background: var(--fill); border-radius: 2px; overflow: hidden }
 .progress i { display: block; height: 100%; background: var(--accent) }
-.test { display: flex; flex-direction: column; gap: 32px }
 #sheet { display: flex; flex-direction: column; gap: 20px }
 .meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums }
 .q { font-size: 1.2rem; font-weight: 500; line-height: 1.45; margin: 0 }
 .q:focus, .score:focus { outline: none }
+.hint { margin: -8px 0 0; color: var(--muted); font-size: .9rem }
 .opts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none }
-.opt { width: 100%; text-align: left; display: flex; gap: 14px; border: 0; border-radius: 6px; background: var(--fill); color: var(--fg); font: inherit; font-size: .97rem; padding: 12px 16px; cursor: pointer }
-.opt:hover:not(:disabled) { background: var(--fill-hover) }
+.opt { width: 100%; text-align: left; display: flex; gap: 14px; border: 0; border-radius: 6px; background: var(--opt); color: var(--fg); font: inherit; font-size: .97rem; padding: 12px 16px; cursor: pointer }
+.opt:hover:not(:disabled) { background: var(--opt-hover) }
 .opt .k { color: var(--muted); font-weight: 500; flex: none }
 .opt.sel, .opt.sel:hover:not(:disabled) { background: var(--accent); color: var(--on-accent) }
 .opt.sel .k { color: inherit }
+.opt.sel code { background: transparent; color: inherit }
 .opt.right { background: var(--good-fill) }
 .opt.wrong { background: var(--bad-fill) }
 .opt:disabled { cursor: default }
-.opt:focus-visible, .btn:focus-visible, .tabs button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
-code { font: .9em var(--mono); background: var(--fill); padding: 1px 4px; border-radius: 3px; overflow-wrap: anywhere }
-.opt.sel code { background: transparent; color: inherit }
+.otext { display: block; min-width: 0 }
+.tag { display: block; margin-top: 4px; font-size: .8rem; font-weight: 600 }
+.tag.ok { color: var(--good) } .tag.no { color: var(--bad) }
+.optwhy { display: block; margin-top: 4px; color: var(--muted); font-size: .88rem }
 .why { margin: 0; display: flex; flex-direction: column; gap: 6px; font-size: .95rem }
 .why b.ok { color: var(--good) } .why b.no { color: var(--bad) }
 .read { color: var(--muted); font-size: .9rem }
-a { color: var(--accent); text-underline-offset: 2px }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; align-items: center }
-.btn { border: 0; border-radius: 6px; background: var(--fill); color: var(--fg); font: 500 .95rem var(--sans); padding: 10px 18px; cursor: pointer }
-.btn:hover:not(:disabled) { background: var(--fill-hover) }
+.btn { border: 0; border-radius: 6px; background: var(--opt); color: var(--fg); font: 500 .95rem var(--sans); padding: 10px 18px; cursor: pointer }
+.btn:hover:not(:disabled) { background: var(--opt-hover) }
 .btn.primary, .btn.primary:hover:not(:disabled) { background: var(--accent); color: var(--on-accent) }
 .btn.primary:hover:not(:disabled) { filter: brightness(1.08) }
-.btn:disabled { opacity: .4; cursor: default }
+.btn:disabled { opacity: .45; cursor: default }
 .btn.quiet, .btn.quiet:hover:not(:disabled) { background: none; padding-inline: 0; color: var(--muted) }
 .btn.quiet:hover:not(:disabled) { color: var(--fg) }
 .score { display: flex; flex-direction: column; gap: 4px }
-.score b { font-size: 3rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums }
+.score b { font-size: 2.6rem; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums }
 .verdict.ok { color: var(--good) } .verdict.no { color: var(--bad) } .verdict.sub { color: var(--muted) }
+.score .fine { color: var(--muted); font-size: .85rem; margin-top: 4px; max-width: 60ch }
+#sheet h2 { margin-top: 8px }
 .group { display: flex; flex-direction: column; gap: 10px }
-.group h2 { margin: 0 0 2px }
-.drow { display: grid; grid-template-columns: minmax(0, 11rem) 1fr 3rem; gap: 16px; align-items: center; font-size: .95rem }
+.drow { display: grid; grid-template-columns: minmax(0, 11rem) 1fr 3.5rem; gap: 16px; align-items: center; font-size: .95rem }
 .bar { height: 6px; background: var(--fill); border-radius: 3px; overflow: hidden }
 .bar i { display: block; height: 100%; background: var(--accent) }
 .bar i.low { background: var(--bad) }
 .drow .n { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums }
-h2 { font-size: 1.05rem; font-weight: 600; margin: 12px 0 0 }
 .review { display: flex; flex-direction: column; gap: 4px; padding: 0; margin: 0; list-style: none }
 .review summary { cursor: pointer; padding: 8px 0; display: flex; gap: 12px; list-style: none; font-size: .95rem }
 .review summary::-webkit-details-marker { display: none }
@@ -83,68 +111,47 @@ h2 { font-size: 1.05rem; font-weight: 600; margin: 12px 0 0 }
 .review .body { padding: 0 0 16px 28px; display: flex; flex-direction: column; gap: 6px; font-size: .92rem }
 .review .small { color: var(--muted); font-size: .85rem }
 .review .yours { color: var(--bad) } .review .ans { color: var(--good) } .review .w { color: var(--muted) }
-textarea { width: 100%; font: .85rem var(--mono); background: var(--fill); color: var(--fg); border: 0; border-radius: 6px; padding: 10px }
-footer { color: var(--muted); font-size: .9rem; display: flex; flex-direction: column; gap: 10px; margin-top: 24px }
-footer h2 { color: var(--fg); margin: 0 }
-footer p { margin: 0; font-size: .85rem }
-footer .made { color: var(--fg); margin-top: 8px }
-.sources { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px }
-@media (max-width: 480px) { body { padding-block: 24px 48px } .drow { grid-template-columns: 1fr 3rem } .drow .bar { grid-column: 1 / -1; grid-row: 2 } .review .body { padding-left: 0 } }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
-.navrow { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap }
-.navlabel { color: var(--muted); font-size: .85rem; width: 5.5rem; flex: none }
-.navlink { font: 500 .95rem var(--sans); padding: 4px 0 }
-nav { flex-direction: column; align-items: stretch; gap: 8px }
-.intro { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; margin: -20px 0 0 }
-.intro .set-note { margin: 0 }
-.area { color: var(--muted); font-size: .9rem; display: flex; align-items: center; gap: 8px }
-.area select { font: inherit; color: var(--fg); background: var(--fill); border: 0; border-radius: 6px; padding: 6px 8px }
-.area select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
-.hint { margin: -8px 0 0; color: var(--muted); font-size: .9rem }
-.otext { display: block; min-width: 0 }
-.tag { display: block; margin-top: 4px; font-size: .8rem; font-weight: 600 }
-.tag.ok { color: var(--good) } .tag.no { color: var(--bad) }
-.optwhy { display: block; margin-top: 4px; color: var(--muted); font-size: .88rem }
-.score .fine { color: var(--muted); font-size: .85rem; margin-top: 4px; max-width: 60ch }
-@media (max-width: 480px) { .navlabel { width: auto } .navrow { gap: 4px 16px } }
+textarea { width: 100%; font: .85rem var(--mono); background: var(--opt); color: var(--fg); border: 0; border-radius: 6px; padding: 10px }
+@media (max-width: 480px) { .panel { padding: 18px 16px 20px; margin-inline: -4px } .drow { grid-template-columns: 1fr 3.5rem } .drow .bar { grid-column: 1 / -1; grid-row: 2 } .review .body { padding-left: 0 } }
 </style>
 </head>
 <body>
 
 <div class="wrap">
-  <header>
-    <h1>CCA Practice Test</h1>
-    <p class="sub">Practice questions for Claude Certified Architect – Foundations</p>
+  <header class="top">
+    <h1 class="brand">CCA Practice Test</h1>
+    <nav class="tabs" aria-label="Main">
+      <div class="group" id="sets" role="group" aria-label="Question set"></div>
+      <a href="/playground/cca/guide/">Study guide</a>
+    </nav>
   </header>
-  <nav aria-label="Choose questions">
-    <div class="navrow">
-      <span class="navlabel" id="practice-label">Practice</span>
-      <div class="tabs" id="sets" role="group" aria-labelledby="practice-label"></div>
-    </div>
-    <div class="navrow">
-      <span class="navlabel">Reference</span>
-      <a class="navlink" href="https://rubberduck.no/playground/cca/guide/">Study guide</a>
-    </div>
-  </nav>
   <main class="test">
     <div class="intro">
       <p class="set-note" id="set-note"></p>
       <label class="area" id="area-wrap" hidden>Area <select id="area"></select></label>
     </div>
-    <div class="progress" id="progress" aria-hidden="true"></div>
-    <div id="sheet" aria-live="polite"></div>
+    <div class="panel">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+      <div id="sheet" aria-live="polite"></div>
+    </div>
   </main>
   <footer>
-    <h2>Study material</h2>
-    <ul class="sources">
-      <li><a href="https://rubberduck.no/playground/cca/guide/">Our study guide</a>: the exam guide's 30 tasks on one page</li>
-      <li><a href="https://cc.sj-cdn.net/instructor/6nizmqk8tpzpfjvt6qmmav7rh/public/1794946250/Claude_Certified_Architect_-_Foundations_Exam_Guide.pdf" target="_blank" rel="noopener">Official exam guide</a> (PDF, v1.1), <a href="https://www.claude.com/blog/four-role-based-claude-certifications" target="_blank" rel="noopener">Claude certifications</a> and the <a href="https://anthropic-partners.skilljar.com/page/faq-certifications" target="_blank" rel="noopener">certification FAQ</a></li>
-      <li><a href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">Anthropic Academy</a> courses</li>
-      <li><a href="https://platform.claude.com/docs/en/home" target="_blank" rel="noopener">Claude Platform docs</a>, <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code docs</a> and <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener">MCP docs</a></li>
-      <li><a href="https://www.anthropic.com/engineering" target="_blank" rel="noopener">Anthropic engineering blog</a>, especially Building effective agents and Writing tools for agents</li>
-    </ul>
-    <p>Unofficial questions written with Claude, aligned with exam guide v1.1 (CCAR-F) and checked against the docs on 26 November 2026. <span id="store-note">Progress is saved in this browser.</span></p>
-    <p class="made">Made by <a href="https://rubberduck.no" target="_blank" rel="noopener">Rubberduck</a> ❤️ with Claude</p>
+    <div>
+      <h2>Study material</h2>
+      <ul>
+        <li><a href="/playground/cca/guide/">Our study guide</a>, one page per area</li>
+        <li><a href="https://cc.sj-cdn.net/instructor/6nizmqk8tpzpfjvt6qmmav7rh/public/1794946250/Claude_Certified_Architect_-_Foundations_Exam_Guide.pdf" target="_blank" rel="noopener">Official exam guide</a> (PDF, v1.1)</li>
+        <li><a href="https://www.claude.com/blog/four-role-based-claude-certifications" target="_blank" rel="noopener">Claude certifications</a> and the <a href="https://anthropic-partners.skilljar.com/page/faq-certifications" target="_blank" rel="noopener">certification FAQ</a></li>
+        <li><a href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">Anthropic Academy</a></li>
+        <li><a href="https://platform.claude.com/docs/en/home" target="_blank" rel="noopener">Claude</a>, <a href="https://code.claude.com/docs/en/overview" target="_blank" rel="noopener">Claude Code</a> and <a href="https://modelcontextprotocol.io/docs/getting-started/intro" target="_blank" rel="noopener">MCP</a> docs</li>
+      </ul>
+    </div>
+    <div>
+      <h2>About</h2>
+      <p>Unofficial questions written with Claude, aligned with exam guide v1.1 (CCAR-F) and checked against the docs on 26 November 2026.</p>
+      <p id="store-note">Progress is saved in this browser.</p>
+      <p class="made">Made by <a href="https://rubberduck.no" target="_blank" rel="noopener">Rubberduck</a> ❤️ with Claude</p>
+    </div>
   </footer>
 </div>
 
@@ -215,16 +222,16 @@ const Q = [{"d":0,"t":"1.2","s":3,"q":"Your research agent must read about 300 i
 {"d":0,"t":"1.3","s":3,"q":"Your Agent SDK coordinator has subagent definitions, but it never delegates. It does all the work itself. What is the most likely cause?","o":["<code>allowedTools</code> doesn't include the tool that spawns subagents (<code>Agent</code>, called <code>Task</code> in older versions and in the exam guide)","The subagent descriptions are longer than the coordinator's system prompt","Subagents only start when the coordinator runs with <code>fork_session</code> enabled","Subagents inherit the coordinator's history, so it decides there is nothing to delegate"],"w":"The coordinator spawns subagents through a tool, so that tool must be allowed. Subagents don't inherit the coordinator's conversation: anything they need goes in the prompt you give them.","l":[["Subagents in the Agent SDK",C+"agent-sdk/subagents"]]},
 {"d":0,"t":"1.3","s":3,"q":"The coordinator should run the web-search and document-analysis subagents at the same time. How does that happen?","o":["The coordinator emits several subagent tool calls in one response, so they run in parallel","The coordinator emits one subagent call per turn, and the SDK merges the turns into a batch","You set <code>parallel: true</code> on each subagent definition","You start a forked session for each subagent from the coordinator's history"],"w":"Parallel subagents come from multiple tool calls in a single response. One call per turn runs them one after another.","l":[["Subagents in the Agent SDK",C+"agent-sdk/subagents"]]},
 {"d":0,"t":"1.3","s":3,"n":2,"q":"The synthesis subagent writes reports that lose track of which source said what. What should the coordinator pass to it? Select TWO.","o":["The complete findings from the search and analysis subagents, in its prompt","Findings as structured data that keeps content separate from metadata such as source URL, document name and page","Only the coordinator's own summary, so the synthesis subagent's context stays small","A reference to the earlier subagents' sessions, since subagents can read each other's history","Step-by-step instructions for how to write each paragraph, instead of the research goal"],"e":["Subagents start with no context, so the findings have to be in the prompt.","Structured findings keep each claim tied to its source through synthesis.","A summary without sources is how attribution gets lost.","Subagents don't share history; each starts fresh.","Give goals and quality criteria; step-by-step procedures make subagents less adaptable."],"w":"Subagents only know what you put in their prompt. Pass the full findings, and keep claims and their sources as separate structured fields.","l":[["How we built our multi-agent research system",E+"multi-agent-research-system"]]},
-{"d":0,"t":"1.4","s":1,"q":"<code>process_refund</code> must never run before <code>get_customer</code> has returned a verified customer ID. The system prompt says so, but it happens about once in 200 conversations. What fixes it?","o":["A programmatic gate, such as a hook, that blocks <code>process_refund</code> until a verified ID exists","Repeat the rule at the end of the system prompt and in the tool description","Add few-shot examples that show verification before every refund","Lower the temperature so the agent follows instructions more consistently"],"w":"Prompt instructions are probabilistic, so they keep a small failure rate. When an order must be guaranteed, such as identity before money moves, enforce it in code.","l":[["Hooks in the Agent SDK",C+"agent-sdk/hooks"]]},
+{"d":0,"t":"1.4","s":1,"q":"<code>process_refund</code> must never run before <code>get_customer</code> has returned a verified customer ID. A prompt rule fails about once in 200 conversations. Which change guarantees the order?","o":["A <code>PreToolUse</code> hook that blocks <code>process_refund</code> until <code>get_customer</code> has verified the ID","A <code>PostToolUse</code> hook on <code>get_customer</code> that adds \"now you may call process_refund\" to its result","A <code>PreToolUse</code> hook that blocks <code>process_refund</code> unless the system prompt contains the verification rule","A <code>PostToolUse</code> hook on <code>process_refund</code> that logs every refund made without a verified ID, for a daily review"],"w":"Only a check before the call, on the actual session state, makes the order certain. A nudge in a tool result is still a prompt, checking the prompt says nothing about what happened, and a log only finds the problem afterwards.","l":[["Hooks in the Agent SDK",C+"agent-sdk/hooks"]]},
 {"d":0,"t":"1.4","s":1,"n":2,"q":"The agent escalates a billing dispute to a human who can't see the conversation. What belongs in the handoff? Select TWO.","o":["Customer ID, order and amount, and what was already checked","Root cause as far as the agent found it, and a recommended next action","The full transcript instead of a summary, so the human reads everything themselves","The agent's confidence score for each statement","A note asking the human to call the customer for details"],"e":["The human needs the facts without re-asking the customer.","Root cause and a recommendation let the human act straight away.","A transcript makes the human do the agent's summarising; give a structured summary.","Self-reported confidence isn't a reliable signal for the human.","The point of the handoff is that the human doesn't have to start over."],"w":"A good handoff is a structured summary the human can act on: who, what, what was found and what to do next.","l":[["How to implement tool use",P+"agents-and-tools/tool-use/implement-tool-use"]]},
 {"d":0,"t":"1.5","s":1,"q":"Your MCP tools return dates as Unix timestamps, ISO 8601 strings and local text, and the agent mixes them up. Where do you fix it?","o":["A <code>PostToolUse</code> hook that converts every date to one format before the agent sees the result","A <code>PreToolUse</code> hook that asks each tool for ISO 8601","A line in the system prompt telling the agent to convert dates carefully","A few-shot example showing each date format and its conversion"],"w":"<code>PostToolUse</code> hooks see tool results before the model does, so they can normalise data deterministically. <code>PreToolUse</code> runs before the call and can't change what the tool returns.","l":[["Hooks in the Agent SDK",C+"agent-sdk/hooks"]]},
-{"d":0,"t":"1.5","s":1,"q":"Refunds above $500 must go to a human. How do you guarantee the agent never processes one itself?","o":["A <code>PreToolUse</code> hook that blocks <code>process_refund</code> above $500 and tells the agent to escalate","A <code>PostToolUse</code> hook that reverses refunds above $500 after they run","A system prompt rule with an example of escalating a $600 refund","A tool description for <code>process_refund</code> that states the $500 limit"],"w":"Blocking the call before it runs gives a guarantee. Reversing afterwards is too late, and prompt or description rules can be missed.","l":[["Hooks in the Agent SDK",C+"agent-sdk/hooks"]]},
-{"d":0,"t":"1.6","s":5,"q":"A CI review of a 30-file pull request misses cross-file bugs and contradicts itself. How do you split the work?","o":["A review pass per file for local issues, then a separate integration pass for data flow across files","One pass over all 30 files at higher effort, so it sees everything at once","A review pass per file, then merge the findings without another pass","Two identical full reviews, keeping only the findings both agree on"],"w":"Per-file passes avoid attention being spread too thin; a separate integration pass catches what crosses file boundaries. Consensus filtering throws away real findings that only one pass caught.","l":[["Building effective agents",E+"building-effective-agents"]]},
+{"d":0,"t":"1.5","s":1,"q":"Refunds above $500 must go to a human. Which hook setup guarantees the agent never completes one itself?","o":["<code>PreToolUse</code> on <code>process_refund</code>: block amounts above $500 and tell the agent to escalate","<code>PostToolUse</code> on <code>process_refund</code>: flag amounts above $500 so a person can reverse them","<code>PreToolUse</code> on <code>process_refund</code>: allow the call, but add a note asking the agent to escalate next time","<code>PostToolUse</code> on <code>get_customer</code>: add the $500 limit to the customer record the agent reads"],"w":"Only blocking before the call guarantees the refund never happens, as long as a failing hook also blocks. Flagging afterwards relies on someone reversing it, and notes or extra context are still instructions the model can miss.","l":[["Hooks in the Agent SDK",C+"agent-sdk/hooks"]]},
+{"d":0,"t":"1.6","s":5,"q":"A CI review of a 30-file pull request misses cross-file bugs and contradicts itself. How do you split the work?","o":["A pass per file for local issues, then a separate pass for data flow across files","One pass over all 30 files that checks each file and then the connections between them","One integration pass over all files first, then per-file passes only for the files it flags","A review pass per file, run twice with the same prompt, keeping only the findings both runs agree on"],"w":"Per-file passes keep attention focused; a separate integration pass catches what crosses file boundaries. Giving every pass all 30 files brings the dilution back, starting with the integration pass skips local issues, and agreement filters throw away real findings.","l":[["Building effective agents",E+"building-effective-agents"]]},
 {"d":0,"t":"1.7","s":4,"q":"Yesterday's investigation session analysed a module that has since been heavily refactored. What is the most reliable way to continue?","o":["Start a new session and inject a short structured summary of what still holds","Resume the session and ask it to continue where it left off","Resume the session and ask it to re-read every file from scratch","Fork the session, so the old analysis stays available alongside the new one"],"w":"Resuming is good when earlier tool results are mostly still valid. When they're stale, the model keeps reasoning from them, so a fresh session with a summary is more reliable. If only a few files changed, resume and name those files.","l":[["Sessions in the Agent SDK",C+"agent-sdk/sessions"]]},
 {"d":0,"t":"1.7","s":4,"q":"After analysing a codebase, you want to compare two refactoring approaches without either one affecting the other. What do you use?","o":["Fork the session (<code>fork_session</code>) once per approach, from the shared analysis","Resume the same session twice in a row, one approach after the other","Start two fresh sessions and repeat the analysis in each","Run both approaches in one session, separated by a <code>/compact</code>"],"w":"Forking creates independent branches from the same starting point, so both approaches build on the analysis without seeing each other.","l":[["Sessions in the Agent SDK",C+"agent-sdk/sessions"]]},
 {"d":1,"t":"2.1","s":3,"q":"Two tools, <code>analyze_content</code> and <code>analyze_document</code>, have nearly identical descriptions, and Claude routes web results to the wrong one. What fixes it?","o":["Rename and rewrite them so each has a distinct purpose, input and output, such as <code>extract_web_results</code> for web pages","Keep the names, and add \"choose carefully\" to both descriptions","Add a system prompt rule listing which tool to use for which source","Give both tools the same longer description, so Claude sees all the detail in both"],"w":"The description is the main signal for tool choice. Overlapping tools cause misrouting; make each tool's purpose and inputs distinct, and say when to use it instead of the other.","l":[["Writing effective tools for agents",E+"writing-tools-for-agents"]]},
-{"d":1,"t":"2.2","s":1,"n":2,"q":"<code>lookup_order</code> sometimes times out and sometimes rejects an invalid order number, but always returns \"Operation failed\". What should the error response include? Select TWO.","o":["An error category, such as transient, validation, business rule or permission","Whether the error is retryable","The full stack trace, so the agent can debug it","An HTTP status code only, since agents know what codes mean","A generic message, to avoid leaking details to the customer"],"e":["The category tells the agent what kind of recovery makes sense.","A retryable flag stops wasted retries on errors that will never succeed.","Stack traces cost context and rarely help the agent decide.","A bare code leaves out what happened and what to do.","A generic message is the problem: the agent can't choose a recovery."],"w":"Structured errors (in MCP, with <code>isError</code>) let the agent retry transient failures, fix invalid input and explain business-rule refusals to the customer.","l":[["MCP spec: Tools",M+"specification/latest/server/tools"]]},
-{"d":1,"t":"2.2","s":3,"q":"The search subagent finds no articles on a niche topic. How should it report that, compared with a search API timeout?","o":["As a successful search with no results, and the timeout as a failure with what was tried","Both as errors, so the coordinator retries them","Both as empty results, so the workflow keeps moving","The empty search as an error and the timeout as an empty result"],"w":"An empty result is a valid answer; an access failure needs a retry decision. Mixing them up either wastes retries or hides outages as \"nothing found\".","l":[["Writing effective tools for agents",E+"writing-tools-for-agents"]]},
+{"d":1,"t":"2.2","s":1,"n":2,"q":"<code>lookup_order</code> sometimes times out and sometimes rejects an invalid order number, but always returns \"Operation failed\". What should the error response include? Select TWO.","o":["An error category, such as transient, validation, business rule or permission","Whether the error is retryable","<code>isError: false</code>, with the error text in the result, so the agent keeps going","A fixed retry count, such as 3, that the agent should use for every error","The exception message and stack trace, so the agent sees exactly what went wrong"],"e":["The category tells the agent what kind of recovery makes sense.","A retryable flag stops wasted retries on errors that will never succeed.","Failures should set <code>isError</code>, so the agent doesn't read them as results.","A validation or permission error won't succeed on retry, whatever the count.","Stack traces cost context and rarely help the agent choose a recovery."],"w":"MCP marks a failed call with <code>isError</code>; the category and retryable flag are fields you add yourself. Together they let the agent retry transient failures, fix invalid input and explain business-rule refusals to the customer.","l":[["MCP spec: Tools",M+"specification/latest/server/tools"]]},
+{"d":1,"t":"2.2","s":3,"q":"The search subagent finds no articles on a niche topic. How should it report that, compared with a search API timeout?","o":["No articles: success, empty list. Timeout: an error marked transient, with the query that was tried","No articles: an error with category \"not found\", so the coordinator retries with broader terms. Timeout: the same","No articles: a success with an empty list. Timeout: also a success with an empty list, plus a warning field","No articles: an error with category \"validation\". Timeout: an error marked transient, with the query"],"w":"An empty result is a valid answer; an access failure needs a retry decision. Reporting \"nothing found\" as an error wastes retries, and reporting a timeout as success hides the outage.","l":[["Writing effective tools for agents",E+"writing-tools-for-agents"]]},
 {"d":1,"t":"2.3","s":3,"q":"The synthesis subagent has 18 tools, including web search, and keeps searching instead of writing. What is the best change?","o":["Give it only the tools its role needs, plus a narrow <code>verify_fact</code> tool, and route bigger lookups through the coordinator","Keep all 18 tools, and tell it in the prompt not to search","Remove all tools, so it can only write","Give every subagent the same 18 tools, so they're interchangeable"],"w":"More tools make selection less reliable, and tools outside a role get misused. Scope each agent to 4–5 relevant tools, with a narrow cross-role tool for frequent needs.","l":[["How we built our multi-agent research system",E+"multi-agent-research-system"]]},
 {"d":1,"t":"2.3","s":6,"q":"On a model that supports forced tool choice, an extraction pipeline must run <code>extract_metadata</code> before any enrichment tool. What do you set on the first request?","o":["<code>tool_choice: {\"type\": \"tool\", \"name\": \"extract_metadata\"}</code>, then handle enrichment in later turns","<code>tool_choice: {\"type\": \"any\"}</code>, so Claude must call some tool","<code>tool_choice: {\"type\": \"auto\"}</code>, with <code>extract_metadata</code> listed first","<code>tool_choice: {\"type\": \"none\"}</code>, and add the metadata in the prompt"],"w":"<code>auto</code> may return text, <code>any</code> forces a tool but not which one, and a named tool forces that tool. The newest models (Claude Opus 5.5, Sonnet 5.5) reject <code>any</code> and named forcing; there, use <code>auto</code> with clear instructions, or structured outputs.","l":[["Define tools",P+"agents-and-tools/tool-use/define-tools"]]},
 {"d":1,"t":"2.4","s":2,"q":"Your team wants a shared GitHub MCP server in Claude Code, and each developer uses their own token. Where and how do you configure it?","o":["In the project's <code>.mcp.json</code>, committed, with the token as <code>${GITHUB_TOKEN}</code> from each developer's environment","In each developer's <code>~/.claude.json</code>, with the token written into the file","In the project's <code>.mcp.json</code>, committed, with a team token written into the file","In CLAUDE.md, with instructions for Claude to connect to the server"],"w":"Project scope (<code>.mcp.json</code>) shares the setup through version control; environment variable expansion keeps secrets out of the repository. Personal or experimental servers go in user scope (<code>~/.claude.json</code>).","l":[["Connect Claude Code to tools via MCP",C+"mcp"]]},
@@ -234,17 +241,17 @@ const Q = [{"d":0,"t":"1.2","s":3,"q":"Your research agent must read about 300 i
 {"d":2,"t":"3.1","s":2,"q":"Each package in your monorepo should load only the standards files relevant to it. How do you set that up?","o":["In each package's CLAUDE.md, import the relevant files with <code>@path/to/standard.md</code>","Paste every standard into the root CLAUDE.md","Put each standard in a skill and tell Claude to load the right ones","Put the standards in <code>~/.claude/CLAUDE.md</code> on each machine"],"w":"<code>@path</code> imports keep CLAUDE.md files modular, and each package pulls in only what applies to it.","l":[["Memory and CLAUDE.md",C+"memory"]]},
 {"d":2,"t":"3.3","s":2,"q":"Test conventions should apply to test files spread across the whole codebase, but not load when Claude edits other files. What do you use?","o":["A file in <code>.claude/rules/</code> with <code>paths: [\"**/*.test.tsx\"]</code> in its frontmatter","A CLAUDE.md in every directory that contains tests","A section at the top of the root CLAUDE.md","A <code>PreToolUse</code> hook that prints the conventions before each edit"],"w":"Path-scoped rules load only when Claude works on matching files, wherever they are. Directory CLAUDE.md files don't fit conventions that cut across directories.","l":[["Memory and CLAUDE.md",C+"memory"]]},
 {"d":2,"t":"3.2","s":2,"n":2,"q":"Your <code>/analyze-codebase</code> skill floods the main conversation with output, and it must never run shell commands. What do you add to its frontmatter in current Claude Code? Select TWO.","o":["<code>context: fork</code>, to run it in its own subagent context","<code>disallowed-tools: Bash</code>, to remove Bash while the skill is active","<code>allowed-tools: Read Grep</code>, so it can only use those two tools","<code>disable-model-invocation: true</code>, to limit its tools","<code>model: haiku</code>, to make its output shorter"],"e":["A forked context keeps verbose output out of the main conversation.","<code>disallowed-tools</code> removes the tool from what Claude can use while the skill runs.","<code>allowed-tools</code> pre-approves the listed tools so they run without asking; it doesn't block other tools.","That stops Claude from triggering it automatically; it doesn't limit tools.","A smaller model doesn't keep output out of the main context."],"w":"<code>context: fork</code> isolates the skill's work; <code>disallowed-tools</code> removes tools. The exam guide describes <code>allowed-tools</code> as a restriction, but in current Claude Code it pre-approves tools. Put team skills in <code>.claude/skills/</code> and personal variants in <code>~/.claude/skills/</code>.","l":[["Skills",C+"skills"]]},
-{"d":2,"t":"3.4","s":2,"q":"Which task should start in plan mode rather than direct execution?","o":["Migrating a logging library used in about 45 files, with two possible approaches","Fixing a null check in one function, with a clear stack trace","Adding a date validation to one form field","Renaming a local variable in one file"],"w":"Plan mode fits large changes, several valid approaches and architectural decisions. Small, well-scoped changes go straight to execution. You can plan first, then execute the plan.","l":[["Common workflows",C+"common-workflows"]]},
-{"d":2,"t":"3.5","s":2,"q":"You ask Claude Code to build a caching layer in a domain you don't know well. What should you do before it writes code?","o":["Ask it to interview you, so questions about invalidation and failure modes come up first","Give it a long specification and tell it not to ask questions","Let it implement, then fix problems as they show up in review","Ask it for three complete implementations and pick the best one"],"w":"The interview pattern surfaces decisions you hadn't thought of before they're baked into code. Tests written first and 2–3 concrete input/output examples help the same way.","l":[["Best practices for Claude Code",C+"best-practices"]]},
-{"d":2,"t":"3.6","s":5,"q":"Your CI review job runs again after every new commit and keeps repeating comments that were already posted. What fixes it?","o":["Include the earlier findings in the context and ask for only new or still-unaddressed issues","Run the review with a fresh session each time, so it doesn't remember earlier comments","Raise the severity threshold so fewer comments are posted","Delete the earlier comments before each run"],"w":"Without the earlier findings the reviewer can't tell what's new. Give them to it and ask for only new or unresolved issues. Keep the reviewer separate from the session that wrote the code.","l":[["Run Claude Code programmatically (headless)",C+"headless"]]},
+{"d":2,"t":"3.4","s":2,"q":"Which task should start in plan mode rather than direct execution?","o":["Moving 45 files to a new logging library: wrap the old API, or rewrite each call","Fixing a failing test where the stack trace points at a wrong date format in one function","Adding the same null check to 12 call sites of one helper, all of them listed in the ticket","Bumping a dependency in package.json and fixing the one compile error it causes"],"w":"Plan mode fits large changes with several valid approaches or architectural choices. A known fix, even one that touches many lines, can go straight to execution. You can plan first, then execute the plan.","l":[["Common workflows",C+"common-workflows"]]},
+{"d":2,"t":"3.5","s":2,"q":"You ask Claude Code to build a caching layer in a domain you don't know well. What should you do before it writes code?","o":["Ask Claude to interview you about edge cases and failure modes first","Ask Claude to write an implementation plan, then start coding straight after it","Ask Claude to write the code and tests together, then review both","Give Claude a detailed spec and ask it to note its assumptions in code comments"],"w":"In an unfamiliar domain you don't know what to specify. The interview pattern surfaces decisions such as invalidation and failure modes before they're baked into code. A plan or a spec written without them carries the same gaps.","l":[["Best practices for Claude Code",C+"best-practices"]]},
+{"d":2,"t":"3.6","s":5,"q":"Your CI review job runs again after every new commit and keeps repeating comments that were already posted. What fixes it?","o":["Pass the earlier findings and ask for new issues only, noting which earlier ones are now fixed","Pass only the diff of the new commit, so it reviews only the new code","Run the review in the session that wrote the code, so it knows what changed","Pass the earlier findings and ask it to re-check all of them before reviewing new code"],"w":"The reviewer needs the earlier findings to tell what's new, and must still see the whole change to catch issues that weren't fixed. Re-checking everything reposts old comments, and the authoring session reviews its own work poorly.","l":[["Run Claude Code programmatically (headless)",C+"headless"]]},
 {"d":3,"t":"4.1","s":5,"q":"Developers ignore your CI review because many comments are false alarms. What improves precision most?","o":["Explicit criteria for what to report (bugs, security) and what to skip (style, local patterns), with examples per severity","Add \"be conservative and only report high-confidence findings\" to the prompt","Ask for a confidence score and post only findings above 0.8","Raise effort so the reviewer thinks harder before commenting"],"w":"General instructions like \"be conservative\" barely change precision, and self-reported confidence is poorly calibrated. Specific categories do. A category with many false alarms can be switched off while you improve it.","l":[["Prompting best practices",P+"build-with-claude/prompt-engineering/claude-prompting-best-practices"]]},
 {"d":3,"t":"4.3","s":6,"n":2,"q":"An extraction schema makes Claude invent values when a document lacks them, and an <code>enum</code> for document type keeps missing new types. What do you change? Select TWO.","o":["Make fields that may be missing optional or nullable","Add an <code>\"other\"</code> value with a free-text detail field to the enum","Make every field required, so missing values are noticed","Remove the document type field and infer the type from the file name","Add \"never invent values\" to the prompt instead of changing the schema"],"e":["Required fields push the model to fill something in; nullable fields let it say \"not present\".","<code>other</code> plus detail keeps the enum useful for known types and still captures new ones.","Required fields are what causes the invented values.","File names are unreliable, and you lose the type the model can read from the content.","The schema keeps pushing for a value; fix the schema."],"w":"Schemas remove syntax errors but not semantic ones. Design them so the honest answer (\"not in the document\", \"some other type\") is always valid.","l":[["Structured outputs",P+"build-with-claude/structured-outputs"]]},
-{"d":3,"t":"4.4","s":6,"q":"An extracted invoice fails validation: the line items don't add up to the total. What is the best retry?","o":["Send the original document, the failed extraction and the specific validation error, and ask for a correction","Send the same request again, since the next sample may be right","Send only the validation error, without the document, to save tokens","Raise effort and send the same request again"],"w":"Retries work when they carry the specific error. They don't help when the information isn't in the document at all, such as a total that only exists in a separate file. Extracting a calculated total next to the stated one makes these mismatches easy to flag.","l":[["Structured outputs",P+"build-with-claude/structured-outputs"]]},
+{"d":3,"t":"4.4","s":6,"q":"An extracted invoice fails validation: the line items don't add up to the total. What should the retry request contain?","o":["The original document, the failed extraction and the specific validation error","The original document and the validation error, without the failed extraction","The failed extraction and the validation error, without the original document","The original document and the failed extraction, with \"please check your totals\""],"w":"Retries work when they carry the specific error. They don't help when the information isn't in the document at all, such as a total that only exists in a separate file. Extracting a calculated total next to the stated one makes these mismatches easy to flag.","l":[["Structured outputs",P+"build-with-claude/structured-outputs"]]},
 {"d":3,"t":"4.5","s":5,"q":"Which job should NOT use the Message Batches API?","o":["A pre-merge check that must finish within minutes, because it blocks the pull request","A nightly report over all of yesterday's tickets","A weekly audit of every repository's dependencies","Generating test ideas for every module overnight"],"w":"Batches cost about half but can take up to 24 hours with no latency guarantee, and a batch request can't run tools mid-request. Use the synchronous API for anything someone is waiting on.","l":[["Batch processing",P+"build-with-claude/batch-processing"]]},
 {"d":3,"t":"4.6","s":5,"q":"Claude Code generated a change, and you want it reviewed before merge. Which setup catches the most subtle issues?","o":["A separate Claude instance that reviews the diff without the generating session's context","The same session, asked to review its own change carefully","The same session at a higher effort level","The same session, with extended thinking turned on for the review"],"w":"A model that keeps its reasoning from writing the code is less likely to question it. An independent instance reviews with fresh eyes.","l":[["Run Claude Code programmatically (headless)",C+"headless"]]},
-{"d":4,"t":"5.1","s":1,"q":"In long support conversations, the agent's summaries turn \"refund of $142.50 promised by Friday\" into \"refund discussed\". What fixes it?","o":["Keep a \"case facts\" block with amounts, dates, order numbers and promises, outside the summarised history, in every request","Summarise more often, so less detail is lost each time","Ask the summariser to be more detailed","Drop summaries and send the full history until the context is full"],"w":"Progressive summarisation blurs numbers, dates and commitments. Keep transactional facts in a structured block that is never summarised.","l":[["Context windows",P+"build-with-claude/context-windows"]]},
+{"d":4,"t":"5.1","s":1,"q":"In long support conversations, the agent's summaries turn \"refund of $142.50 promised by Friday\" into \"refund discussed\". What fixes it?","o":["A \"case facts\" block of amounts, dates, IDs and promises, never summarised, sent with every request","The same facts kept inside the running summary, with a firm instruction to copy every number exactly","The same facts stored with the memory tool, loaded when the agent decides it needs them","The full history until the context window is 80% full, then a single compaction of everything"],"w":"Anything that goes through summarisation can be blurred, even with instructions. Facts the agent must load itself may not be loaded. A block that is never summarised and always sent keeps amounts and promises exact.","l":[["Context windows",P+"build-with-claude/context-windows"]]},
 {"d":4,"t":"5.2","s":1,"n":2,"q":"When should the support agent escalate to a human? Select TWO.","o":["When the customer explicitly asks for a human, right away","When the policy doesn't cover the request, such as matching a competitor's price","When the customer sounds frustrated, even if the issue is simple","When the agent's self-reported confidence is below 70%","When <code>get_customer</code> returns two matching customers"],"e":["Honour an explicit request without investigating first.","A gap in policy needs a human decision.","Acknowledge the frustration and offer to solve it; escalate if they ask again.","Self-reported confidence is a poor proxy for complexity.","Ask for another identifier instead of escalating or guessing."],"w":"Escalate on explicit requests, policy gaps and when the agent can't make progress. Sentiment and confidence scores are unreliable triggers.","l":[["Building effective agents",E+"building-effective-agents"]]},
-{"d":4,"t":"5.3","s":3,"q":"A subagent's database query fails twice with a timeout. What should it return to the coordinator?","o":["The failure type, the query it tried, any partial results and possible alternatives","An empty result marked as success, so the workflow continues","A short \"search unavailable\" status","Nothing; it should stop the whole workflow"],"w":"Handle transient failures locally, then pass on what the coordinator needs to decide. Hiding failures as empty results, or stopping everything on one error, are both anti-patterns.","l":[["How we built our multi-agent research system",E+"multi-agent-research-system"]]},
+{"d":4,"t":"5.3","s":3,"q":"A subagent's database query fails twice with a timeout. What should it return to the coordinator?","o":["The failure type, the query it tried, any partial results and possible alternatives","The failure type and the query, with partial results dropped so the coordinator can't use incomplete data","Nothing yet: it keeps retrying with backoff until the query succeeds, then returns the results","The failure type only, so the coordinator can run the same query again itself"],"w":"Retry transient failures locally, then hand the coordinator what it needs to decide: what failed, what was tried, what was found and what else could work. Dropping partial results or retrying forever leaves it unable to recover.","l":[["How we built our multi-agent research system",E+"multi-agent-research-system"]]},
 {"d":4,"t":"5.5","s":6,"q":"Your extraction pipeline is 97% accurate overall, and you want to stop human review for high-confidence results. What do you check first?","o":["Accuracy per document type and field, using a stratified sample that includes high-confidence results","The overall accuracy on a larger random sample","The model's average confidence score across all documents","Whether reviewers agree with each other on a few hard documents"],"w":"An overall figure can hide a document type or field that fails often. Measure by segment, calibrate confidence against labelled data, and keep sampling high-confidence results to catch new error patterns.","l":[["Create strong empirical evaluations",P+"test-and-evaluate/develop-tests"]]},
 {"d":4,"t":"5.6","s":3,"q":"Two credible sources give different sizes for the same market, defined the same way, in the same year. What should the research system do?","o":["Report both figures with their sources and dates, and mark them as conflicting","Pick the figure from the more recent source","Average the two figures","Pick the figure that most other sources agree with, and drop the other"],"w":"Keep claim-source links through synthesis and annotate conflicts instead of choosing silently. Dates matter too: figures from different years aren't a contradiction.","l":[["How we built our multi-agent research system",E+"multi-agent-research-system"]]}];
 const DOMAINS = ["Agent architecture", "Tools & MCP", "Claude Code", "Prompting & output", "Context & reliability"];
@@ -252,7 +259,8 @@ const WEIGHTS = [27, 18, 20, 20, 15];
 const QUICK_QUOTA = [7, 4, 5, 5, 4];
 const ANCHORS = ["agents", "tools", "claude-code", "prompting", "context"];
 const SCENARIOS = ["", "Customer support agent", "Claude Code for a team", "Multi-agent research", "Developer tools", "Claude Code in CI", "Data extraction"];
-const GUIDE = "https://rubberduck.no/playground/cca/guide/";
+const GUIDE = "/playground/cca/guide/";
+const AREA_HASH = ANCHORS;
 const KEY = "cca-bank-v1";
 // Statistikk via /t.js (rubberduck.no). Gjør ingenting hvis skriptet ikke er lastet eller sporing er slått av.
 const track = (e, l) => { try { window.rdTrack && window.rdTrack(e, l); } catch (x) {} };
@@ -305,8 +313,9 @@ function load() {
   let st = null;
   try { st = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!st || !SETS.some(s => s.id === st.set) || !(st.area === "all" || ["0", "1", "2", "3", "4"].includes(st.area)) || !st.runs || typeof st.runs !== "object") st = { set: "quick", area: "all", runs: {} };
-  const h = (location.hash || "").slice(1), fromHash = SETS.find(s => s.hash === h);
+  const h = (location.hash || "").slice(1), fromHash = SETS.find(s => s.hash === h), ai = AREA_HASH.indexOf(h);
   if (fromHash) st.set = fromHash.id;
+  if (ai >= 0) { st.set = "all"; st.area = String(ai); }
   return st;
 }
 function current() {
@@ -314,14 +323,14 @@ function current() {
   if (!valid(ST.runs[k])) ST.runs[k] = fresh();
   return ST.runs[k];
 }
-function syncHash() { try { history.replaceState(null, "", "#" + setInfo(ST.set).hash); } catch (e) {} }
+function syncHash() { try { history.replaceState(null, "", "#" + (ST.set === "all" && ST.area !== "all" ? AREA_HASH[+ST.area] : setInfo(ST.set).hash)); } catch (e) {} }
 
 const $ = id => document.getElementById(id);
 $("sets").innerHTML = SETS.map(s => `<button data-s="${s.id}" aria-pressed="false">${s.label}</button>`).join("");
 $("sets").querySelectorAll("button").forEach(b => b.onclick = () => { if (ST.set !== b.dataset.s) { ST.set = b.dataset.s; S = current(); syncHash(); focusNext = "#qtext"; save(); render(); } });
 $("area").innerHTML = `<option value="all">All areas</option>` + DOMAINS.map((d, i) => `<option value="${i}">${d} (${WEIGHTS[i]}%)</option>`).join("");
-$("area").onchange = () => { ST.area = $("area").value; S = current(); save(); render(); };
-window.addEventListener("hashchange", () => { const f = SETS.find(s => s.hash === location.hash.slice(1)); if (f && f.id !== ST.set) { ST.set = f.id; S = current(); save(); render(); } });
+$("area").onchange = () => { ST.area = $("area").value; S = current(); syncHash(); save(); render(); };
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1), f = SETS.find(s => s.hash === h), ai = AREA_HASH.indexOf(h); if (ai >= 0) { ST.set = "all"; ST.area = String(ai); } else if (f) { ST.set = f.id; if (f.id === "all") ST.area = "all"; } else return; S = current(); save(); render(); });
 function replace(s) { ST.runs[slot()] = S = s; focusNext = "#qtext"; save(); render(); }
 
 function correct(qi) {
@@ -333,7 +342,7 @@ function answered(qi) { const p = S.pick[qi], n = nOf(Q[qi]); return n === 1 ? p
 function where(q) { return (q.s ? SCENARIOS[q.s] + " · " : "") + DOMAINS[q.d]; }
 function links(q) {
   const own = q.l.map(([t, u]) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`);
-  own.push(`<a href="${GUIDE}#${ANCHORS[q.d]}">Study guide: ${DOMAINS[q.d]}</a>`);
+  own.push(`<a href="${GUIDE}${ANCHORS[q.d]}/">Study guide: ${DOMAINS[q.d]}</a>`);
   return `<span class="read">Read more: ${own.join(" · ")}</span>`;
 }
 function rightText(q) { return q.o.slice(0, nOf(q)).join(" + "); }
