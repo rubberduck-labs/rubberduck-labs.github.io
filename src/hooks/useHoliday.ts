@@ -40,7 +40,8 @@ export function holidayForDate(date: Date): HolidayKey | null {
   const day = date.getDate();
 
   if (month === 2 && day === 14) return 'piday';
-  if (month === 11 && day <= 26) return 'christmas';
+  // Julen varer helt til nyttårsaften tar over 31. desember.
+  if (month === 11 && day <= 30) return 'christmas';
   if (month === 5) return 'pride';
 
   const easter = getEasterDate(date.getFullYear());
