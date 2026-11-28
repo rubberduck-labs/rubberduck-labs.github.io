@@ -1,6 +1,7 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useHoliday } from '../hooks/useHoliday';
 import { PRIDE_COLORS } from '../utils/pride';
+import { ChristmasLights } from './ChristmasLights';
 
 interface ProgrammerSectionProps {
   setIsTerminalOpen: (isOpen: boolean) => void;
@@ -23,7 +24,9 @@ const prideBeam = (() => {
 })();
 
 export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps) {
-  const isPride = useHoliday() === 'pride';
+  const holiday = useHoliday();
+  const isPride = holiday === 'pride';
+  const isChristmas = holiday === 'christmas';
   const [showThoughtBubble, setShowThoughtBubble] = useState(false);
   const [currentThoughtIndex, setCurrentThoughtIndex] = useState(0);
   const [isThoughtVisible, setIsThoughtVisible] = useState(true);
@@ -232,8 +235,10 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
               border-b-[16px] border-b-transparent
               transition-colors duration-[2000ms] animate-light-cone z-10"></div>
             )}
-            {/* Stand */}
-            <div className="w-[4px] h-[254px] bg-black dark:bg-black"></div>
+            {/* Stand, med lysslynge i julemodus */}
+            <div className="relative z-20 w-[4px] h-[254px] bg-black dark:bg-black">
+              {isChristmas && <ChristmasLights />}
+            </div>
             {/* Base */}
             <div className="w-[90px] h-[4px] bg-black dark:bg-black rounded-[10px]"></div>
           </div>

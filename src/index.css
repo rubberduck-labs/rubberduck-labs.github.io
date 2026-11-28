@@ -432,3 +432,27 @@ html {
 .dark .pi-day main :is(h1, h2, h3, h4, p, li, dt, dd, label):not(.bg-white, .bg-custom-dark):not(:where(.bg-white, .bg-custom-dark, button, [role='dialog']) *) {
   color: #fff;
 }
+
+/* Lysslyngen rundt lampefoten i julemodus (ChristmasLights.tsx): pærene er av (hvite med et snev av farge) i lys modus,
+   og lyser og blinker svakt i sin egen farge når lampen er på. */
+.xmas-bulb {
+  fill: color-mix(in srgb, currentColor 22%, white);
+}
+
+.dark .xmas-bulb {
+  fill: currentColor;
+  filter: drop-shadow(0 0 2px currentColor) drop-shadow(0 0 7px currentColor);
+  animation-name: xmas-twinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes xmas-twinkle {
+  from { opacity: 1; }
+  to { opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dark .xmas-bulb { animation: none; }
+}
