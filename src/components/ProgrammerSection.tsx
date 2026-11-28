@@ -137,10 +137,12 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
   return (
     <div className="relative">
       {/* Mobil: tankeboblen ligger over scenen i vanlig tekststørrelse, fordi skalert tekst blir for liten. */}
-      <div className="lg:hidden mx-auto mb-4 flex h-[96px] w-full max-w-[320px] items-end justify-start">
+      <div className="lg:hidden relative mx-auto mb-4 h-[104px] w-full max-w-[272px]">
         {bubbleVisible && (
-          <div className="relative">
-            <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[pop-in_0.5s_cubic-bezier(0.175,0.885,0.32,1.275)_0.2s_forwards] min-h-[72px] max-w-[320px] rounded-3xl bg-white p-3.5 shadow-lg">
+          // Boblen er så bred som tanken og står midt over halen, som står fast og peker mot hodet.
+          // w-max + max-w gjør at lange tanker brytes ved full bredde, uansett hvor boblen står.
+          <div className="absolute bottom-5 left-[110px] -translate-x-1/2">
+            <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[pop-in_0.5s_cubic-bezier(0.175,0.885,0.32,1.275)_0.2s_forwards] w-max max-w-[272px] rounded-3xl bg-white px-4 py-3 text-center shadow-lg">
               <pre
                 className={`
                   font-mono text-sm text-custom-dark whitespace-pre-wrap
@@ -151,7 +153,7 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
                 {thoughts[currentThoughtIndex]}
               </pre>
             </div>
-            <div className="absolute -bottom-5 left-[118px]">
+            <div className="absolute -bottom-5 left-1/2 -translate-x-1/2">
               <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[fade-in_0.3s_ease-out_0.6s_forwards] mb-1 h-3 w-3 rounded-full bg-white" />
               <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[fade-in_0.3s_ease-out_0.3s_forwards] ml-1 h-2 w-2 rounded-full bg-white" />
             </div>
@@ -164,15 +166,16 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
         <div className="absolute left-0 top-0 h-[500px] w-[500px] origin-top-left" style={{ transform: `translateY(${-crop * scale}px) scale(${scale})` }}>
           {/* Thought bubble (desktop) */}
           {bubbleVisible && (
-            <div className="absolute left-[140px] top-[40px] z-30 hidden lg:block">
+            // Boblen står midt over halen og vokser like mye til begge sider, så halen alltid peker mot hodet.
+            <div className="absolute left-[180px] bottom-[340px] z-30 hidden -translate-x-1/2 lg:block">
               {/* Bubble tail */}
-              <div className="absolute bottom-0 left-8 transform translate-y-full">
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full">
                 <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[fade-in_0.3s_ease-out_0.6s_forwards] w-4 h-4 bg-white rounded-full mb-1" />
                 <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[fade-in_0.3s_ease-out_0.3s_forwards] w-3 h-3 bg-white rounded-full mb-1 ml-2" />
                 <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[fade-in_0.3s_ease-out_forwards] w-2 h-2 bg-white rounded-full ml-3" />
               </div>
               {/* Main bubble */}
-              <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[pop-in_0.5s_cubic-bezier(0.175,0.885,0.32,1.275)_0.9s_forwards] bg-white rounded-3xl p-6 shadow-lg relative min-w-[300px] h-[120px]">
+              <div className="opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 animate-[pop-in_0.5s_cubic-bezier(0.175,0.885,0.32,1.275)_0.9s_forwards] bg-white rounded-3xl px-6 py-4 shadow-lg relative w-max max-w-[340px] text-center">
                 <pre
                   className={`
                     font-mono text-sm text-custom-dark whitespace-pre-wrap
