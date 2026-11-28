@@ -4,6 +4,7 @@ import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { Snow } from './components/Snow';
 import { Fireworks } from './components/Fireworks';
+import { PiBackground } from './components/PiBackground';
 import { SnowPile } from './components/SnowPile';
 import { useHoliday } from './hooks/useHoliday';
 import { HomePage } from './pages/HomePage';
@@ -83,9 +84,11 @@ function App() {
       <RouteTracker />
       <ScrollToTop />
       <div 
-        className="isolate min-h-screen transition-colors duration-300"
+        className={`isolate min-h-screen transition-colors duration-300 ${holiday === 'piday' ? 'pi-day' : ''}`}
         style={{
-          backgroundColor: darkMode ? dark.bg : (backgroundColor || theme.bg)
+          backgroundColor: darkMode ? dark.bg : (backgroundColor || theme.bg),
+          // Brukes av glorien rundt teksten på pi-dagen, så den alltid har samme farge som bakgrunnen.
+          ['--page-bg' as string]: darkMode ? dark.bg : (backgroundColor || theme.bg),
         }}
       >
         <Navigation 
@@ -114,6 +117,7 @@ function App() {
           </>
         )}
         {isNewYear && <Fireworks />}
+        {holiday === 'piday' && <PiBackground />}
       </div>
     </Router>
   );
