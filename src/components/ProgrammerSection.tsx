@@ -1,10 +1,29 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useHoliday } from '../hooks/useHoliday';
+import { PRIDE_COLORS } from '../utils/pride';
 
 interface ProgrammerSectionProps {
   setIsTerminalOpen: (isOpen: boolean) => void;
 }
 
+// Lyskjeglen er en trekant (617 × 246 px) der lampehodet sitter i øvre høyre hjørne.
+// Sett derfra går lyset fra 219,4° (ned langs lampefoten, mot spissen 415 px inn på underkanten)
+// til 270° (rett mot venstre langs overkanten). De seks stripene deler de 50,6 gradene likt,
+// med rødt ytterst og lilla nærmest lampefoten, som i flagget.
+const BEAM_FROM = 219.4;
+const BEAM_SPAN = 50.6;
+const prideBeam = (() => {
+  const step = BEAM_SPAN / PRIDE_COLORS.length;
+  const stops = [...PRIDE_COLORS].reverse().map((hex, i) => {
+    const [r, g, b] = [1, 3, 5].map((o) => parseInt(hex.slice(o, o + 2), 16));
+    const color = `rgb(${r} ${g} ${b} / 0.92)`;
+    return `${color} ${(i * step).toFixed(2)}deg ${((i + 1) * step).toFixed(2)}deg`;
+  });
+  return `conic-gradient(from ${BEAM_FROM}deg at 100% 0, ${stops.join(', ')}, transparent ${BEAM_SPAN}deg)`;
+})();
+
 export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps) {
+  const isPride = useHoliday() === 'pride';
   const [showThoughtBubble, setShowThoughtBubble] = useState(false);
   const [currentThoughtIndex, setCurrentThoughtIndex] = useState(0);
   const [isThoughtVisible, setIsThoughtVisible] = useState(true);
@@ -194,12 +213,25 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
             {/* Lamp head */}
             <div className="w-[80px] h-[60px] bg-black dark:bg-black rounded-[50%_50%_20%_20%] rotate-[25deg] border border-black z-90"></div>
             {/* Light cone */}
+            {isPride ? (
+              // Pride-måneden: lyset fra lampen er flagget, som stråler ut fra lampen. Som vanlig bare når lampen er på (mørk modus).
+              // Samme trekant som den vanlige kjeglen (617 × 246 px, spissen 415 px inn), men tegnet med clip-path.
+              <div
+                aria-hidden="true"
+                className="absolute top-[152px] -left-[440px] -rotate-[32deg] hidden h-[246px] w-[617px] opacity-0 animate-[fade-in_1.5s_ease-out_0.5s_forwards] dark:block z-10"
+                style={{
+                  clipPath: 'polygon(0 0, 100% 0, 415px 100%)',
+                  background: prideBeam,
+                }}
+              />
+            ) : (
             <div className="absolute top-[152px] -left-[440px] -rotate-[32deg] w-0 h-0 hidden dark:block
               border-l-[415px] border-l-transparent
               border-r-[202px] border-r-transparent
               border-t-[246px] border-t-[rgb(254_240_138_/_0.9)]
               border-b-[16px] border-b-transparent
               transition-colors duration-[2000ms] animate-light-cone z-10"></div>
+            )}
             {/* Stand */}
             <div className="w-[4px] h-[254px] bg-black dark:bg-black"></div>
             {/* Base */}

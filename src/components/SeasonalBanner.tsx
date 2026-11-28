@@ -27,7 +27,8 @@ const HOLIDAYS: Record<HolidayKey, Holiday> = {
     name: 'Pride',
     animation: prideAnimation,
     colors: ['bg-[#FF0000]', 'bg-[#FF8D00]', 'bg-[#FFEE00]', 'bg-[#028121]', 'bg-[#004CFF]', 'bg-[#770088]'],
-    lines: ['Happy', 'Pride!']
+    lines: ['Happy', 'Pride!'],
+    scale: 1.6
   },
   easter: {
     name: 'Easter',
