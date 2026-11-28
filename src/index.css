@@ -416,12 +416,19 @@ html {
   .snow { display: none; }
 }
 
-/* Pi-dagen (PiBackground.tsx): en glorie i bakgrunnsfargen rundt teksten, så sifrene bak viker unna bokstavene.
-   Bare for tekst som ligger rett på bakgrunnen, ikke i kort, bobler, knapper eller dialoger som har sin egen bakgrunn. */
-.pi-day main :is(h1, h2, h3, h4, p, li, dt, dd, label):not(:where(.bg-white, .bg-custom-dark, button, [role='dialog']) *) {
+/* Pi-dagen (PiBackground.tsx): teksten som ligger rett på bakgrunnen får full farge og en glorie i bakgrunnsfargen,
+   så sifrene bak viker unna bokstavene. Ikke tekst i kort, bobler, knapper eller dialoger som har sin egen bakgrunn. */
+.pi-day main :is(h1, h2, h3, h4, p, li, dt, dd, label):not(.bg-white, .bg-custom-dark):not(:where(.bg-white, .bg-custom-dark, button, [role='dialog']) *) {
+  color: #1f2937;
   text-shadow:
-    0 0 3px var(--page-bg),
-    0 0 6px var(--page-bg),
-    0 0 10px var(--page-bg),
-    0 0 16px var(--page-bg);
+    0 0 2px var(--page-bg),
+    0 0 4px var(--page-bg),
+    0 0 8px var(--page-bg),
+    0 0 12px var(--page-bg),
+    0 0 18px var(--page-bg),
+    0 0 26px var(--page-bg);
+}
+
+.dark .pi-day main :is(h1, h2, h3, h4, p, li, dt, dd, label):not(.bg-white, .bg-custom-dark):not(:where(.bg-white, .bg-custom-dark, button, [role='dialog']) *) {
+  color: #fff;
 }
