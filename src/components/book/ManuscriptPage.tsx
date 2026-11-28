@@ -107,7 +107,7 @@ export function BlockRenderer({ page }: BlockRendererProps) {
 
   return (
     <>
-      {showTitle && <h1 className="ms-title ms-title--page">{page.title}</h1>}
+      {showTitle && <h2 className="ms-title ms-title--page">{page.title}</h2>}
 
       {page.content.map((block, index) => {
         switch (block.type) {

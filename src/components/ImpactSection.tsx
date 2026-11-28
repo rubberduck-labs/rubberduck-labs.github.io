@@ -26,7 +26,7 @@ export function ImpactSection() {
     <section id="impact" className="py-16 md:py-24">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-bold text-custom-dark dark:text-white mb-4">Her er vi</h3>
+          <h1 className="text-2xl md:text-3xl font-bold text-custom-dark dark:text-white mb-4">Her er vi</h1>
           <p className="text-lg text-custom-dark/80 dark:text-white/80">
             Vi jobber med noen av Norges mest spennende bedrifter
           </p>
@@ -50,9 +50,9 @@ export function ImpactSection() {
           ))}
         </div>
 
-        <h4 className="mt-12 mb-4 text-sm font-semibold uppercase tracking-widest text-custom-dark/70 dark:text-white/70">
+        <h2 className="mt-12 mb-4 text-sm font-semibold uppercase tracking-widest text-custom-dark/70 dark:text-white/70">
           Og mange flere, her er noen av dem
-        </h4>
+        </h2>
         <ul className="grid grid-cols-2 md:grid-cols-5 gap-px bg-gray-200 dark:bg-zinc-700 rounded-2xl overflow-hidden shadow-xl">
           {others.map((c) => (
             <li key={c.name} className="bg-white flex items-center justify-center h-28 px-6">

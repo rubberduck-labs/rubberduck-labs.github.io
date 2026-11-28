@@ -33,9 +33,9 @@ export function TeamSection() {
              className="min-h-screen py-24 bg-gradient-radial from-custom-yellow/30 to-transparent dark:from-custom-dark/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="font text-4xl font-bold text-custom-dark dark:text-white mb-6">
+          <h1 className="font text-4xl font-bold text-custom-dark dark:text-white mb-6">
             Møt teamet
-          </h2>
+          </h1>
           <p className="font text-lg text-custom-dark/80 dark:text-white/80 max-w-2xl mx-auto">
             Et dedikert team av eksperter som brenner for teknologi og innovasjon<br /><span className="text-sm"><i>(Illustrasjoner: Flu Hartberg)</i></span>
           </p>

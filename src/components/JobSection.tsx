@@ -39,9 +39,9 @@ export function JobSection() {
 
               {/* Content */}
               <div className="relative">
-                <h2 className="text-3xl font-bold text-custom-dark dark:text-white mb-4 sm:mb-6">
+                <h1 className="text-3xl font-bold text-custom-dark dark:text-white mb-4 sm:mb-6">
                   Duck wanted
-                </h2>
+                </h1>
                 {/* På mobil vises teksten kortet ned med «…» og «Les mer». Fra sm og opp vises alt. */}
                 {!expanded && (
                   <p id="duck-tekst-kort" className="sm:hidden line-clamp-6 text-lg text-custom-dark/80 dark:text-white/80">
@@ -70,9 +70,9 @@ export function JobSection() {
 
           {/* Salary information */}
           <div className="mt-10 sm:mt-16 text-center">
-            <h3 className="text-2xl font-bold text-custom-dark dark:text-white mb-6">
+            <h2 className="text-2xl font-bold text-custom-dark dark:text-white mb-6">
               Provisjonslønn
-            </h3>
+            </h2>
             <p className="text-lg text-custom-dark/80 dark:text-white/80 mb-4">
               I Rubberduck tilbyr vi provisjonslønn til våre ansatte.
             </p>

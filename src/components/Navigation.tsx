@@ -103,6 +103,7 @@ export function Navigation({ darkMode, setDarkMode, navBackgroundColor }: Naviga
             <Link
               to="/"
               className="flex items-center gap-3 group min-w-0"
+              aria-label="Rubberduck, til forsiden"
             >
               <RubberDuckIcon className={`shrink-0 h-[clamp(32px,4.5vw,48px)] transition-colors ${
                 darkMode ? 'text-yellow-400' : '[filter:brightness(0)]'

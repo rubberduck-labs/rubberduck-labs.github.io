@@ -14,6 +14,7 @@ export function ContentSection({ id, title, content, type }: ContentSectionProps
         id={id}
         className="min-h-[calc(100vh-8rem)] sm:min-h-screen flex items-center justify-center p-4 sm:p-8 overflow-x-clip bg-gradient-to-b from-custom-yellow/10 to-transparent dark:from-custom-dark/10"
       >
+        <h1 className="sr-only">{title}</h1>
         <Book />
       </section>
     );
