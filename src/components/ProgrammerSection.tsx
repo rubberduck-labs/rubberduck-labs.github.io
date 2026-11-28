@@ -2,6 +2,7 @@ import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { useHoliday } from '../hooks/useHoliday';
 import { PRIDE_COLORS } from '../utils/pride';
 import { ChristmasLights } from './ChristmasLights';
+import { SantaHat } from './SantaHat';
 
 interface ProgrammerSectionProps {
   setIsTerminalOpen: (isOpen: boolean) => void;
@@ -262,6 +263,8 @@ export function ProgrammerSection({ setIsTerminalOpen }: ProgrammerSectionProps)
               alt=""
               className="w-full h-auto transition-opacity duration-500"
             />
+            {/* Nisselue i julemodus, bare når han sitter der (om natta er stolen tom) */}
+            {isChristmas && currentImage === '/programmer.svg' && <SantaHat />}
           </button>
         </div>
       </div>
