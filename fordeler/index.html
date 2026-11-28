@@ -300,9 +300,10 @@
         </div>
         <div class="bottom">
           <p>Vi bruker ingen cookies, men samler anonym statistikk om besøk på denne siden.</p>
-          <p>© 2026 Rubberduck Dev AS. Org.nr 988 353 612</p>
+          <p>© <span data-year>2026</span> Rubberduck Dev AS. Org.nr 988 353 612</p>
         </div>
       </div>
+      <script>document.querySelectorAll("[data-year]").forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
     </footer>
     <script>
       // Samme regnestykke som kalkulatoren på rubberduck.no/#/jobs: fakturert × 0,7 ÷ 1,261.
