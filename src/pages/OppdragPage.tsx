@@ -44,9 +44,6 @@ function AssignmentCard({ assignment, onClick }: { assignment: Assignment; onCli
         </h2>
         <p className="text-custom-dark/70 dark:text-white/70 font-medium">
           {assignment.company}
-          {cleanTitle(assignment.title).ref && (
-            <span className="ml-2 text-xs font-normal text-custom-dark/70 dark:text-white/60">Ref. {cleanTitle(assignment.title).ref}</span>
-          )}
         </p>
       </div>
 
@@ -115,30 +112,39 @@ function ContactSection() {
           alt="Espen Schulstad"
           className="w-32 h-32 rounded-full object-contain bg-custom-yellow/30 shrink-0"
         />
-        <div className="flex flex-col items-center gap-5">
-          <p className="text-sm text-custom-dark dark:text-white">
-            Snakk med vår selger <span className="font-semibold">Espen Schulstad</span> om muligheter for oppdrag. Han tar gjerne en prat om markedet og eventuelle samarbeid også.
-          </p>
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm font-medium text-custom-dark dark:text-white">
-            <a href="mailto:hei@rubberduck.no" className="inline-flex items-center gap-1.5 hover:underline">
-              <Mail className="w-4 h-4" />
+        <div>
+          <p className="font-semibold text-custom-dark dark:text-white">Espen Schulstad</p>
+          <p className="text-sm text-custom-dark/70 dark:text-white/70">Selger</p>
+        </div>
+        <p className="max-w-xs text-sm text-custom-dark dark:text-white">
+          Snakk med Espen om muligheter for oppdrag. Han tar gjerne en prat om markedet og eventuelle samarbeid også.
+        </p>
+        {/* Én kontaktvei per linje, med ikonene på rad, så ingenting havner alene på en ny linje. */}
+        <ul className="grid gap-2 text-left text-sm font-medium text-custom-dark dark:text-white">
+          <li>
+            <a href="mailto:hei@rubberduck.no" className="inline-flex items-center gap-2 hover:underline">
+              <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
               hei@rubberduck.no
             </a>
-            <a href="tel:+4722301010" className="inline-flex items-center gap-1.5 hover:underline">
-              <Phone className="w-4 h-4" />
+          </li>
+          <li>
+            <a href="tel:+4722301010" className="inline-flex items-center gap-2 tabular-nums hover:underline">
+              <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
               +47 22 30 10 10
             </a>
+          </li>
+          <li>
             <a
               href="https://www.linkedin.com/in/schulstad"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 hover:underline"
+              className="inline-flex items-center gap-2 hover:underline"
             >
-              <Linkedin className="w-4 h-4" />
+              <Linkedin className="h-4 w-4 shrink-0" aria-hidden="true" />
               LinkedIn
             </a>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </div>
   );
